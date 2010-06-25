@@ -1,0 +1,53 @@
+Derek A. Rhodes / physci@gmail.com
+$ git clone git@github.com:drhodes/go-sfml.git
+
+** currently reimplementing with cgo **
+BUILD CURRENTLY BROKEN
+
+Go bindings for:
+Simple and Fast Multimedia Library
+http://www.sfml-dev.org/
+
+I am in no way affiliated with SFML.
+
+These bindings are experimental, the API is subject to change and has
+only been tested on linux. (Ubuntu 10.4 lucid x86)  
+
+-------------------------------------------------------------------------------
+DEPENDENCIES:
+
+2.3 > python < 3.0
+libcsfml 1.5
+
+
+If you're using Ubuntu:
+
+$ sudo apt-get install libcsfml-dev      # The SFML headers
+
+~~
+libcsfml-dev            - Development files for the C binding of SFML
+libcsfml-audio1.5 
+libcsfml-graphics1.5
+libcsfml-network1.5 
+libcsfml-system1.5  
+libcsfml-window1.5  
+libcsfml1.5-dbg
+~~
+
+-------------------------------------------------------------------------------
+INSTALLING:
+
+go-sfml$ make install
+
+I hope it works for you, and if it doesn't - please complain over at 
+http://github.com/drhodes/go-sfml/issues
+
+
+-------------------------------------------------------------------------------
+Now try out the example in the test directory,
+
+test $ make
+test $ ./win-example
+
+You should see a rotating, scaling gopher.
+

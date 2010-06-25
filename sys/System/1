@@ -1,0 +1,4 @@
+CSFML_API sfClock* sfClock_Create();
+CSFML_API void sfClock_Destroy(sfClock* Clock);
+CSFML_API float sfClock_GetTime(sfClock* Clock);
+CSFML_API void sfClock_Reset(sfClock* Clock);
