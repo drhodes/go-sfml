@@ -8,7 +8,29 @@ func TestConstructors(t *testing.T) {
 	
 	clr2 := ColorFromRGBA(1,2,3,254)
 	Debug(clr2)
-
+	
 	Debug(clr1.Add(clr2))
 	Debug(clr1.Modulate(clr2))
 }	
+
+
+func BenchmarkColorAdd(b *testing.B) {		
+	clr1 := ColorFromRGB(1,2,3)
+	clr2 := ColorFromRGBA(1,2,3,254)
+
+	for i := 0; i < b.N; i++ {
+		clr1.Add(clr2)		
+	}
+}
+
+
+func BenchmarkColorAddMutate(b *testing.B) {		
+	// it turns out this isn't faster.
+	clr1 := ColorFromRGB(1,2,3)
+	clr2 := ColorFromRGBA(1,2,3,254)
+	
+	for i := 0; i < b.N; i++ {
+		clr1.AddMutate(clr2)		
+	}
+}
+

@@ -6,15 +6,15 @@ include $(GOROOT)/src/Make.$(GOARCH)
 
 TARG=sfml/gfx
 
-GOFILES:=debug.go
+GOFILES:= debug.go
 
-CGOFILES:=color.go
+CGOFILES:= gfx.go
+
 CGO_LDFLAGS:= -lcsfml-system -lcsfml-graphics
 
-CLEANFILES+=color
+CLEANFILES+:= gfx
 
-cleaner:
-	rm -f *~
-
+#cleaner:
+#	@rm -f *~ cheat*
 
 include $(GOROOT)/src/Make.pkg

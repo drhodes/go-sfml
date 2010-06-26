@@ -4,7 +4,7 @@
 while read line
 do
 echo $line > cheat1
-python ../util/text/protocon.py < cheat1 >> cheat2
+python ./protocon.py < cheat1 >> cheat2
 
 done 
 
