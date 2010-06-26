@@ -1,0 +1,261 @@
+
+
+
+
+
+
+
+
+
+monsters = """extern sfFont *sfFont_Create();
+extern sfColor sfColor_FromRGB(sfUint8 R, sfUint8 G, sfUint8 B);
+extern sfColor sfColor_FromRGBA(sfUint8 R, sfUint8 G, sfUint8 B, sfUint8 A);
+extern sfColor sfColor_Add(sfColor Color1, sfColor Color2);
+extern sfColor sfColor_Modulate(sfColor Color1, sfColor Color2);
+extern sfFont* sfFont_Create();
+extern sfFont* sfFont_CreateFromFile(const char* Filename, unsigned int CharSize, const sfUint32* Charset);
+extern sfFont* sfFont_CreateFromMemory(const char* Data, size_t SizeInBytes, unsigned int CharSize, const sfUint32* Charset);
+extern void sfFont_Destroy(sfFont* Font);
+extern unsigned int sfFont_GetCharacterSize(sfFont* Font);
+extern sfFont* sfFont_GetDefaultFont();
+extern sfImage* sfImage_Create();
+extern sfImage* sfImage_CreateFromColor(unsigned int Width, unsigned int Height, sfColor Color);
+extern sfImage* sfImage_CreateFromPixels(unsigned int Width, unsigned int Height, const sfUint8* Data);
+extern sfImage* sfImage_CreateFromFile(const char* Filename);
+extern void sfImage_Destroy(sfImage* Image);
+extern sfBool sfImage_SaveToFile(sfImage* Image, const char* Filename);
+extern void sfImage_CreateMaskFromColor(sfImage* Image, sfColor ColorKey, sfUint8 Alpha);
+extern void sfImage_Copy(sfImage* Image, sfImage* Source, unsigned int DestX, unsigned int DestY, sfIntRect SourceRect);
+extern sfBool sfImage_CopyScreen(sfImage* Image, sfRenderWindow* Window, sfIntRect SourceRect);
+extern void sfImage_SetPixel(sfImage* Image, unsigned int X, unsigned int Y, sfColor Color);
+extern sfColor sfImage_GetPixel(sfImage* Image, unsigned int X, unsigned int Y);
+extern const sfUint8* sfImage_GetPixelsPtr(sfImage* Image);
+extern void sfImage_Bind(sfImage* Image);
+extern void sfImage_SetSmooth(sfImage* Image, sfBool Smooth);
+extern unsigned int sfImage_GetWidth(sfImage* Image);
+extern unsigned int sfImage_GetHeight(sfImage* Image);
+extern sfBool sfImage_IsSmooth(sfImage* Image);
+extern sfPostFX* sfPostFX_CreateFromFile(const char* Filename);
+extern sfPostFX* sfPostFX_CreateFromMemory(const char* Effect);
+extern void sfPostFX_Destroy(sfPostFX* PostFX);
+extern void sfPostFX_SetParameter1(sfPostFX* PostFX, const char* Name, float X);
+extern void sfPostFX_SetParameter2(sfPostFX* PostFX, const char* Name, float X, float Y);
+extern void sfPostFX_SetParameter3(sfPostFX* PostFX, const char* Name, float X, float Y, float Z);
+extern void sfPostFX_SetParameter4(sfPostFX* PostFX, const char* Name, float X, float Y, float Z, float W);
+extern void sfPostFX_SetTexture(sfPostFX* PostFX, const char* Name, sfImage* Texture);
+extern sfBool sfPostFX_CanUsePostFX();
+extern void sfFloatRect_Offset(sfFloatRect* Rect, float OffsetX, float OffsetY);
+extern void sfIntRect_Offset(sfIntRect* Rect, int OffsetX, int OffsetY);
+extern sfBool sfFloatRect_Contains(sfFloatRect* Rect, float X, float Y);
+extern sfBool sfIntRect_Contains(sfIntRect* Rect, int X, int Y);
+extern sfBool sfFloatRect_Intersects(sfFloatRect* Rect1, sfFloatRect* Rect2, sfFloatRect* OverlappingRect);
+extern sfBool sfIntRect_Intersects(sfIntRect* Rect1, sfIntRect* Rect2, sfIntRect* OverlappingRect);
+extern sfRenderWindow* sfRenderWindow_Create(sfVideoMode Mode, const char* Title, unsigned long Style, sfWindowSettings Params);
+extern sfRenderWindow* sfRenderWindow_CreateFromHandle(sfWindowHandle Handle, sfWindowSettings Params);
+extern void sfRenderWindow_Destroy(sfRenderWindow* RenderWindow);
+extern void sfRenderWindow_Close(sfRenderWindow* RenderWindow);
+extern sfBool sfRenderWindow_IsOpened(sfRenderWindow* RenderWindow);
+extern unsigned int sfRenderWindow_GetWidth(sfRenderWindow* RenderWindow);
+extern unsigned int sfRenderWindow_GetHeight(sfRenderWindow* RenderWindow);
+extern sfWindowSettings sfRenderWindow_GetSettings(sfRenderWindow* RenderWindow);
+extern sfBool sfRenderWindow_GetEvent(sfRenderWindow* RenderWindow, sfEvent* Event);
+extern void sfRenderWindow_UseVerticalSync(sfRenderWindow* RenderWindow, sfBool Enabled);
+extern void sfRenderWindow_ShowMouseCursor(sfRenderWindow* RenderWindow, sfBool Show);
+extern void sfRenderWindow_SetCursorPosition(sfRenderWindow* RenderWindow, unsigned int Left, unsigned int Top);
+extern void sfRenderWindow_SetPosition(sfRenderWindow* RenderWindow, int Left, int Top);
+extern void sfRenderWindow_SetSize(sfRenderWindow* RenderWindow, unsigned int Width, unsigned int Height);
+extern void sfRenderWindow_Show(sfRenderWindow* RenderWindow, sfBool State);
+extern void sfRenderWindow_EnableKeyRepeat(sfRenderWindow* RenderWindow, sfBool Enabled);
+extern void sfRenderWindow_SetIcon(sfRenderWindow* RenderWindow, unsigned int Width, unsigned int Height, sfUint8* Pixels);sfBool sfRenderWindow_SetActive(sfRenderWindow* RenderWindow, sfBool Active);
+extern void sfRenderWindow_Display(sfRenderWindow* RenderWindow);
+extern sfInput* sfRenderWindow_GetInput(sfRenderWindow* RenderWindow);
+extern void sfRenderWindow_SetFramerateLimit(sfRenderWindow* RenderWindow, unsigned int Limit);
+extern float sfRenderWindow_GetFrameTime(sfRenderWindow* RenderWindow);
+extern void sfRenderWindow_SetJoystickThreshold(sfRenderWindow* RenderWindow, float Threshold);
+extern void sfRenderWindow_DrawPostFX(sfRenderWindow* RenderWindow, sfPostFX* PostFX);
+extern void sfRenderWindow_DrawSprite(sfRenderWindow* RenderWindow, sfSprite* Sprite);
+extern void sfRenderWindow_DrawShape(sfRenderWindow* RenderWindow, sfShape*  Shape);
+extern void sfRenderWindow_DrawString(sfRenderWindow* RenderWindow, sfString* String);
+extern sfImage* sfRenderWindow_Capture(sfRenderWindow* RenderWindow);
+extern void sfRenderWindow_Clear(sfRenderWindow* RenderWindow, sfColor Color);
+extern void sfRenderWindow_SetView(sfRenderWindow* RenderWindow, sfView* View);
+extern const sfView* sfRenderWindow_GetView(sfRenderWindow* RenderWindow);
+extern sfView* sfRenderWindow_GetDefaultView(sfRenderWindow* RenderWindow);
+extern void sfRenderWindow_ConvertCoords(sfRenderWindow* RenderWindow, unsigned int WindowX, unsigned int WindowY, float* ViewX, float* ViewY, sfView* TargetView);
+extern void sfRenderWindow_PreserveOpenGLStates(sfRenderWindow* RenderWindow, sfBool Preserve);
+extern sfShape* sfShape_Create();
+extern sfShape* sfShape_CreateLine(float P1X, float P1Y, float P2X, float P2Y, float Thickness, sfColor Col, float Outline, sfColor OutlineCol);
+extern sfShape* sfShape_CreateRectangle(float P1X, float P1Y, float P2X, float P2Y, sfColor Col, float Outline, sfColor OutlineCol);
+extern sfShape* sfShape_CreateCircle(float X, float Y, float Radius, sfColor Col, float Outline, sfColor OutlineCol);
+extern void sfShape_Destroy(sfShape* Shape);
+extern void sfShape_SetX(sfShape* Shape, float X);
+extern void sfShape_SetY(sfShape* Shape, float Y);
+extern void sfShape_SetPosition(sfShape* Shape, float X, float Y);
+extern void sfShape_SetScaleX(sfShape* Shape, float Scale);
+extern void sfShape_SetScaleY(sfShape* Shape, float Scale);
+extern void sfShape_SetScale(sfShape* Shape, float ScaleX, float ScaleY);
+extern void sfShape_SetRotation(sfShape* Shape, float Rotation);
+extern void sfShape_SetCenter(sfShape* Shape, float X, float Y);
+extern void sfShape_SetColor(sfShape* Shape, sfColor Color);
+extern void sfShape_SetBlendMode(sfShape* Shape, sfBlendMode Mode);
+extern float sfShape_GetX(sfShape* Shape);
+extern float sfShape_GetY(sfShape* Shape);
+extern float sfShape_GetScaleX(sfShape* Shape);
+extern float sfShape_GetScaleY(sfShape* Shape);
+extern float sfShape_GetRotation(sfShape* Shape);
+extern float sfShape_GetCenterX(sfShape* Shape);
+extern float sfShape_GetCenterY(sfShape* Shape);
+extern sfColor sfShape_GetColor(sfShape* Shape);
+extern sfBlendMode sfShape_GetBlendMode(sfShape* Shape);
+extern void sfShape_Move(sfShape* Shape, float OffsetX, float OffsetY);
+extern void sfShape_Scale(sfShape* Shape, float FactorX, float FactorY);
+extern void sfShape_Rotate(sfShape* Shape, float Angle);
+extern void sfShape_TransformToLocal(sfShape* Shape, float PointX, float PointY, float* X, float* Y);
+extern void sfShape_TransformToGlobal(sfShape* Shape, float PointX, float PointY, float* X, float* Y);
+extern void sfShape_AddPoint(sfShape* Shape, float X, float Y, sfColor Col, sfColor OutlineCol);
+extern void sfShape_EnableFill(sfShape* Shape, sfBool Enable);
+extern void sfShape_EnableOutline(sfShape* Shape, sfBool Enable);
+extern void sfShape_SetOutlineWidth(sfShape* Shape, float Width);
+extern float sfShape_GetOutlineWidth(sfShape* Shape);
+extern unsigned int sfShape_GetNbPoints(sfShape* Shape);
+extern void sfShape_GetPointPosition(sfShape* Shape, unsigned int Index, float* X, float* Y);
+extern sfColor sfShape_GetPointColor(sfShape* Shape, unsigned int Index);
+extern sfColor sfShape_GetPointOutlineColor(sfShape* Shape, unsigned int Index);
+extern void sfShape_SetPointPosition(sfShape* Shape, unsigned int Index, float X, float Y);
+extern void sfShape_SetPointColor(sfShape* Shape, unsigned int Index, sfColor Color);
+extern void sfShape_SetPointOutlineColor(sfShape* Shape, unsigned int Index, sfColor Color);
+extern sfSprite* sfSprite_Create();
+extern void sfSprite_Destroy(sfSprite* Sprite);
+extern void sfSprite_SetX(sfSprite* Sprite, float X);
+extern void sfSprite_SetY(sfSprite* Sprite, float Y);
+extern void sfSprite_SetPosition(sfSprite* Sprite, float X, float Y);
+extern void sfSprite_SetScaleX(sfSprite* Sprite, float Scale);
+extern void sfSprite_SetScaleY(sfSprite* Sprite, float Scale);
+extern void sfSprite_SetScale(sfSprite* Sprite, float ScaleX, float ScaleY);
+extern void sfSprite_SetRotation(sfSprite* Sprite, float Rotation);
+extern void sfSprite_SetCenter(sfSprite* Sprite, float X, float Y);
+extern void sfSprite_SetColor(sfSprite* Sprite, sfColor Color);
+extern void sfSprite_SetBlendMode(sfSprite* Sprite, sfBlendMode Mode);
+extern float sfSprite_GetX(sfSprite* Sprite);
+extern float sfSprite_GetY(sfSprite* Sprite);
+extern float sfSprite_GetScaleX(sfSprite* Sprite);
+extern float sfSprite_GetScaleY(sfSprite* Sprite);
+extern float sfSprite_GetRotation(sfSprite* Sprite);
+extern float sfSprite_GetCenterX(sfSprite* Sprite);
+extern float sfSprite_GetCenterY(sfSprite* Sprite);
+extern sfColor sfSprite_GetColor(sfSprite* Sprite);
+extern sfBlendMode sfSprite_GetBlendMode(sfSprite* Sprite);
+extern void sfSprite_Move(sfSprite* Sprite, float OffsetX, float OffsetY);
+extern void sfSprite_Scale(sfSprite* Sprite, float FactorX, float FactorY);
+extern void sfSprite_Rotate(sfSprite* Sprite, float Angle);
+extern void sfSprite_TransformToLocal(sfSprite* Sprite, float PointX, float PointY, float* X, float* Y);
+extern void sfSprite_TransformToGlobal(sfSprite* Sprite, float PointX, float PointY, float* X, float* Y);
+extern void sfSprite_SetImage(sfSprite* Sprite, sfImage* Image);
+extern void sfSprite_SetSubRect(sfSprite* Sprite, sfIntRect SubRect);
+extern void sfSprite_Resize(sfSprite* Sprite, float Width, float Height);
+extern void sfSprite_FlipX(sfSprite* Sprite, sfBool Flipped);
+extern void sfSprite_FlipY(sfSprite* Sprite, sfBool Flipped);
+extern sfImage* sfSprite_GetImage(sfSprite* Sprite);
+extern sfIntRect sfSprite_GetSubRect(sfSprite* Sprite);
+extern float sfSprite_GetWidth(sfSprite* Sprite);
+extern float sfSprite_GetHeight(sfSprite* Sprite);
+extern sfColor sfSprite_GetPixel(sfSprite* Sprite, unsigned int X, unsigned int Y);
+extern sfString* sfString_Create();
+extern void sfString_Destroy(sfString* String);
+extern void sfString_SetX(sfString* String, float X);
+extern void sfString_SetY(sfString* String, float Y);
+extern void sfString_SetPosition(sfString* String, float Left, float Top);
+extern void sfString_SetScaleX(sfString* String, float Scale);
+extern void sfString_SetScaleY(sfString* String, float Scale);
+extern void sfString_SetScale(sfString* String, float ScaleX, float ScaleY);
+extern void sfString_SetRotation(sfString* String, float Rotation);
+extern void sfString_SetCenter(sfString* String, float X, float Y);
+extern void sfString_SetColor(sfString* String, sfColor Color);
+extern void sfString_SetBlendMode(sfString* String, sfBlendMode Mode);
+extern float sfString_GetX(sfString* String);
+extern float sfString_GetY(sfString* String);
+extern float sfString_GetScaleX(sfString* String);
+extern float sfString_GetScaleY(sfString* String);
+extern float sfString_GetRotation(sfString* String);
+extern float sfString_GetCenterX(sfString* String);
+extern float sfString_GetCenterY(sfString* String);
+extern sfColor sfString_GetColor(sfString* String);
+extern sfBlendMode sfString_GetBlendMode(sfString* String);
+extern void sfString_Move(sfString* String, float OffsetX, float OffsetY);
+extern void sfString_Scale(sfString* String, float FactorX, float FactorY);
+extern void sfString_Rotate(sfString* String, float Angle);
+extern void sfString_TransformToLocal(sfString* String, float PointX, float PointY, float* X, float* Y);
+extern void sfString_TransformToGlobal(sfString* String, float PointX, float PointY, float* X, float* Y);
+extern void sfString_SetText(sfString* String, const char* Text);
+extern void sfString_SetUnicodeText(sfString* String, const sfUint32* Text);
+extern void sfString_SetFont(sfString* String, sfFont* Font);
+extern void sfString_SetSize(sfString* String, float Size);
+extern void sfString_SetStyle(sfString* String, unsigned long Style);
+extern const sfUint32* sfString_GetUnicodeText(sfString* String);
+extern const char* sfString_GetText(sfString* String);
+extern sfFont* sfString_GetFont(sfString* String);
+extern float sfString_GetSize(sfString* String);
+extern unsigned long sfString_GetStyle(sfString* String);
+extern void sfString_GetCharacterPos(sfString* String, size_t Index, float* X, float* Y);
+extern sfFloatRect sfString_GetRect(sfString* String);
+extern sfView* sfView_Create();
+extern sfView* sfView_CreateFromRect(sfFloatRect Rect);
+extern void sfView_Destroy(sfView* View);
+extern void sfView_SetCenter(sfView* View, float X, float Y);
+extern void sfView_SetHalfSize(sfView* View, float HalfWidth, float HalfHeight);
+extern void sfView_SetFromRect(sfView* View, sfFloatRect ViewRect);
+extern float sfView_GetCenterX(sfView* View);
+extern float sfView_GetCenterY(sfView* View);
+extern float sfView_GetHalfSizeX(sfView* View);
+extern float sfView_GetHalfSizeY(sfView* View);
+extern sfFloatRect sfView_GetRect(sfView* View);
+extern void sfView_Move(sfView* View, float OffsetX, float OffsetY);
+extern void sfView_Zoom(sfView* View, float Factor);
+"""
+
+
+monsters = '''sfClock* sfClock_Create();
+void sfClock_Destroy(sfClock* Clock);
+float sfClock_GetTime(sfClock* Clock);
+void sfClock_Reset(sfClock* Clock);
+sfMutex* sfMutex_Create();
+void sfMutex_Destroy(sfMutex* Mutex);
+void sfMutex_Lock(sfMutex* Mutex);
+void sfMutex_Unlock(sfMutex* Mutex);
+void sfRandom_SetSeed(unsigned int Seed);
+unsigned int sfRandom_GetSeed();
+float sfRandom_Float(float Begin, float End);
+int sfRandom_Int(int Begin, int End);
+void sfSleep(float Duration);
+sfThread* sfThread_Create(void (*Function)(void*), void* UserData);
+void sfThread_Destroy(sfThread* Thread);
+void sfThread_Launch(sfThread* Thread);
+void sfThread_Wait(sfThread* Thread);
+void sfThread_Terminate(sfThread* Thread);
+'''
+
+
+
+
+def doRename(line):
+    parts = line.split(" ")
+    keeper = None
+    for p in parts:
+        if "sf" in p and "(" in p:
+            keeper = p.split("(")[0]
+    cName = keeper.replace("*", "")
+    goName = cName.replace("_", "")[2:]
+
+    rename = "%" + "rename(%s) %s;" % (goName, cName)
+    return rename
+
+print "//generated by mangler.py"
+for line in monsters.split("\n"):
+    if len(line) < 5: continue
+    print doRename(line)
+    print line
+    print
+
+
+
+#%rename(ImageCreateFromFile) sfImage_CreateFromFile;

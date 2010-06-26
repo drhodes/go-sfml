@@ -4,13 +4,17 @@
 
 include $(GOROOT)/src/Make.$(GOARCH)
 
-TARG=sfml/sys
+TARG=sfml/gfx
 
 GOFILES:=debug.go
 
-CGOFILES:=clock.go
-CGO_LDFLAGS:=-lcsfml-system
+CGOFILES:=color.go
+CGO_LDFLAGS:= -lcsfml-system -lcsfml-graphics
 
-CLEANFILES+=clock
+CLEANFILES+=color
+
+cleaner:
+	rm -f *~
+
 
 include $(GOROOT)/src/Make.pkg

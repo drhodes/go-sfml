@@ -1,0 +1,27 @@
+#!/usr/bin/env python
+
+import sys, os
+
+GOROOT = os.environ["GOROOT"]
+GOARCH = os.environ["GOARCH"]
+GOOS = os.environ["GOOS"]
+PKGPATH = os.path.join(GOROOT, "pkg", GOOS +"_"+ GOARCH, "sfml")
+
+basename = sys.argv[1]
+basename_gc = basename + "_gc.c"
+filename = os.path.join(os.getcwd(), basename_gc)
+so_name = basename + ".so"
+new_so_name = os.path.join(PKGPATH, so_name)
+
+print filename
+print so_name
+print new_so_name
+
+infile = open(filename).read()
+contents = infile.replace(so_name, new_so_name)
+#infile.close()
+
+outfile = open(filename, 'w')
+outfile.write(contents)
+outfile.close()
+

@@ -4,12 +4,13 @@
 
 include $(GOROOT)/src/Make.$(GOARCH)
 
-TARG=sdl/mixer
+TARG=sfml/sys
 
-GOFILES:=constants.go
-CGOFILES:=mixer.go
-CGO_LDFLAGS:=-lSDL_mixer
+GOFILES:=debug.go
 
-CLEANFILES+=mixer
+CGOFILES:=clock.go
+CGO_LDFLAGS:=-lcsfml-system
+
+CLEANFILES+=clock
 
 include $(GOROOT)/src/Make.pkg
