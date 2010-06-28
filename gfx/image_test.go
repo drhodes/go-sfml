@@ -22,4 +22,5 @@ func TestImageConstructors(t *testing.T) {
 	img3.SetSmooth(false)
 	Debug(img3.IsSmooth())
 	Debug(img3.SaveToFile("/tmp/gopher_menamena.png"))
+
 }	

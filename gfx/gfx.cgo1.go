@@ -1,123 +1,124 @@
+// Created by cgo - DO NOT EDIT
+//line gfx.go:1
 package gfx
 
 // #include <SFML/Graphics/Color.h>
 // #include <SFML/Graphics/Font.h>
 // #include <SFML/Graphics/Image.h>
 // #include <SFML/Graphics/String.h>
-import "C"
 
-import(
+
+import (
 	"runtime"
 	"unsafe"
 )
 
-type Color struct { 
-	Cref C.sfColor 
+type Color struct {
+	Cref _C_sfColor
 }
 
-func NewFont(val *C.sfFont) Font {
-    tmp := Font{ val }
-    runtime.SetFinalizer(&tmp, (*Font).Destroy)
-    return tmp
+func NewFont(val *[0]byte) Font {
+	tmp := Font{val}
+	runtime.SetFinalizer(&tmp, (*Font).Destroy)
+	return tmp
 }
 
 type Font struct {
-	Cref *C.sfFont
+	Cref *[0]byte
 }
 
-func NewImage(val *C.sfImage) Image {
-	tmp := Image{ val }
+func NewImage(val *[0]byte) Image {
+	tmp := Image{val}
 	runtime.SetFinalizer(&tmp, (*Image).Destroy)
 	return tmp
 }
 
-type Image struct {	
-	Cref *C.sfImage 
+type Image struct {
+	Cref *[0]byte
 }
 
-func NewFloatRect(val *C.sfFloatRect) FloatRect {
-	tmp := FloatRect{ val }
+func NewFloatRect(val *_C_sfFloatRect) FloatRect {
+	tmp := FloatRect{val}
 	//runtime.SetFinalizer(&tmp, (* FloatRect).Destroy)
 	return tmp
 }
 
-type FloatRect struct{
-	Cref *C.sfFloatRect
+type FloatRect struct {
+	Cref *_C_sfFloatRect
 }
 
-func NewIntRect(val *C.sfIntRect) IntRect {
-	tmp := IntRect{ val }
+func NewIntRect(val *_C_sfIntRect) IntRect {
+	tmp := IntRect{val}
 	//runtime.SetFinalizer(&tmp, (* IntRect).Destroy)
 	return tmp
 }
 
-type IntRect struct{
-	Cref *C.sfIntRect
+type IntRect struct {
+	Cref *_C_sfIntRect
 }
 
-func NewRenderWindow(val *C.sfRenderWindow) RenderWindow {
-	tmp := RenderWindow{ val }
+func NewRenderWindow(val *[0]byte) RenderWindow {
+	tmp := RenderWindow{val}
 	//runtime.SetFinalizer(&tmp, (* RenderWindow).Destroy)
 	return tmp
 }
 
-type RenderWindow struct{
-	Cref *C.sfRenderWindow
+type RenderWindow struct {
+	Cref *[0]byte
 }
 
-func NewString(val *C.sfString) String {
-	tmp := String{ val }
+func NewString(val *[0]byte) String {
+	tmp := String{val}
 	runtime.SetFinalizer(&tmp, (*String).Destroy)
 	return tmp
 }
 
-type String struct{
-	Cref *C.sfString
+type String struct {
+	Cref *[0]byte
 }
 
-func NewBlendMode(val *C.sfBlendMode) BlendMode {
-	tmp := BlendMode{ val }
+func NewBlendMode(val *_C_sfBlendMode) BlendMode {
+	tmp := BlendMode{val}
 	//runtime.SetFinalizer(&tmp, (*BlendMode).Destroy)
 	return tmp
 }
 
-type BlendMode struct{
-	Cref *C.sfBlendMode
+type BlendMode struct {
+	Cref *_C_sfBlendMode
 }
 
 // _Color_
 // -------------------------------------------------------------------------------
 func ColorFromRGB(r, g, b int) Color {
-	return Color{ C.sfColor_FromRGB(C.sfUint8(r), C.sfUint8(g), C.sfUint8(b) ) }
+	return Color{_C_sfColor_FromRGB(_C_sfUint8(r), _C_sfUint8(g), _C_sfUint8(b))}
 }
 
 func ColorFromRGBA(r, g, b, a uint8) Color {
-	return Color{ C.sfColor_FromRGBA(C.sfUint8(r), C.sfUint8(g), C.sfUint8(b), C.sfUint8(a) ) }
+	return Color{_C_sfColor_FromRGBA(_C_sfUint8(r), _C_sfUint8(g), _C_sfUint8(b), _C_sfUint8(a))}
 }
 
 // Add two colors
 // param other : Color
 // return Component-wise saturated addition of the two colors
 func (self *Color) Add(other Color) Color {
-	return Color{ C.sfColor_Add(self.Cref, other.Cref) }
+	return Color{_C_sfColor_Add(self.Cref, other.Cref)}
 }
 
 func (self *Color) AddMutate(other Color) {
-	self.Cref = C.sfColor_Add(self.Cref, other.Cref) 
+	self.Cref = _C_sfColor_Add(self.Cref, other.Cref)
 }
 
- 
+
 // Modulate two colors
 // param other : Color
 // return Component-wise multiplication of the two colors
 func (self *Color) Modulate(other Color) Color {
-	return Color { C.sfColor_Modulate(self.Cref, other.Cref) }
+	return Color{_C_sfColor_Modulate(self.Cref, other.Cref)}
 }
 
 func (self *Color) ModulateMutate(other Color) {
-	self.Cref = C.sfColor_Modulate(self.Cref, other.Cref) 
+	self.Cref = _C_sfColor_Modulate(self.Cref, other.Cref)
 }
-
 
 
 // _Font_
@@ -125,8 +126,8 @@ func (self *Color) ModulateMutate(other Color) {
 // Create a new empty font
 // return A new sfFont object, or NULL if it failed
 func FontCreate() Font {
-    fnt := Font{ C.sfFont_Create() }
-	runtime.SetFinalizer(&fnt, (*Font).Destroy)   
+	fnt := Font{_C_sfFont_Create()}
+	runtime.SetFinalizer(&fnt, (*Font).Destroy)
 	return fnt
 }
 
@@ -136,9 +137,9 @@ func FontCreate() Font {
 // param Charset : Characters set to generate (just pass NULL to get the default charset)
 // return A new sfFont object, or NULL if it failed
 func FontCreateFromFile(path string, charSize int) Font {
-    fnt := Font{ C.sfFont_CreateFromFile(C.CString(path), C.uint(charSize), nil) }
-	runtime.SetFinalizer(&fnt, (*Font).Destroy)   
-	return fnt	
+	fnt := Font{_C_sfFont_CreateFromFile(_C_CString(path), _C_uint(charSize), nil)}
+	runtime.SetFinalizer(&fnt, (*Font).Destroy)
+	return fnt
 }
 
 // Create a new image font a file in memory
@@ -151,18 +152,18 @@ func FontCreateFromFile(path string, charSize int) Font {
 func FontCreateFromMemory(data uint8, SizeInBytes uint8, CharSize uint) Font {
 	cdata := C.char(data)
 	//C.free(unsafe.Pointer(cfile))
-	
-    return Font{ C.sfFont_CreateFromMemory( &cdata, 
-			C.size_t(SizeInBytes), 
+
+    return Font{ C.sfFont_CreateFromMemory( &cdata,
+			C.size_t(SizeInBytes),
 			C.uint(CharSize), nil )}
 }
 */
 
 // Destroy an existing font
 // param Font : Font to delete
-func (self *Font) Destroy() {	
-	C.sfFont_Destroy(self.Cref);
-	self.Cref = nil;
+func (self *Font) Destroy() {
+	_C_sfFont_Destroy(self.Cref)
+	self.Cref = nil
 }
 
 // Get the base size of characters in a font;
@@ -172,11 +173,8 @@ func (self *Font) Destroy() {
 // Get the built-in default font (Arial)
 // return Pointer to the default font
 func GetDefaultFont() Font {
-	return Font{ C.sfFont_GetDefaultFont() };
+	return Font{_C_sfFont_GetDefaultFont()}
 }
-
-
-
 
 
 // _Image_
@@ -185,7 +183,7 @@ func GetDefaultFont() Font {
 // return A new sfImage object, or NULL if it failed
 // sfImage* sfImage_Create();
 func ImageCreate() Image {
-    return NewImage( C.sfImage_Create() )
+	return NewImage(_C_sfImage_Create())
 }
 
 // Create a new image filled with a color
@@ -195,7 +193,7 @@ func ImageCreate() Image {
 // return A new sfImage object, or NULL if it failed
 // sfImage* sfImage_CreateFromColor(unsigned int Width, unsigned int Height, sfColor Color);
 func ImageCreateFromColor(width, height uint, clr Color) Image {
-    return NewImage( C.sfImage_CreateFromColor(C.uint(width), C.uint(height), clr.Cref) )
+	return NewImage(_C_sfImage_CreateFromColor(_C_uint(width), _C_uint(height), clr.Cref))
 }
 
 // Create a new image from an array of pixels in memory
@@ -205,8 +203,8 @@ func ImageCreateFromColor(width, height uint, clr Color) Image {
 // return A new sfImage object, or NULL if it failed
 // sfImage* sfImage_CreateFromPixels(unsigned int Width, unsigned int Height, const sfUint8* Data);
 func ImageCreateFromPixels(width uint, height uint, data []uint8) Image {
-	cdata := C.sfUint8(data[0])
-	return NewImage( C.sfImage_CreateFromPixels(C.uint(width), C.uint(height), &cdata) ) 
+	cdata := _C_sfUint8(data[0])
+	return NewImage(_C_sfImage_CreateFromPixels(_C_uint(width), _C_uint(height), &cdata))
 }
 
 // Create a new image from a file
@@ -214,7 +212,7 @@ func ImageCreateFromPixels(width uint, height uint, data []uint8) Image {
 // return A new sfImage object, or NULL if it failed
 // sfImage* sfImage_CreateFromFile(const char* Filename);
 func ImageCreateFromFile(filename string) Image {
-    return NewImage( C.sfImage_CreateFromFile(C.CString(filename)) )
+	return NewImage(_C_sfImage_CreateFromFile(_C_CString(filename)))
 }
 
 // Create a new image from a file in memory
@@ -223,9 +221,9 @@ func ImageCreateFromFile(filename string) Image {
 // return A new sfImage object, or NULL if it failed
 // sfImage* sfImage_CreateFromMemory(const char* Data, size_t SizeInBytes);
 func ImageCreateFromMemory(data []uint8, sizeInByes int) Image {
-	cdata := C.char(data[0])
-    img := Image{ C.sfImage_CreateFromMemory(&cdata, C.size_t(sizeInByes)) }
-	runtime.SetFinalizer(&img, (*Image).Destroy)   
+	cdata := _C_char(data[0])
+	img := Image{_C_sfImage_CreateFromMemory(&cdata, _C_size_t(sizeInByes))}
+	runtime.SetFinalizer(&img, (*Image).Destroy)
 	return img
 
 }
@@ -234,20 +232,20 @@ func ImageCreateFromMemory(data []uint8, sizeInByes int) Image {
 // param Image : Image to delete
 // sfImage_Destroy(sfImage* Image);
 func (self *Image) Destroy() {
-    C.sfImage_Destroy(self.Cref)
+	_C_sfImage_Destroy(self.Cref)
 	self.Cref = nil
 }
 
 // this should go in a utility package.
-func SfBool2GoBool(cVal C.sfBool) bool {
+func SfBool2GoBool(cVal _C_sfBool) bool {
 	return int(cVal) == 1
 }
 
-func GoBool2SfBool(goVal bool) C.sfBool {
+func GoBool2SfBool(goVal bool) _C_sfBool {
 	if goVal {
-		return C.sfBool(1)
+		return _C_sfBool(1)
 	}
-	return C.sfBool(0)
+	return _C_sfBool(0)
 }
 
 // Save the content of an image to a file
@@ -256,7 +254,7 @@ func GoBool2SfBool(goVal bool) C.sfBool {
 // return sfTrue if saving was successful
 // sfBool sfImage_SaveToFile(sfImage* Image, const char* Filename);
 func (self *Image) SaveToFile(filename string) bool {
-	return SfBool2GoBool(C.sfImage_SaveToFile(self.Cref, C.CString(filename)))
+	return SfBool2GoBool(_C_sfImage_SaveToFile(self.Cref, _C_CString(filename)))
 }
 
 // Create a transparency mask for an image from a specified colorkey
@@ -265,7 +263,7 @@ func (self *Image) SaveToFile(filename string) bool {
 // param Alpha : Alpha value to use for transparent pixels
 //  sfImage_CreateMaskFromColor(sfImage* Image, sfColor ColorKey, sfUint8 Alpha);
 func (self *Image) CreateMaskFromColor(colorKey Color, alpha uint8) {
-    C.sfImage_CreateMaskFromColor(self.Cref, colorKey.Cref, C.sfUint8(alpha))
+	_C_sfImage_CreateMaskFromColor(self.Cref, colorKey.Cref, _C_sfUint8(alpha))
 }
 
 // Copy pixels from another image onto this one.
@@ -278,7 +276,7 @@ func (self *Image) CreateMaskFromColor(colorKey Color, alpha uint8) {
 // param SourceRect : Sub-rectangle of the source image to copy
 //  sfImage_Copy(sfImage* Image, sfImage* Source, unsigned int DestX, unsigned int DestY, sfIntRect SourceRect);
 func (self *Image) Copy(source Image, destX, destY uint, sourceRect IntRect) {
-    C.sfImage_Copy(self.Cref, source.Cref, C.uint(destX), C.uint(destY), *sourceRect.Cref)
+	_C_sfImage_Copy(self.Cref, source.Cref, _C_uint(destX), _C_uint(destY), *sourceRect.Cref)
 }
 
 // Create the image from the current contents of the given window
@@ -288,7 +286,7 @@ func (self *Image) Copy(source Image, destX, destY uint, sourceRect IntRect) {
 // return True if creation was successful
 // sfBool sfImage_CopyScreen(sfImage* Image, sfRenderWindow* Window, sfIntRect SourceRect);
 func (self *Image) CopyScreen(window RenderWindow, sourceRect IntRect) bool {
-    return SfBool2GoBool( C.sfImage_CopyScreen(self.Cref, window.Cref, *sourceRect.Cref) )
+	return SfBool2GoBool(_C_sfImage_CopyScreen(self.Cref, window.Cref, *sourceRect.Cref))
 }
 
 // Change the color of a pixel of an image
@@ -299,7 +297,7 @@ func (self *Image) CopyScreen(window RenderWindow, sourceRect IntRect) bool {
 // param Col : New color for pixel (X, Y)
 // sfImage_SetPixel(sfImage* Image, unsigned int X, unsigned int Y, sfColor Color);
 func (self *Image) SetPixel(x, y uint, color Color) {
-    C.sfImage_SetPixel(self.Cref, C.uint(x), C.uint(y), color.Cref)
+	_C_sfImage_SetPixel(self.Cref, _C_uint(x), _C_uint(y), color.Cref)
 }
 
 // Get a pixel from an image
@@ -309,7 +307,7 @@ func (self *Image) SetPixel(x, y uint, color Color) {
 // return Color of pixel (x, y)
 // sfColor sfImage_GetPixel(sfImage* Image, unsigned int X, unsigned int Y);
 func (self *Image) GetPixel(x, y uint) Color {
-    return Color{ C.sfImage_GetPixel(self.Cref, C.uint(x), C.uint(y)) }
+	return Color{_C_sfImage_GetPixel(self.Cref, _C_uint(x), _C_uint(y))}
 }
 
 // Get a read-only pointer to the array of pixels of an image (8 bit integers RGBA)
@@ -322,19 +320,19 @@ func (self *Image) GetPixel(x, y uint) Color {
 /* ARRGgghh
 //func NewArray(typ interface{}, n int) Pointer
 
-func (self *Image) GetPixelsPtr() []byte {	
+func (self *Image) GetPixelsPtr() []byte {
 	__COLOR__ := ColorFromRGBA(0,0,0,0)
 	cPtr := C.sfImage_GetPixelsPtr(self.Cref)
 	arr := unsafe.NewArray(__COLOR__, self.Height * self.Width)
 	return arr
 }
 */
-	
+
 // Bind the image for rendering
 // param Image : Image to bind
 // sfImage_Bind(sfImage* Image);
 func (self *Image) Bind() {
-    C.sfImage_Bind(self.Cref)
+	_C_sfImage_Bind(self.Cref)
 }
 
 // Enable or disable image smooth filter
@@ -342,7 +340,7 @@ func (self *Image) Bind() {
 // param Smooth : sfTrue to enable smoothing filter, false to disable it
 // sfImage_SetSmooth(sfImage* Image, sfBool Smooth);
 func (self *Image) SetSmooth(smooth bool) {
-    C.sfImage_SetSmooth(self.Cref, GoBool2SfBool(smooth))
+	_C_sfImage_SetSmooth(self.Cref, GoBool2SfBool(smooth))
 }
 
 // Return the width of the image
@@ -350,7 +348,7 @@ func (self *Image) SetSmooth(smooth bool) {
 // return Width in pixels
 // unsigned int sfImage_GetWidth(sfImage* Image);
 func (self *Image) GetWidth() uint {
-	return uint(C.sfImage_GetWidth(self.Cref))
+	return uint(_C_sfImage_GetWidth(self.Cref))
 }
 
 // Return the height of the image
@@ -358,7 +356,7 @@ func (self *Image) GetWidth() uint {
 // return Height in pixels
 // unsigned int sfImage_GetHeight(sfImage* Image);
 func (self *Image) GetHeight() uint {
-	return uint(C.sfImage_GetHeight(self.Cref))
+	return uint(_C_sfImage_GetHeight(self.Cref))
 }
 
 // Tells whether the smoothing filter is enabled or not on an image
@@ -366,10 +364,8 @@ func (self *Image) GetHeight() uint {
 // return sfTrue if the smoothing filter is enabled
 // sfBool sfImage_IsSmooth(sfImage* Image);
 func (self *Image) IsSmooth() bool {
-    return SfBool2GoBool( C.sfImage_IsSmooth(self.Cref) )
+	return SfBool2GoBool(_C_sfImage_IsSmooth(self.Cref))
 }
-
-
 
 
 // _Rect_
@@ -380,12 +376,12 @@ func (self *Image) IsSmooth() bool {
 // param OffsetY : Vertical offset
 // void sfFloatRect_Offset(sfFloatRect* Rect, float OffsetX, float OffsetY);
 func (self *FloatRect) Offset(offsetX float, offsetY float) {
-    C.sfFloatRect_Offset(self.Cref, C.float(offsetX), C.float(offsetY)) 
+	_C_sfFloatRect_Offset(self.Cref, _C_float(offsetX), _C_float(offsetY))
 }
 
 // void sfIntRect_Offset(sfIntRect* Rect, int OffsetX, int OffsetY);
 func (self *IntRect) Offset(offsetX int, offsetY int) {
-    C.sfIntRect_Offset(self.Cref, C.int(offsetX), C.int(offsetY)) 
+	_C_sfIntRect_Offset(self.Cref, _C_int(offsetX), _C_int(offsetY))
 }
 
 // Check if a point is inside a rectangle's area
@@ -395,12 +391,12 @@ func (self *IntRect) Offset(offsetX int, offsetY int) {
 // return sfTrue if the point is inside
 // sfBool sfFloatRect_Contains(sfFloatRect* Rect, float X, float Y);
 func (self *FloatRect) Contains(x float, y float) bool {
-    return SfBool2GoBool( C.sfFloatRect_Contains(self.Cref, C.float(x), C.float(y)) )
+	return SfBool2GoBool(_C_sfFloatRect_Contains(self.Cref, _C_float(x), _C_float(y)))
 }
 
 // sfBool sfIntRect_Contains(sfIntRect* Rect, int X, int Y);
 func (self *IntRect) Contains(x int, y int) bool {
-    return SfBool2GoBool( C.sfIntRect_Contains(self.Cref, C.int(x), C.int(y)) )
+	return SfBool2GoBool(_C_sfIntRect_Contains(self.Cref, _C_int(x), _C_int(y)))
 }
 
 // Check intersection between two rectangles
@@ -410,16 +406,13 @@ func (self *IntRect) Contains(x int, y int) bool {
 // return sfTrue if rectangles overlap
 // sfBool sfFloatRect_Intersects(sfFloatRect* Rect1, sfFloatRect* Rect2, sfFloatRect* OverlappingRect);
 func (self *FloatRect) Intersects(rect2 FloatRect, overlappingRect FloatRect) bool {
-	return SfBool2GoBool( C.sfFloatRect_Intersects(self.Cref, rect2.Cref, overlappingRect.Cref) )
+	return SfBool2GoBool(_C_sfFloatRect_Intersects(self.Cref, rect2.Cref, overlappingRect.Cref))
 }
 
 // sfBool sfIntRect_Intersects(sfIntRect* Rect1, sfIntRect* Rect2, sfIntRect* OverlappingRect);
 func (self *IntRect) Intersects(rect2 IntRect, overlappingRect IntRect) bool {
-    return SfBool2GoBool( C.sfIntRect_Intersects(self.Cref, rect2.Cref, overlappingRect.Cref) )
+	return SfBool2GoBool(_C_sfIntRect_Intersects(self.Cref, rect2.Cref, overlappingRect.Cref))
 }
-
-
-
 
 
 // _String_
@@ -428,7 +421,7 @@ func (self *IntRect) Intersects(rect2 IntRect, overlappingRect IntRect) bool {
 // return A new sfString object, or NULL if it failed
 // sfString* sfString_Create();
 func StringCreate() String {
-    return NewString( C.sfString_Create() )
+	return NewString(_C_sfString_Create())
 }
 
 
@@ -436,7 +429,7 @@ func StringCreate() String {
 // param String : String to delete
 // sfString_Destroy(sfString* String);
 func (self *String) Destroy() {
-    C.sfString_Destroy(self.Cref)
+	_C_sfString_Destroy(self.Cref)
 	self.Cref = nil
 }
 
@@ -445,7 +438,7 @@ func (self *String) Destroy() {
 // param X : New X coordinate
 // sfString_SetX(sfString* String, float X);
 func (self *String) SetX(x float) {
-    C.sfString_SetX(self.Cref, C.float(x))
+	_C_sfString_SetX(self.Cref, _C_float(x))
 }
 
 // Set the Y position of a string
@@ -453,7 +446,7 @@ func (self *String) SetX(x float) {
 // param Y : New Y coordinate
 // sfString_SetY(sfString* String, float Y);
 func (self *String) SetY(y float) {
-    C.sfString_SetY(self.Cref, C.float(y))
+	_C_sfString_SetY(self.Cref, _C_float(y))
 }
 
 // Set the position of a string
@@ -462,7 +455,7 @@ func (self *String) SetY(y float) {
 // param Top : New top coordinate
 // sfString_SetPosition(sfString* String, float Left, float Top);
 func (self *String) SetPosition(left float, top float) {
-    C.sfString_SetPosition(self.Cref, C.float(left), C.float(top))
+	_C_sfString_SetPosition(self.Cref, _C_float(left), _C_float(top))
 }
 
 // Set the horizontal scale of a string
@@ -470,7 +463,7 @@ func (self *String) SetPosition(left float, top float) {
 // param Scale : New scale (must be strictly positive)
 // sfString_SetScaleX(sfString* String, float Scale);
 func (self *String) SetScaleX(scale float) {
-    C.sfString_SetScaleX(self.Cref, C.float(scale))
+	_C_sfString_SetScaleX(self.Cref, _C_float(scale))
 }
 
 // Set the vertical scale of a string
@@ -478,7 +471,7 @@ func (self *String) SetScaleX(scale float) {
 // param Scale : New scale (must be strictly positive)
 // sfString_SetScaleY(sfString* String, float Scale);
 func (self *String) SetScaleY(scale float) {
-    C.sfString_SetScaleY(self.Cref, C.float(scale))
+	_C_sfString_SetScaleY(self.Cref, _C_float(scale))
 }
 
 // Set the scale of a string
@@ -487,7 +480,7 @@ func (self *String) SetScaleY(scale float) {
 // param ScaleY : New vertical scale (must be strictly positive)
 // sfString_SetScale(sfString* String, float ScaleX, float ScaleY);
 func (self *String) SetScale(scaleX float, scaleY float) {
-    C.sfString_SetScale(self.Cref, C.float(scaleX), C.float(scaleY))
+	_C_sfString_SetScale(self.Cref, _C_float(scaleX), _C_float(scaleY))
 }
 
 // Set the orientation of a string
@@ -495,7 +488,7 @@ func (self *String) SetScale(scaleX float, scaleY float) {
 // param Rotation : Angle of rotation, in degrees
 // sfString_SetRotation(sfString* String, float Rotation);
 func (self *String) SetRotation(rotation float) {
-    C.sfString_SetRotation(self.Cref, C.float(rotation))
+	_C_sfString_SetRotation(self.Cref, _C_float(rotation))
 }
 
 // Set the center of a string, in coordinates
@@ -505,7 +498,7 @@ func (self *String) SetRotation(rotation float) {
 // param Y : Y coordinate of the center
 // sfString_SetCenter(sfString* String, float X, float Y);
 func (self *String) SetCenter(x float, y float) {
-    C.sfString_SetCenter(self.Cref, C.float(x), C.float(y))
+	_C_sfString_SetCenter(self.Cref, _C_float(x), _C_float(y))
 }
 
 // Set the color of a string
@@ -513,7 +506,7 @@ func (self *String) SetCenter(x float, y float) {
 // param Color : New color
 // sfString_SetColor(sfString* String, sfColor Color);
 func (self *String) SetColor(color Color) {
-    C.sfString_SetColor(self.Cref, color.Cref)
+	_C_sfString_SetColor(self.Cref, color.Cref)
 }
 
 // Set the blending mode for a string
@@ -521,7 +514,7 @@ func (self *String) SetColor(color Color) {
 // param Mode : New blending mode
 // sfString_SetBlendMode(sfString* String, sfBlendMode Mode);
 func (self *String) SetBlendMode(mode BlendMode) {
-    C.sfString_SetBlendMode(self.Cref, *mode.Cref)
+	_C_sfString_SetBlendMode(self.Cref, *mode.Cref)
 }
 
 // Get the X position of a string
@@ -529,7 +522,7 @@ func (self *String) SetBlendMode(mode BlendMode) {
 // return Current X position
 // float sfString_GetX(sfString* String);
 func (self *String) GetX() float {
-    return float(C.sfString_GetX(self.Cref))
+	return float(_C_sfString_GetX(self.Cref))
 }
 
 // Get the top Y of a string
@@ -537,7 +530,7 @@ func (self *String) GetX() float {
 // return Current Y position
 // float sfString_GetY(sfString* String);
 func (self *String) GetY() float {
-    return float(C.sfString_GetY(self.Cref))
+	return float(_C_sfString_GetY(self.Cref))
 }
 
 // Get the horizontal scale of a string
@@ -545,7 +538,7 @@ func (self *String) GetY() float {
 // return Current X scale factor (always positive)
 // float sfString_GetScaleX(sfString* String);
 func (self *String) GetScaleX() float {
-    return float(C.sfString_GetScaleX(self.Cref))
+	return float(_C_sfString_GetScaleX(self.Cref))
 }
 
 // Get the vertical scale of a string
@@ -553,7 +546,7 @@ func (self *String) GetScaleX() float {
 // return Current Y scale factor (always positive)
 // float sfString_GetScaleY(sfString* String);
 func (self *String) GetScaleY() float {
-    return float(C.sfString_GetScaleY(self.Cref))
+	return float(_C_sfString_GetScaleY(self.Cref))
 }
 
 // Get the orientation of a string
@@ -561,7 +554,7 @@ func (self *String) GetScaleY() float {
 // return Current rotation, in degrees
 // float sfString_GetRotation(sfString* String);
 func (self *String) GetRotation() float {
-    return float(C.sfString_GetRotation(self.Cref))
+	return float(_C_sfString_GetRotation(self.Cref))
 }
 
 // Get the X position of the center a string
@@ -569,7 +562,7 @@ func (self *String) GetRotation() float {
 // return Current X center position
 // float sfString_GetCenterX(sfString* String);
 func (self *String) GetCenterX() float {
-    return float(C.sfString_GetCenterX(self.Cref))
+	return float(_C_sfString_GetCenterX(self.Cref))
 }
 
 // Get the top Y of the center of a string
@@ -577,7 +570,7 @@ func (self *String) GetCenterX() float {
 // return Current Y center position
 // float sfString_GetCenterY(sfString* String);
 func (self *String) GetCenterY() float {
-    return float(C.sfString_GetCenterY(self.Cref))
+	return float(_C_sfString_GetCenterY(self.Cref))
 }
 
 // Get the color of a string
@@ -586,7 +579,7 @@ func (self *String) GetCenterY() float {
 // sfColor sfString_GetColor(sfString* String);
 func (self *String) GetColor() Color {
 	//free?
-    return Color{ C.sfString_GetColor(self.Cref) }
+	return Color{_C_sfString_GetColor(self.Cref)}
 }
 
 // Get the current blending mode of a string
@@ -594,8 +587,8 @@ func (self *String) GetColor() Color {
 // return Current blending mode
 // sfBlendMode sfString_GetBlendMode(sfString* String);
 func (self *String) GetBlendMode() BlendMode {
-	tmp := C.sfString_GetBlendMode(self.Cref) 
-	return BlendMode{ &tmp }
+	tmp := _C_sfString_GetBlendMode(self.Cref)
+	return BlendMode{&tmp}
 }
 
 // Move a string
@@ -604,7 +597,7 @@ func (self *String) GetBlendMode() BlendMode {
 // param OffsetY : Offset on the Y axis
 // sfString_Move(sfString* String, float OffsetX, float OffsetY);
 func (self *String) Move(offsetX float, offsetY float) {
-    C.sfString_Move(self.Cref, C.float(offsetX), C.float(offsetY))
+	_C_sfString_Move(self.Cref, _C_float(offsetX), _C_float(offsetY))
 }
 
 // Scale a string
@@ -613,7 +606,7 @@ func (self *String) Move(offsetX float, offsetY float) {
 // param FactorY : Vertical scaling factor (must be strictly positive)
 // sfString_Scale(sfString* String, float FactorX, float FactorY);
 func (self *String) Scale(factorX float, factorY float) {
-    C.sfString_Scale(self.Cref, C.float(factorX), C.float(factorY))
+	_C_sfString_Scale(self.Cref, _C_float(factorX), _C_float(factorY))
 }
 
 // Rotate a string
@@ -621,7 +614,7 @@ func (self *String) Scale(factorX float, factorY float) {
 // param Angle : Angle of rotation, in degrees
 // sfString_Rotate(sfString* String, float Angle);
 func (self *String) Rotate(angle float) {
-    C.sfString_Rotate(self.Cref, C.float(angle))
+	_C_sfString_Rotate(self.Cref, _C_float(angle))
 }
 
 // Transform a point from global coordinates into the string's local coordinates
@@ -633,9 +626,9 @@ func (self *String) Rotate(angle float) {
 // param Y : Value to fill with the y coordinate of the converted point
 // sfString_TransformToLocal(sfString* String, float PointX, float PointY, float* X, float* Y);
 func (self *String) TransformToLocal(pointX float, pointY float, x *float, y *float) {
-	xPtr := C.float(*x) // wow bad. 
-	yPtr := C.float(*y)
-    C.sfString_TransformToLocal(self.Cref, C.float(pointX), C.float(pointY), &xPtr, &yPtr)
+	xPtr := _C_float(*x)	// wow bad.
+	yPtr := _C_float(*y)
+	_C_sfString_TransformToLocal(self.Cref, _C_float(pointX), _C_float(pointY), &xPtr, &yPtr)
 }
 
 // Transform a point from the string's local coordinates into global coordinates
@@ -647,9 +640,9 @@ func (self *String) TransformToLocal(pointX float, pointY float, x *float, y *fl
 // param Y : Value to fill with the y coordinate of the converted point
 // sfString_TransformToGlobal(sfString* String, float PointX, float PointY, float* X, float* Y);
 func (self *String) TransformToGlobal(pointX float, pointY float, x *float, y *float) {
-	xPtr := C.float(*x) // wow bad. 
-	yPtr := C.float(*y)
-    C.sfString_TransformToGlobal(self.Cref, C.float(pointX), C.float(pointY), &xPtr, &yPtr)
+	xPtr := _C_float(*x)	// wow bad.
+	yPtr := _C_float(*y)
+	_C_sfString_TransformToGlobal(self.Cref, _C_float(pointX), _C_float(pointY), &xPtr, &yPtr)
 }
 
 // Set the text of a string (from a multibyte string)
@@ -657,7 +650,7 @@ func (self *String) TransformToGlobal(pointX float, pointY float, x *float, y *f
 // param Text : New text
 // sfString_SetText(sfString* String, const char* Text);
 func (self *String) SetText(text string) {
-    C.sfString_SetText(self.Cref, C.CString(text))
+	_C_sfString_SetText(self.Cref, _C_CString(text))
 }
 
 // Set the text of a string (from a unicode string)
@@ -665,9 +658,9 @@ func (self *String) SetText(text string) {
 // param Text : New text
 // sfString_SetUnicodeText(sfString* String, const sfUint32* Text);
 func (self *String) SetUnicodeText(text *uint32) {
-	ctext := C.sfUint32(*text)
+	ctext := _C_sfUint32(*text)
 	//free?
-    C.sfString_SetUnicodeText(self.Cref, &ctext)
+	_C_sfString_SetUnicodeText(self.Cref, &ctext)
 }
 
 // Set the font of a string
@@ -675,7 +668,7 @@ func (self *String) SetUnicodeText(text *uint32) {
 // param Font : Font to use
 // sfString_SetFont(sfString* String, sfFont* Font);
 func (self *String) SetFont(font Font) {
-    C.sfString_SetFont(self.Cref, font.Cref)
+	_C_sfString_SetFont(self.Cref, font.Cref)
 }
 
 // Set the size of a string
@@ -683,7 +676,7 @@ func (self *String) SetFont(font Font) {
 // param Size : New size, in pixels
 // sfString_SetSize(sfString* String, float Size);
 func (self *String) SetSize(size float) {
-    C.sfString_SetSize(self.Cref, C.float(size))
+	_C_sfString_SetSize(self.Cref, _C_float(size))
 }
 
 // Set the style of a string
@@ -691,7 +684,7 @@ func (self *String) SetSize(size float) {
 // param Size : New style (see sfStringStyle enum)
 // sfString_SetStyle(sfString* String, unsigned long Style);
 func (self *String) SetStyle(style uint64) {
-    C.sfString_SetStyle(self.Cref, C.ulong(style))
+	_C_sfString_SetStyle(self.Cref, _C_ulong(style))
 }
 
 // Get the text of a string (returns a unicode string)
@@ -702,9 +695,9 @@ func (self *String) SetStyle(style uint64) {
 const MaxString int = 65536
 
 func (self *String) GetUnicodeText() string {
-	ptr := C.sfString_GetUnicodeText(self.Cref)
+	ptr := _C_sfString_GetUnicodeText(self.Cref)
 	var data []uint32
-	data = (*[MaxString]uint32)(unsafe.Pointer(ptr)) 
+	data = (*[MaxString]uint32)(unsafe.Pointer(ptr))
 
 	i := 0
 	str := ""
@@ -712,10 +705,10 @@ func (self *String) GetUnicodeText() string {
 		str += string(data[i])
 		i++
 	}
-	return str	
+	return str
 }
 
-/* !! Skipping this, because string are unicode in go !!	
+/* !! Skipping this, because string are unicode in go !!
 // Get the text of a string (returns an ANSI string)
 // param String : String to read
 // return Text an a locale-dependant ANSI string
@@ -731,7 +724,7 @@ func (self *String) GetText() string {
 // return Pointer to the font
 // sfFont* sfString_GetFont(sfString* String);
 func (self *String) GetFont() Font {
-    return NewFont( C.sfString_GetFont(self.Cref) )
+	return NewFont(_C_sfString_GetFont(self.Cref))
 }
 
 // Get the size of the characters of a string
@@ -739,7 +732,7 @@ func (self *String) GetFont() Font {
 // return Size of the characters
 // float sfString_GetSize(sfString* String);
 func (self *String) GetSize() float {
-    return float(C.sfString_GetSize(self.Cref))
+	return float(_C_sfString_GetSize(self.Cref))
 }
 
 // Get the style of a string
@@ -758,9 +751,9 @@ func (self *String) GetSize() float {
 // sfString_GetCharacterPos(sfString* String, size_t Index, float* X, float* Y);
 func (self *String) GetCharacterPos(index int, x *float, y *float) {
 	//free?
-	xPtr := (*C.float)(x)
-	yPtr := (*C.float)(unsafe.Pointer(y))
-    C.sfString_GetCharacterPos(self.Cref, C.size_t(index), xPtr, yPtr)
+	xPtr := (*_C_float)(x)
+	yPtr := (*_C_float)(unsafe.Pointer(y))
+	_C_sfString_GetCharacterPos(self.Cref, _C_size_t(index), xPtr, yPtr)
 }
 
 // Get the bounding rectangle of a string on screen
@@ -769,7 +762,6 @@ func (self *String) GetCharacterPos(index int, x *float, y *float) {
 // sfFloatRect sfString_GetRect(sfString* String);
 func (self *String) GetRect() FloatRect {
 	//free?
-	tmp := C.sfString_GetRect(self.Cref) 
-	return FloatRect{ &tmp }
+	tmp := _C_sfString_GetRect(self.Cref)
+	return FloatRect{&tmp}
 }
-
