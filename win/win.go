@@ -68,3 +68,57 @@ func (self *Context) SetActive(active bool) {
     C.sfContext_SetActive(self.Cref, GoBool2SfBool(active))
 }
 
+
+
+
+// _Input_
+// -------------------------------------------------------------------------------
+// Get the state of a key
+// param Input : Input object
+// param KeyCode : Key to check
+// return sfTrue if key is down, sfFalse if key is up
+// sfBool sfInput_IsKeyDown(sfInput* Input, sfKeyCode KeyCode);
+func (self *Input) IsKeyDown(keyCode KeyCode) bool {
+    return SfBool2GoBool( C.sfInput_IsKeyDown(self.Cref, keyCode.Cref) )
+}
+// Get the state of a mouse button
+// param Input : Input object
+// param Button : Button to check
+// return sfTrue if button is down, sfFalse if button is up
+// sfBool sfInput_IsMouseButtonDown(sfInput* Input, sfMouseButton Button);
+func (self *Input) IsMouseButtonDown(button MouseButton) bool {
+    return  SfBool2GoBool( C.sfInput_IsMouseButtonDown(self.Cref, button.Cref) )
+}
+// Get the state of a joystick button
+// param Input : Input object
+// param JoyId : Identifier of the joystick to check (0 or 1)
+// param Button : Button to check
+// return sfTrue if button is down, sfFalse if button is up
+// sfBool sfInput_IsJoystickButtonDown(sfInput* Input, unsigned int JoyId, unsigned int Button);
+func (self *Input) IsJoystickButtonDown(joyId uint, button uint) bool {
+    return SfBool2GoBool( C.sfInput_IsJoystickButtonDown(self.Cref, joyId, button) )
+}
+// Get the mouse X position
+// param Input : Input object
+// return Current mouse left position, relative to owner window
+// int sfInput_GetMouseX(sfInput* Input);
+func (self *Input) GetMouseX() int {
+    return int( C.sfInput_GetMouseX(self.Cref) )
+}
+// Get the mouse Y position
+// param Input : Input object
+// return Current mouse top position, relative to owner window
+// int sfInput_GetMouseY(sfInput* Input);
+func (self *Input) GetMouseY() int {
+    return int( C.sfInput_GetMouseY(self.Cref) )
+}
+// Get the joystick position on a given axis
+// param Input : Input object
+// param JoyId : Identifier of the joystick to check (0 or 1)
+// param Axis : Identifier of the axis to read
+// return Current joystick position, in the range [-100, 100]
+// float sfInput_GetJoystickAxis(sfInput* Input, unsigned int JoyId, sfJoyAxis Axis);
+func (self *Input) GetJoystickAxis(joyId uint, axis JoyAxis) float {
+    return float( C.sfInput_GetJoystickAxis(self.Cref, joyId, axis.Cref) )
+}
+
