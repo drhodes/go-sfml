@@ -12,11 +12,6 @@ func TestStringConstructors(t *testing.T) {
 	str1.SetText(`Hello World!`)
 	Debug(str1.GetUnicodeText())
 
-	var x, y *float;
-	str1.GetCharacterPos(2, x, y)
-	DebugN(x)
-	DebugN(" ")
-	Debug(y)
-
-
+	// str1.GetCharacterPos(2, x, y)  
+	// Have to investigate this further.
 }	

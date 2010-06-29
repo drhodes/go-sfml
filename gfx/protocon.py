@@ -120,7 +120,7 @@ class Wrapper(object):
 
     def crefify(self):
         for p in self.params:
-            if p[1].startswith("Sf"):
+            if p[1].startswith("sf"):
                 p[1] = p[1][2:]
                 p[0] = p[0] + ".Cref"
 
@@ -132,14 +132,14 @@ class Wrapper(object):
             output = "    return %s{ %s }\n}" % (self.return_type[2:], cCall)
             print output.replace(", )", ")")
         else:
-            output = "    return C.sf%s_%s(self.Cref, %s)\n}" % (self.class_name, 
+            output = "    return C.sf%s_%s(self.Cref, %s)\n}\n\n" % (self.class_name, 
                                                                self.func_name, 
                                                                params)
             print output.replace(", )", ")")
 
     def emit_body_no_return(self):
         params = ', '.join([x[0] for x in self.params[1:]])
-        print "    C.sf%s_%s(self.Cref, %s)\n}" % (self.class_name, self.func_name, params)
+        print "    C.sf%s_%s(self.Cref, %s)\n}\n\n" % (self.class_name, self.func_name, params)
 
 Wrapper(class_name, func_name, params, return_type)
 
