@@ -4,15 +4,13 @@
 
 include $(GOROOT)/src/Make.$(GOARCH)
 
-TARG=sfml/win
+TARG=sfml/cgo
 
-#GOFILES:= 
+CGOFILES:= util.go
 
-CGOFILES:= win.go
+CGO_LDFLAGS:= -lcsfml-system -lcsfml-graphics
 
-CGO_LDFLAGS:= -lcsfml-system -lcsfml-window
-
-CLEANFILES+:= win
+CLEANFILES+:= util
 
 #cleaner:
 #	@rm -f *~ cheat*
