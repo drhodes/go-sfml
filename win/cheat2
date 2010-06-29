@@ -11,7 +11,6 @@
 //
 // 1. The origin of this software must not be misrepresented;
 // you must not claim that you wrote the original software.
-// If you use this software in a product, an acknowledgment
 // in the product documentation would be appreciated but is not required.
 //
 // 2. Altered source versions must be plainly marked as such,
@@ -20,80 +19,66 @@
 // 3. This notice may not be removed or altered from any source distribution.
 //
 
-#ifndef SFML_INPUT_H
-#define SFML_INPUT_H
+#ifndef SFML_WINDOW_H
+#define SFML_WINDOW_H
 
 // Headers
 #include <SFML/Config.h>
 #include <SFML/Window/Event.h>
+#include <SFML/Window/VideoMode.h>
+#include <SFML/Window/WindowHandle.h>
 #include <SFML/Window/Types.h>
 
 
-/// Get the state of a key
-/// param Input : Input object
-/// param KeyCode : Key to check
-/// return sfTrue if key is down, sfFalse if key is up
-// sfBool sfInput_IsKeyDown(sfInput* Input, sfKeyCode KeyCode);
-func (self *Input) IsKeyDown(keyCode KeyCode) sfBool {
-    return C.sfInput_IsKeyDown(self.Cref, keyCode.Cref)
+/// Enumeration of window creation styles
+enum
+{
+sfNone = 0, ///< No border / title bar (this flag and all others are mutually exclusive)
+sfTitlebar = 1 << 0, ///< Title bar + fixed border
+sfResize = 1 << 1, ///< Titlebar + resizable border + maximize button
+sfClose = 1 << 2, ///< Titlebar + close button
+sfFullscreen = 1 << 3 ///< Fullscreen mode (this flag and all others are mutually exclusive)
+};
+
+
+/// Structure defining the window's creation settings
+typedef struct
+{
+unsigned int StencilBits; ///< Bits of the stencil buffer
+unsigned int AntialiasingLevel; ///< Level of antialiasing
+} sfWindowSettings;
+
+
+/// Construct a new window
+/// param Mode : Video mode to use
+/// param Title : Title of the window
+/// param Style : Window style
+/// param Params : Creation settings
+// sfWindow* sfWindow_Create(sfVideoMode Mode, const char* Title, unsigned long Style, sfWindowSettings Params);
+func (self *Window) Create(title char*, style ulong, params WindowSettings) sfWindow* {
+    return C.sfWindow_Create(self.Cref, title, style, params.Cref)
 }
 
 
 
-/// Get the state of a mouse button
-/// param Input : Input object
-/// param Button : Button to check
-/// return sfTrue if button is down, sfFalse if button is up
-// sfBool sfInput_IsMouseButtonDown(sfInput* Input, sfMouseButton Button);
-func (self *Input) IsMouseButtonDown(button MouseButton) sfBool {
-    return C.sfInput_IsMouseButtonDown(self.Cref, button.Cref)
+/// Construct a window from an existing control
+/// param Handle : Platform-specific handle of the control
+/// param Params : Creation settings
+// sfWindow* sfWindow_CreateFromHandle(sfWindowHandle Handle, sfWindowSettings Params);
+func (self *Window) CreateFromHandle(params WindowSettings) sfWindow* {
+    return C.sfWindow_CreateFromHandle(self.Cref, params.Cref)
 }
 
 
 
-/// Get the state of a joystick button
-/// param Input : Input object
-/// param JoyId : Identifier of the joystick to check (0 or 1)
-/// param Button : Button to check
-/// return sfTrue if button is down, sfFalse if button is up
-// sfBool sfInput_IsJoystickButtonDown(sfInput* Input, unsigned int JoyId, unsigned int Button);
-func (self *Input) IsJoystickButtonDown(joyId uint, button uint) sfBool {
-    return C.sfInput_IsJoystickButtonDown(self.Cref, joyId, button)
+/// Destroy an existing window
+/// param Window : Window to destroy
+// void sfWindow_Destroy(sfWindow* Window);
+func (self *Window) Destroy() void {
+    return C.sfWindow_Destroy(self.Cref)
 }
 
 
 
-/// Get the mouse X position
-/// param Input : Input object
-/// return Current mouse left position, relative to owner window
-// int sfInput_GetMouseX(sfInput* Input);
-func (self *Input) GetMouseX() int {
-    return C.sfInput_GetMouseX(self.Cref)
-}
-
-
-
-/// Get the mouse Y position
-/// param Input : Input object
-/// return Current mouse top position, relative to owner window
-// int sfInput_GetMouseY(sfInput* Input);
-func (self *Input) GetMouseY() int {
-    return C.sfInput_GetMouseY(self.Cref)
-}
-
-
-
-/// Get the joystick position on a given axis
-/// param Input : Input object
-/// param JoyId : Identifier of the joystick to check (0 or 1)
-/// param Axis : Identifier of the axis to read
-/// return Current joystick position, in the range [-100, 100]
-// float sfInput_GetJoystickAxis(sfInput* Input, unsigned int JoyId, sfJoyAxis Axis);
-func (self *Input) GetJoystickAxis(joyId uint, axis JoyAxis) float {
-    return C.sfInput_GetJoystickAxis(self.Cref, joyId, axis.Cref)
-}
-
-
-
-
-#endif // SFML_INPUT_H
+/// Close a window (but doesn't destroy the internal data)
+/// param Window : Window to close

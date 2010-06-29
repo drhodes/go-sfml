@@ -15,4 +15,14 @@ func TestContextConstructors(t *testing.T) {
 	Debug(ctx)	
 	ctx.Destroy()
 	Debug(ctx)	
-}	
+
+	mode := GetDesktopMode()
+	Debug(mode)
+
+
+	Debug(GetMode(1))
+	Debug(GetModesCount())
+	Debug(mode.IsValid())
+	mode.SetWidth(45)
+	Debug(mode.IsValid())
+}
