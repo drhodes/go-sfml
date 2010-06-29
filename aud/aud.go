@@ -1,9 +1,6 @@
-package win
+package aud
 
-// #include <SFML/Window/Context.h>
-// #include <SFML/Window/Input.h>
-// #include <SFML/Window/VideoMode.h>
-// #include <SFML/Window/Window.h>
+// #include <SFML/Audio>
 import "C"
 
 import(
@@ -85,6 +82,7 @@ type Window struct {
 func NewWindowSettings(val C.sfWindowSettings) WindowSettings {
 	return WindowSettings{ val }
 }
+
 
 type WindowSettings struct {
 	Cref C.sfWindowSettings
@@ -214,7 +212,7 @@ func (self *VideoMode) SetBitsPerPixel (bitsPerPixel uint) {
 // Create A VideoMode  --  ?? Consider adding error handling to this
 // param: height, with, bits-per-pixel are uints
 // return: VideoMode
-func CreateVideoMode(height, width, bpp uint) VideoMode {
+func CreateMode(height, width, bpp uint) VideoMode {
 	tmp := GetDesktopMode()
 	tmp.SetWidth(width)
 	tmp.SetHeight(height)
@@ -246,9 +244,6 @@ func GetModesCount() int  {
 func (self *VideoMode) IsValid() bool {
     return SfBool2GoBool( C.sfVideoMode_IsValid(self.Cref) )
 }
-
-
-
 
 // _Window_
 // -------------------------------------------------------------------------------
@@ -300,6 +295,9 @@ func (self *Window) GetWidth() uint {
 	return uint( C.sfWindow_GetWidth(self.Cref) )
 }
 
+
+
+
 // Get the height of the rendering region of a window
 // param Window : Window object
 // return Height in pixels
@@ -315,10 +313,6 @@ func (self *Window) GetHeight() uint {
 // sfWindowSettings sfWindow_GetSettings(sfWindow* Window);
 func (self *Window) GetSettings() WindowSettings {
     return NewWindowSettings( C.sfWindow_GetSettings(self.Cref) )
-}
-
-func CreateWindowSettings(depthBits, stencilBits, antialiasingLevel uint) WindowSettings {
-	return NewWindowSettings( C.sfWindowSettings{ C.uint(depthBits), C.uint(stencilBits), C.uint(antialiasingLevel)} )
 }
 
 // Get the event on top of events stack of a window, if any, and pop it

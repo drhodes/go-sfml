@@ -2,7 +2,7 @@ package main
 
 import (	
 	"sfml/gfx"
-	"sfml/win"
+	//"sfml/win"
 	"sfml/sys"
 	"fmt"
 	//"math"
@@ -14,47 +14,56 @@ func main() {
 	clock := sys.ClockCreate()
 	Debug(clock)
 
-	mode := win.VideoModeCreate(1024, 1024, 32)
-	settings := win.WindowSettingsCreate(24, 8, 1)
-	app := gfx.RenderWindowCreate(mode, "Go Wrapper for SFML", 1, settings)
+	mode := gfx.CreateVideoMode(1024, 1024, 32)
+	Debug(mode)
+	
+	settings := gfx.CreateWindowSettings(24, 8, 1)
+	Debug(settings)
+	app := gfx.CreateRenderWindow(mode, "Go Wrapper for SFML", 1, settings)
 	Debug(app)
-		/*
+
 	fnt := gfx.FontCreateFromFile("./Inconsolata.otf", 96)
+	Debug(fnt)
 
 	txt := gfx.StringCreate()
 	txt.SetText("Hello Go")
 	txt.SetFont(fnt)
+	Debug(txt)
 
-	img := gfx.ImageCreateFromFile("/tmp/path6376.png")
-	gopher := gfx.SpriteCreate()
+	img := gfx.ImageCreateFromFile("../test/gopher.png")
+	gopher := gfx.CreateSprite()
 	gopher.SetImage(img)
 	gopher.SetX(200)
 	gopher.SetY(200)
-
-	seagreen := gfx.ColorFromRGBA(0x40, 0x62, 0x64, 255)
 	
-	frame := 0 
+	//seagreen := gfx.Color_FromRGB_P(244,23,34)
+
+	//seagreen := gfx.ColorFromRGB(0,34,23)
+	//Debug(seagreen)
+
+	//frame := 0 
 	//evt := gfx.Event{}
 
-	app.SetFramerateLimit(11000)
-	for app.IsOpened() {			
+	app.SetFramerateLimit(10)
 
-		//Debug(app.GetEvent(evt))
+	//for app.IsOpened() {			
+	for {
+		//Debug(app)
 		//Debug(evt)
 		
-		tick := clock.GetTime()
-		txt.SetText(fmt.Sprintf("%v fps", int(frame)/int(tick+1)))
-		gopher.SetRotation(float32(tick)*100)
-		gopher.SetScaleX(1 + float32(math.Sin(float64(tick)/10)))
-		gopher.SetScaleY(1 + float32(math.Sin(float64(tick)/10)))
+		//tick := clock.GetTime()
+		txt.SetText(fmt.Sprintf("%v fps", app.GetFrameTime()))
+		//gopher.SetRotation(tick*100)
+		//scale := float(1 + (math.Sin(float64(tick)/10)))
+		//gopher.SetScaleX(scale)
+		//gopher.SetScaleY(scale)
 
 		app.DrawSprite(gopher)
-		app.DrawString(txt)
-	
+		//app.DrawString(txt)
+		
+		//seagreen.R += 1
 		app.Display()
-		app.Clear(seagreen)		
-		frame += 1
+		//app.Clear(seagreen)
 	}
-	 */
 }
 
