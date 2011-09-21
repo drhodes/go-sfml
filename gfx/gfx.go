@@ -1,15 +1,16 @@
-
 package gfx
 
-// #include "color_patch.c"
-// #include <SFML/Graphics/Font.h>
-// #include <SFML/Graphics/Image.h>
-// #include <SFML/Graphics/String.h>
-// #include <SFML/Graphics/View.h>
-// #include <SFML/Graphics/Shape.h>
-// #include <SFML/Graphics/Sprite.h>
-// #include <SFML/Graphics/PostFX.h>
-// #include <SFML/Graphics/RenderWindow.h>
+/*
+#include "color_patch.c"
+#include <SFML/Graphics/Font.h>
+#include <SFML/Graphics/Image.h>
+#include <SFML/Graphics/String.h>
+#include <SFML/Graphics/View.h>
+#include <SFML/Graphics/Shape.h>
+#include <SFML/Graphics/Sprite.h>
+#include <SFML/Graphics/PostFX.h>
+#include <SFML/Graphics/RenderWindow.h>
+*/
 import "C"
 
 import(
@@ -171,7 +172,6 @@ func (arg1 SwigcptrSfColor) SetR(arg2 byte) {
 	C._wrap_sfColor_r_set(arg1, arg2)
 }
  */
-
 
 // Add two colors
 // param other : Color
@@ -450,8 +450,8 @@ func (self *Image) IsSmooth() bool {
 // param Rect : Rectangle to move
 // param OffsetX : Horizontal offset
 // param OffsetY : Vertical offset
-// void sfFloatRect_Offset(sfFloatRect* Rect, float OffsetX, float OffsetY);
-func (self *FloatRect) Offset(offsetX float, offsetY float) {
+// void sfFloatRect_Offset(sfFloatRect* Rect, float32 OffsetX, float32 OffsetY);
+func (self *FloatRect) Offset(offsetX float32, offsetY float32) {
     C.sfFloatRect_Offset(&(self.Cref), C.float(offsetX), C.float(offsetY)) 
 }
 
@@ -465,8 +465,8 @@ func (self *IntRect) Offset(offsetX int, offsetY int) {
 // param X : X coordinate of the point to test
 // param Y : Y coordinate of the point to test
 // return sfTrue if the point is inside
-// sfBool sfFloatRect_Contains(sfFloatRect* Rect, float X, float Y);
-func (self *FloatRect) Contains(x float, y float) bool {
+// sfBool sfFloatRect_Contains(sfFloatRect* Rect, float32 X, float32 Y);
+func (self *FloatRect) Contains(x float32, y float32) bool {
     return SfBool2GoBool( C.sfFloatRect_Contains(&self.Cref, C.float(x), C.float(y)) )
 }
 
@@ -518,16 +518,16 @@ func (self *String) Destroy() {
 // Set the X position of a string
 // param String : String to modify
 // param X : New X coordinate
-// sfString_SetX(sfString* String, float X);
-func (self *String) SetX(x float) {
+// sfString_SetX(sfString* String, float32 X);
+func (self *String) SetX(x float32) {
     C.sfString_SetX(self.Cref, C.float(x))
 }
 
 // Set the Y position of a string
 // param String : String to modify
 // param Y : New Y coordinate
-// sfString_SetY(sfString* String, float Y);
-func (self *String) SetY(y float) {
+// sfString_SetY(sfString* String, float32 Y);
+func (self *String) SetY(y float32) {
     C.sfString_SetY(self.Cref, C.float(y))
 }
 
@@ -535,24 +535,24 @@ func (self *String) SetY(y float) {
 // param String : String to modify
 // param Left : New left coordinate
 // param Top : New top coordinate
-// sfString_SetPosition(sfString* String, float Left, float Top);
-func (self *String) SetPosition(left float, top float) {
+// sfString_SetPosition(sfString* String, float32 Left, float32 Top);
+func (self *String) SetPosition(left float32, top float32) {
     C.sfString_SetPosition(self.Cref, C.float(left), C.float(top))
 }
 
 // Set the horizontal scale of a string
 // param String : String to modify
 // param Scale : New scale (must be strictly positive)
-// sfString_SetScaleX(sfString* String, float Scale);
-func (self *String) SetScaleX(scale float) {
+// sfString_SetScaleX(sfString* String, float32 Scale);
+func (self *String) SetScaleX(scale float32) {
     C.sfString_SetScaleX(self.Cref, C.float(scale))
 }
 
 // Set the vertical scale of a string
 // param String : String to modify
 // param Scale : New scale (must be strictly positive)
-// sfString_SetScaleY(sfString* String, float Scale);
-func (self *String) SetScaleY(scale float) {
+// sfString_SetScaleY(sfString* String, float32 Scale);
+func (self *String) SetScaleY(scale float32) {
     C.sfString_SetScaleY(self.Cref, C.float(scale))
 }
 
@@ -560,16 +560,16 @@ func (self *String) SetScaleY(scale float) {
 // param String : String to modify
 // param ScaleX : New horizontal scale (must be strictly positive)
 // param ScaleY : New vertical scale (must be strictly positive)
-// sfString_SetScale(sfString* String, float ScaleX, float ScaleY);
-func (self *String) SetScale(scaleX float, scaleY float) {
+// sfString_SetScale(sfString* String, float32 ScaleX, float32 ScaleY);
+func (self *String) SetScale(scaleX float32, scaleY float32) {
     C.sfString_SetScale(self.Cref, C.float(scaleX), C.float(scaleY))
 }
 
 // Set the orientation of a string
 // param String : String to modify
 // param Rotation : Angle of rotation, in degrees
-// sfString_SetRotation(sfString* String, float Rotation);
-func (self *String) SetRotation(rotation float) {
+// sfString_SetRotation(sfString* String, float32 Rotation);
+func (self *String) SetRotation(rotation float32) {
     C.sfString_SetRotation(self.Cref, C.float(rotation))
 }
 
@@ -578,8 +578,8 @@ func (self *String) SetRotation(rotation float) {
 // param String : String to modify
 // param X : X coordinate of the center
 // param Y : Y coordinate of the center
-// sfString_SetCenter(sfString* String, float X, float Y);
-func (self *String) SetCenter(x float, y float) {
+// sfString_SetCenter(sfString* String, float32 X, float32 Y);
+func (self *String) SetCenter(x float32, y float32) {
     C.sfString_SetCenter(self.Cref, C.float(x), C.float(y))
 }
 
@@ -602,57 +602,57 @@ func (self *String) SetBlendMode(mode BlendMode) {
 // Get the X position of a string
 // param String : String to read
 // return Current X position
-// float sfString_GetX(sfString* String);
-func (self *String) GetX() float {
-    return float( C.sfString_GetX(self.Cref))
+// float32 sfString_GetX(sfString* String);
+func (self *String) GetX() float32 {
+    return float32( C.sfString_GetX(self.Cref))
 }
 
 // Get the top Y of a string
 // param String : String to read
 // return Current Y position
-// float sfString_GetY(sfString* String);
-func (self *String) GetY() float {
-    return float( C.sfString_GetY(self.Cref))
+// float32 sfString_GetY(sfString* String);
+func (self *String) GetY() float32 {
+    return float32( C.sfString_GetY(self.Cref))
 }
 
 // Get the horizontal scale of a string
 // param String : String to read
 // return Current X scale factor (always positive)
-// float sfString_GetScaleX(sfString* String);
-func (self *String) GetScaleX() float {
-    return float( C.sfString_GetScaleX(self.Cref))
+// float32 sfString_GetScaleX(sfString* String);
+func (self *String) GetScaleX() float32 {
+    return float32( C.sfString_GetScaleX(self.Cref))
 }
 
 // Get the vertical scale of a string
 // param String : String to read
 // return Current Y scale factor (always positive)
-// float sfString_GetScaleY(sfString* String);
-func (self *String) GetScaleY() float {
-    return float( C.sfString_GetScaleY(self.Cref))
+// float32 sfString_GetScaleY(sfString* String);
+func (self *String) GetScaleY() float32 {
+    return float32( C.sfString_GetScaleY(self.Cref))
 }
 
 // Get the orientation of a string
 // param String : String to read
 // return Current rotation, in degrees
-// float sfString_GetRotation(sfString* String);
-func (self *String) GetRotation() float {
-    return float( C.sfString_GetRotation(self.Cref))
+// float32 sfString_GetRotation(sfString* String);
+func (self *String) GetRotation() float32 {
+    return float32( C.sfString_GetRotation(self.Cref))
 }
 
 // Get the X position of the center a string
 // param String : String to read
 // return Current X center position
-// float sfString_GetCenterX(sfString* String);
-func (self *String) GetCenterX() float {
-    return float( C.sfString_GetCenterX(self.Cref))
+// float32 sfString_GetCenterX(sfString* String);
+func (self *String) GetCenterX() float32 {
+    return float32( C.sfString_GetCenterX(self.Cref))
 }
 
 // Get the top Y of the center of a string
 // param String : String to read
 // return Current Y center position
-// float sfString_GetCenterY(sfString* String);
-func (self *String) GetCenterY() float {
-    return float( C.sfString_GetCenterY(self.Cref))
+// float32 sfString_GetCenterY(sfString* String);
+func (self *String) GetCenterY() float32 {
+    return float32( C.sfString_GetCenterY(self.Cref))
 }
 
 // Get the color of a string
@@ -677,8 +677,8 @@ func (self *String) GetBlendMode() BlendMode {
 // param String : String to modify
 // param OffsetX : Offset on the X axis
 // param OffsetY : Offset on the Y axis
-// sfString_Move(sfString* String, float OffsetX, float OffsetY);
-func (self *String) Move(offsetX float, offsetY float) {
+// sfString_Move(sfString* String, float32 OffsetX, float32 OffsetY);
+func (self *String) Move(offsetX float32, offsetY float32) {
     C.sfString_Move(self.Cref, C.float(offsetX), C.float(offsetY))
 }
 
@@ -686,16 +686,16 @@ func (self *String) Move(offsetX float, offsetY float) {
 // param String : String to modify
 // param FactorX : Horizontal scaling factor (must be strictly positive)
 // param FactorY : Vertical scaling factor (must be strictly positive)
-// sfString_Scale(sfString* String, float FactorX, float FactorY);
-func (self *String) Scale(factorX float, factorY float) {
+// sfString_Scale(sfString* String, float32 FactorX, float32 FactorY);
+func (self *String) Scale(factorX float32, factorY float32) {
     C.sfString_Scale(self.Cref, C.float(factorX), C.float(factorY))
 }
 
 // Rotate a string
 // param String : String to modify
 // param Angle : Angle of rotation, in degrees
-// sfString_Rotate(sfString* String, float Angle);
-func (self *String) Rotate(angle float) {
+// sfString_Rotate(sfString* String, float32 Angle);
+func (self *String) Rotate(angle float32) {
     C.sfString_Rotate(self.Cref, C.float(angle))
 }
 
@@ -706,8 +706,8 @@ func (self *String) Rotate(angle float) {
 // param PointY : Y coordinate of the point to transform
 // param X : Value to fill with the X coordinate of the converted point
 // param Y : Value to fill with the y coordinate of the converted point
-// sfString_TransformToLocal(sfString* String, float PointX, float PointY, float* X, float* Y);
-func (self *String) TransformToLocal(pointX float, pointY float, x *float, y *float) {
+// sfString_TransformToLocal(sfString* String, float32 PointX, float32 PointY, float32* X, float32* Y);
+func (self *String) TransformToLocal(pointX float32, pointY float32, x *float32, y *float32) {
 	xPtr := C.float(*x) // wow bad. 
 	yPtr := C.float(*y)
     C.sfString_TransformToLocal(self.Cref, C.float(pointX), C.float(pointY), &xPtr, &yPtr)
@@ -720,8 +720,8 @@ func (self *String) TransformToLocal(pointX float, pointY float, x *float, y *fl
 // param PointY : Y coordinate of the point to transform
 // param X : Value to fill with the X coordinate of the converted point
 // param Y : Value to fill with the y coordinate of the converted point
-// sfString_TransformToGlobal(sfString* String, float PointX, float PointY, float* X, float* Y);
-func (self *String) TransformToGlobal(pointX float, pointY float, x *float, y *float) {
+// sfString_TransformToGlobal(sfString* String, float32 PointX, float32 PointY, float32* X, float32* Y);
+func (self *String) TransformToGlobal(pointX float32, pointY float32, x *float32, y *float32) {
 	xPtr := C.float(*x) // wow bad. 
 	yPtr := C.float(*y)
     C.sfString_TransformToGlobal(self.Cref, C.float(pointX), C.float(pointY), &xPtr, &yPtr)
@@ -756,8 +756,8 @@ func (self *String) SetFont(font Font) {
 // Set the size of a string
 // param String : String to modify
 // param Size : New size, in pixels
-// sfString_SetSize(sfString* String, float Size);
-func (self *String) SetSize(size float) {
+// sfString_SetSize(sfString* String, float32 Size);
+func (self *String) SetSize(size float32) {
     C.sfString_SetSize(self.Cref, C.float(size))
 }
 
@@ -778,7 +778,7 @@ const MaxString int = 65536
 
 func (self *String) GetUnicodeText() string {
 	ptr := C.sfString_GetUnicodeText(self.Cref)
-	var data []uint32
+	var data *[MaxString]uint32
 	data = (*[MaxString]uint32)(unsafe.Pointer(ptr)) 
 
 	i := 0
@@ -812,9 +812,9 @@ func (self *String) GetFont() Font {
 // Get the size of the characters of a string
 // param String : String to read
 // return Size of the characters
-// float sfString_GetSize(sfString* String);
-func (self *String) GetSize() float {
-    return float( C.sfString_GetSize(self.Cref))
+// float32 sfString_GetSize(sfString* String);
+func (self *String) GetSize() float32 {
+    return float32( C.sfString_GetSize(self.Cref))
 }
 
 // Get the style of a string
@@ -830,7 +830,7 @@ func (self *String) GetSize() float {
 // param Index : Index of the character
 // param X : Value to fill with the X coordinate of the position
 // param Y : Value to fill with the y coordinate of the position
-// sfString_GetCharacterPos(sfString* String, size_t Index, float* X, float* Y);
+// sfString_GetCharacterPos(sfString* String, size_t Index, float32* X, float32* Y);
 //  HELP!
 // func (self *String) GetCharacterPos(index int, x *float, y *float) {
 // 	//free?
@@ -879,8 +879,8 @@ func (self *View) Destroy() {
 // param View : View to modify
 // param X : X coordinate of the new center
 // param Y : Y coordinate of the new center
-// sfView_SetCenter(sfView* View, float X, float Y);
-func (self *View) SetCenter(x, y float) {
+// sfView_SetCenter(sfView* View, float32 X, float32 Y);
+func (self *View) SetCenter(x, y float32) {
     C.sfView_SetCenter(self.Cref, C.float(x), C.float(y))
 }
 
@@ -888,8 +888,8 @@ func (self *View) SetCenter(x, y float) {
 // param View : View to modify
 // param HalfWidth : New half-width
 // param HalfHeight : New half-height
-// sfView_SetHalfSize(sfView* View, float HalfWidth, float HalfHeight);
-func (self *View) SetHalfSize(halfWidth float, halfHeight float) {
+// sfView_SetHalfSize(sfView* View, float32 HalfWidth, float32 HalfHeight);
+func (self *View) SetHalfSize(halfWidth float32, halfHeight float32) {
     C.sfView_SetHalfSize(self.Cref, C.float(halfWidth), C.float(halfHeight))
 }
 
@@ -904,33 +904,33 @@ func (self *View) SetFromRect(viewRect FloatRect) {
 // Get the X coordinate of the center of a view
 // param View : View to read
 // return X coordinate of the center of the view
-// float sfView_GetCenterX(sfView* View);
-func (self *View) GetCenterX() float {
-    return float( C.sfView_GetCenterX(self.Cref))
+// float32 sfView_GetCenterX(sfView* View);
+func (self *View) GetCenterX() float32 {
+    return float32( C.sfView_GetCenterX(self.Cref))
 }
 
 // Get the Y coordinate of the center of a view
 // param View : View to read
 // return Y coordinate of the center of the view
-// float sfView_GetCenterY(sfView* View);
-func (self *View) GetCenterY() float {
-    return float( C.sfView_GetCenterY(self.Cref))
+// float32 sfView_GetCenterY(sfView* View);
+func (self *View) GetCenterY() float32 {
+    return float32( C.sfView_GetCenterY(self.Cref))
 }
 
 // Get the half-width of the view
 // param View : View to read
 // return Half-width of the view
-// float sfView_GetHalfSizeX(sfView* View);
-func (self *View) GetHalfSizeX() float {
-    return float( C.sfView_GetHalfSizeX(self.Cref))
+// float32 sfView_GetHalfSizeX(sfView* View);
+func (self *View) GetHalfSizeX() float32 {
+    return float32( C.sfView_GetHalfSizeX(self.Cref))
 }
 
 // Get the half-height of the view
 // param View : View to read
 // return Half-height of the view
-// float sfView_GetHalfSizeY(sfView* View);
-func (self *View) GetHalfSizeY() float {
-    return float( C.sfView_GetHalfSizeY(self.Cref))
+// float32 sfView_GetHalfSizeY(sfView* View);
+func (self *View) GetHalfSizeY() float32 {
+    return float32( C.sfView_GetHalfSizeY(self.Cref))
 }
 
 // Get the bounding rectangle of a view
@@ -945,16 +945,16 @@ func (self *View) GetRect() FloatRect {
 // param View : View to move
 // param OffsetX : Offset to move the view, on X axis
 // param OffsetY : Offset to move the view, on Y axis
-// sfView_Move(sfView* View, float OffsetX, float OffsetY);
-func (self *View) Move(offsetX, offsetY float) {
+// sfView_Move(sfView* View, float32 OffsetX, float32 OffsetY);
+func (self *View) Move(offsetX, offsetY float32) {
     C.sfView_Move(self.Cref, C.float(offsetX), C.float(offsetY))
 }
 
 // Resize a view rectangle to simulate a zoom / unzoom effect
 // param View : View to zoom
 // param Factor : Zoom factor to apply, relative to the current zoom
-// sfView_Zoom(sfView* View, float Factor);
-func (self *View) Zoom(factor float) {
+// sfView_Zoom(sfView* View, float32 Factor);
+func (self *View) Zoom(factor float32) {
     C.sfView_Zoom(self.Cref, C.float(factor))
 }
 
@@ -978,8 +978,8 @@ func CreateShape() Shape {
 // param Col : Color used to draw the line
 // param Outline : Outline width
 // param OutlineCol : Color used to draw the outline
-// sfShape* sfShape_CreateLine(float P1X, float P1Y, float P2X, float P2Y, float Thickness, sfColor Col, float Outline, sfColor OutlineCol);
-func CreateLine(p1Y, p2X, p2Y, thickness float, col Color, outline float, outlineCol Color) Shape {
+// sfShape* sfShape_CreateLine(float P1X, float32 P1Y, float32 P2X, float32 P2Y, float32 Thickness, sfColor Col, float32 Outline, sfColor OutlineCol);
+func CreateLine(p1Y, p2X, p2Y, thickness float32, col Color, outline float32, outlineCol Color) Shape {
     //return NewShape( C.sfShape_CreateLine(self.Cref, p1Y, p2X, p2Y, thickness, col, outline, outlineCol) )
 	return NewShape( C.sfShape_CreateLine( C.float(p2X), C.float(p1Y), C.float(p2X), C.float(p2Y), C.float(thickness), col.Cref, C.float(outline), outlineCol.Cref))
 }
@@ -990,8 +990,8 @@ func CreateLine(p1Y, p2X, p2Y, thickness float, col Color, outline float, outlin
 // param Col : Color used to fill the rectangle
 // param Outline : Outline width
 // param OutlineCol : Color used to draw the outline
-// sfShape* sfShape_CreateRectangle(float P1X, float P1Y, float P2X, float P2Y, sfColor Col, float Outline, sfColor OutlineCol);
-func CreateRectangle(p1X, p1Y, p2X, p2Y float, col Color, outline float, outlineCol Color) Shape {
+// sfShape* sfShape_CreateRectangle(float P1X, float32 P1Y, float32 P2X, float32 P2Y, sfColor Col, float32 Outline, sfColor OutlineCol);
+func CreateRectangle(p1X, p1Y, p2X, p2Y float32, col Color, outline float32, outlineCol Color) Shape {
     return NewShape( C.sfShape_CreateRectangle( C.float(p1X), C.float(p1Y), 
 		C.float(p2X), C.float(p2Y), col.Cref, C.float(outline), outlineCol.Cref))
 }
@@ -1002,8 +1002,8 @@ func CreateRectangle(p1X, p1Y, p2X, p2Y float, col Color, outline float, outline
 // param Col : Color used to fill the circle
 // param Outline : Outline width
 // param OutlineCol : Color used to draw the outline
-// sfShape* sfShape_CreateCircle(float X, float Y, float Radius, sfColor Col, float Outline, sfColor OutlineCol);
-func CreateCircle(x, y, radius float, col Color, outline float, outlineCol Color) Shape {
+// sfShape* sfShape_CreateCircle(float X, float32 Y, float32 Radius, sfColor Col, float32 Outline, sfColor OutlineCol);
+func CreateCircle(x, y, radius float32, col Color, outline float32, outlineCol Color) Shape {
     return NewShape( C.sfShape_CreateCircle( C.float(x), C.float(y), C.float(radius), col.Cref, C.float(outline), outlineCol.Cref))
 }
 
@@ -1019,16 +1019,16 @@ func (self *Shape) Destroy() {
 // Set the X position of a shape
 // param Shape : Shape to modify
 // param X : New X coordinate
-// sfShape_SetX(sfShape* Shape, float X);
-func (self *Shape) SetX(x float) {
+// sfShape_SetX(sfShape* Shape, float32 X);
+func (self *Shape) SetX(x float32) {
     C.sfShape_SetX(self.Cref, C.float(x))
 }
 
 // Set the Y position of a shape
 // param Shape : Shape to modify
 // param Y : New Y coordinate
-// sfShape_SetY(sfShape* Shape, float Y);
-func (self *Shape) SetY(y float) {
+// sfShape_SetY(sfShape* Shape, float32 Y);
+func (self *Shape) SetY(y float32) {
     C.sfShape_SetY(self.Cref, C.float(y))
 }
 
@@ -1036,24 +1036,24 @@ func (self *Shape) SetY(y float) {
 // param Shape : Shape to modify
 // param X : New X coordinate
 // param Y : New Y coordinate
-// sfShape_SetPosition(sfShape* Shape, float X, float Y);
-func (self *Shape) SetPosition(x, y float) {
+// sfShape_SetPosition(sfShape* Shape, float32 X, float32 Y);
+func (self *Shape) SetPosition(x, y float32) {
     C.sfShape_SetPosition(self.Cref, C.float(x), C.float(y))
 }
 
 // Set the horizontal scale of a shape
 // param Shape : Shape to modify
 // param Scale : New scale (must be strictly positive)
-// sfShape_SetScaleX(sfShape* Shape, float Scale);
-func (self *Shape) SetScaleX(scale float) {
+// sfShape_SetScaleX(sfShape* Shape, float32 Scale);
+func (self *Shape) SetScaleX(scale float32) {
     C.sfShape_SetScaleX(self.Cref, C.float(scale))
 }
 
 // Set the vertical scale of a shape
 // param Shape : Shape to modify
 // param Scale : New scale (must be strictly positive)
-// sfShape_SetScaleY(sfShape* Shape, float Scale);
-func (self *Shape) SetScaleY(scale float) {
+// sfShape_SetScaleY(sfShape* Shape, float32 Scale);
+func (self *Shape) SetScaleY(scale float32) {
     C.sfShape_SetScaleY(self.Cref, C.float(scale))
 }
 
@@ -1061,16 +1061,16 @@ func (self *Shape) SetScaleY(scale float) {
 // param Shape : Shape to modify
 // param ScaleX : New horizontal scale (must be strictly positive)
 // param ScaleY : New vertical scale (must be strictly positive)
-// sfShape_SetScale(sfShape* Shape, float ScaleX, float ScaleY);
-func (self *Shape) SetScale(scaleX, scaleY float) {
+// sfShape_SetScale(sfShape* Shape, float32 ScaleX, float32 ScaleY);
+func (self *Shape) SetScale(scaleX, scaleY float32) {
     C.sfShape_SetScale(self.Cref, C.float(scaleX), C.float(scaleY))
 }
 
 // Set the orientation of a shape
 // param Shape : Shape to modify
 // param Rotation : Angle of rotation, in degrees
-// sfShape_SetRotation(sfShape* Shape, float Rotation);
-func (self *Shape) SetRotation(rotation float) {
+// sfShape_SetRotation(sfShape* Shape, float32 Rotation);
+func (self *Shape) SetRotation(rotation float32) {
     C.sfShape_SetRotation(self.Cref, C.float(rotation))
 }
 
@@ -1079,8 +1079,8 @@ func (self *Shape) SetRotation(rotation float) {
 // param Shape : Shape to modify
 // param X : X coordinate of the center
 // param Y : Y coordinate of the center
-// sfShape_SetCenter(sfShape* Shape, float X, float Y);
-func (self *Shape) SetCenter(x float, y float) {
+// sfShape_SetCenter(sfShape* Shape, float32 X, float32 Y);
+func (self *Shape) SetCenter(x float32, y float32) {
     C.sfShape_SetCenter(self.Cref, C.float(x), C.float(y))
 }
 
@@ -1103,57 +1103,57 @@ func (self *Shape) SetBlendMode(mode BlendMode) {
 // Get the X position of a shape
 // param Shape : Shape to read
 // return Current X position
-// float sfShape_GetX(sfShape* Shape);
-func (self *Shape) GetX() float {
-    return float( C.sfShape_GetX(self.Cref))
+// float32 sfShape_GetX(sfShape* Shape);
+func (self *Shape) GetX() float32 {
+    return float32( C.sfShape_GetX(self.Cref))
 }
 
 // Get the Y position of a shape
 // param Shape : Shape to read
 // return Current Y position
-// float sfShape_GetY(sfShape* Shape);
-func (self *Shape) GetY() float {
-    return float( C.sfShape_GetY(self.Cref))
+// float32 sfShape_GetY(sfShape* Shape);
+func (self *Shape) GetY() float32 {
+    return float32( C.sfShape_GetY(self.Cref))
 }
 
 // Get the horizontal scale of a shape
 // param Shape : Shape to read
 // return Current X scale factor (always positive)
-// float sfShape_GetScaleX(sfShape* Shape);
-func (self *Shape) GetScaleX() float {
-    return float( C.sfShape_GetScaleX(self.Cref))
+// float32 sfShape_GetScaleX(sfShape* Shape);
+func (self *Shape) GetScaleX() float32 {
+    return float32( C.sfShape_GetScaleX(self.Cref))
 }
 
 // Get the vertical scale of a shape
 // param Shape : Shape to read
 // return Current Y scale factor (always positive)
-// float sfShape_GetScaleY(sfShape* Shape);
-func (self *Shape) GetScaleY() float {
-    return float( C.sfShape_GetScaleY(self.Cref))
+// float32 sfShape_GetScaleY(sfShape* Shape);
+func (self *Shape) GetScaleY() float32 {
+    return float32( C.sfShape_GetScaleY(self.Cref))
 }
 
 // Get the orientation of a shape
 // param Shape : Shape to read
 // return Current rotation, in degrees
-// float sfShape_GetRotation(sfShape* Shape);
-func (self *Shape) GetRotation() float {
-    return float( C.sfShape_GetRotation(self.Cref))
+// float32 sfShape_GetRotation(sfShape* Shape);
+func (self *Shape) GetRotation() float32 {
+    return float32( C.sfShape_GetRotation(self.Cref))
 }
 
 // Get the X position of the center a shape
 // param Shape : Shape to read
 // return Current X center
-// float sfShape_GetCenterX(sfShape* Shape);
-func (self *Shape) GetCenterX() float {
-    return float( C.sfShape_GetCenterX(self.Cref))
+// float32 sfShape_GetCenterX(sfShape* Shape);
+func (self *Shape) GetCenterX() float32 {
+    return float32( C.sfShape_GetCenterX(self.Cref))
 }
 
 // Get the Y position of the center a shape
 // param Shape : Shape to read
 // return Current Y center
-// float sfShape_GetCenterY(sfShape* Shape);
-func (self *Shape) GetCenterY() float {
-    return float( C.sfShape_GetCenterY(self.Cref))
+// float32 sfShape_GetCenterY(sfShape* Shape);
+func (self *Shape) GetCenterY() float32 {
+    return float32( C.sfShape_GetCenterY(self.Cref))
 }
 
 // Get the color of a shape
@@ -1176,8 +1176,8 @@ func (self *Shape) GetBlendMode() BlendMode {
 // param Shape : Shape to modify
 // param OffsetX : Offset on the X axis
 // param OffsetY : Offset on the Y axis
-// sfShape_Move(sfShape* Shape, float OffsetX, float OffsetY);
-func (self *Shape) Move(offsetX float, offsetY float) {
+// sfShape_Move(sfShape* Shape, float32 OffsetX, float32 OffsetY);
+func (self *Shape) Move(offsetX float32, offsetY float32) {
     C.sfShape_Move(self.Cref, C.float(offsetX), C.float(offsetY))
 }
 
@@ -1185,16 +1185,16 @@ func (self *Shape) Move(offsetX float, offsetY float) {
 // param Shape : Shape to modify
 // param FactorX : Horizontal scaling factor (must be strictly positive)
 // param FactorY : Vertical scaling factor (must be strictly positive)
-// sfShape_Scale(sfShape* Shape, float FactorX, float FactorY);
-func (self *Shape) Scale(factorX float, factorY float) {
+// sfShape_Scale(sfShape* Shape, float32 FactorX, float32 FactorY);
+func (self *Shape) Scale(factorX float32, factorY float32) {
     C.sfShape_Scale(self.Cref, C.float(factorX), C.float(factorY))
 }
 
 // Rotate a shape
 // param Shape : Shape to modify
 // param Angle : Angle of rotation, in degrees
-// sfShape_Rotate(sfShape* Shape, float Angle);
-func (self *Shape) Rotate(angle float) {
+// sfShape_Rotate(sfShape* Shape, float32 Angle);
+func (self *Shape) Rotate(angle float32) {
     C.sfShape_Rotate(self.Cref, C.float(angle))
 }
 
@@ -1205,10 +1205,10 @@ func (self *Shape) Rotate(angle float) {
 // param PointY : Y coordinate of the point to transform
 // param X : Value to fill with the X coordinate of the converted point
 // param Y : Value to fill with the y coordinate of the converted point
-// sfShape_TransformToLocal(sfShape* Shape, float PointX, float PointY, float* X, float* Y);
+// sfShape_TransformToLocal(sfShape* Shape, float32 PointX, float32 PointY, float32* X, float32* Y);
 
 //  ??
-// func (self *Shape) TransformToLocal(pointX float, pointY float, x float*, y float*) {
+// func (self *Shape) TransformToLocal(pointX float32, pointY float32, x float32*, y float32*) {
 //     return C.sfShape_TransformToLocal(self.Cref, C.float(pointX), C.float(pointY), C.float(x), C.float(y))
 // }
 
@@ -1219,9 +1219,9 @@ func (self *Shape) Rotate(angle float) {
 // // param PointY : Y coordinate of the point to transform
 // // param X : Value to fill with the X coordinate of the converted point
 // // param Y : Value to fill with the y coordinate of the converted point
-// // sfShape_TransformToGlobal(sfShape* Shape, float PointX, float PointY, float* X, float* Y);
+// // sfShape_TransformToGlobal(sfShape* Shape, float32 PointX, float32 PointY, float32* X, float32* Y);
 //  ??
-// func (self *Shape) TransformToGlobal(pointX float, pointY float, x float*, y float*) {
+// func (self *Shape) TransformToGlobal(pointX float32, pointY float32, x float32*, y float32*) {
 //     return C.sfShape_TransformToGlobal(self.Cref, pointX, pointY, x, y)
 // }
 
@@ -1231,8 +1231,8 @@ func (self *Shape) Rotate(angle float) {
 // param X, Y : Position of the point
 // param Col : Color of the point
 // param OutlineCol : Outline color of the point
-// sfShape_AddPoint(sfShape* Shape, float X, float Y, sfColor Col, sfColor OutlineCol);
-func (self *Shape) AddPoint(x, y float, col Color, outlineCol Color) {
+// sfShape_AddPoint(sfShape* Shape, float32 X, float32 Y, sfColor Col, sfColor OutlineCol);
+func (self *Shape) AddPoint(x, y float32, col Color, outlineCol Color) {
     C.sfShape_AddPoint(self.Cref, C.float(x), C.float(y), col.Cref, outlineCol.Cref)
 }
 
@@ -1256,17 +1256,17 @@ func (self *Shape) EnableOutline(enable bool) {
 // Change the width of a shape outline
 // param Shape : Shape to modify
 // param Width : New width
-// sfShape_SetOutlineWidth(sfShape* Shape, float Width);
-func (self *Shape) SetOutlineWidth(width float) {
+// sfShape_SetOutlineWidth(sfShape* Shape, float32 Width);
+func (self *Shape) SetOutlineWidth(width float32) {
     C.sfShape_SetOutlineWidth(self.Cref, C.float(width))
 }
 
 // Get the width of a shape outline
 // param Shape : Shape to read
 // param return Current outline width
-// float sfShape_GetOutlineWidth(sfShape* Shape);
-func (self *Shape) GetOutlineWidth() float {
-    return float( C.sfShape_GetOutlineWidth(self.Cref))
+// float32 sfShape_GetOutlineWidth(sfShape* Shape);
+func (self *Shape) GetOutlineWidth() float32 {
+    return float32( C.sfShape_GetOutlineWidth(self.Cref))
 }
 
 // Get the number of points composing a shape
@@ -1282,10 +1282,10 @@ func (self *Shape) GetNbPoints() uint {
 // param Index : Index of the point to get
 // param X : Variable to fill with the X coordinate of the point
 // param Y : Variable to fill with the Y coordinate of the point
-// sfShape_GetPointPosition(sfShape* Shape, unsigned int Index, float* X, float* Y);
+// sfShape_GetPointPosition(sfShape* Shape, unsigned int Index, float32* X, float32* Y);
 
 // ??
-//func (self *Shape) GetPointPosition(index uint, x float*, y float*) {
+//func (self *Shape) GetPointPosition(index uint, x float32*, y float32*) {
 //    return C.sfShape_GetPointPosition(self.Cref, index, x, y)
 //}
 
@@ -1313,8 +1313,8 @@ func (self *Shape) GetPointOutlineColor(index uint) Color {
 // param Index : Index of the point to get
 // param X : X coordinate of the point
 // param Y : Y coordinate of the point
-// sfShape_SetPointPosition(sfShape* Shape, unsigned int Index, float X, float Y);
-func (self *Shape) SetPointPosition(index uint, x, y float) {
+// sfShape_SetPointPosition(sfShape* Shape, unsigned int Index, float32 X, float32 Y);
+func (self *Shape) SetPointPosition(index uint, x, y float32) {
     C.sfShape_SetPointPosition(self.Cref, C.uint(index), C.float(x), C.float(y))
 }
 
@@ -1359,16 +1359,16 @@ func (self *Sprite) Destroy() {
 // Set the X position of a sprite
 // param Sprite : Sprite to modify
 // param X : New X coordinate
-// void Sprite_SetX(sfSprite* Sprite, float X);
-func (self *Sprite) SetX(x float) {
+// void Sprite_SetX(sfSprite* Sprite, float32 X);
+func (self *Sprite) SetX(x float32) {
     C.sfSprite_SetX(self.Cref, C.float(x))
 }
 
 // Set the T position of a sprite
 // param Sprite : Sprite to modify
 // param Y : New Y coordinate
-// void Sprite_SetY(sfSprite* Sprite, float C.FLOAT(Y));
-func (self *Sprite) SetY(y float) {
+// void Sprite_SetY(sfSprite* Sprite, float32 C.FLOAT(Y));
+func (self *Sprite) SetY(y float32) {
     C.sfSprite_SetY(self.Cref, C.float(y))
 }
 
@@ -1376,24 +1376,24 @@ func (self *Sprite) SetY(y float) {
 // param Sprite : Sprite to modify
 // param X : New X coordinate
 // param Y : New Y coordinate
-// void Sprite_SetPosition(sfSprite* Sprite, float C.FLOAT(X), float C.FLOAT(Y));
-func (self *Sprite) SetPosition(x float, y float) {
+// void Sprite_SetPosition(sfSprite* Sprite, float32 C.FLOAT(X), float32 C.FLOAT(Y));
+func (self *Sprite) SetPosition(x float32, y float32) {
     C.sfSprite_SetPosition(self.Cref, C.float(x), C.float(y))
 }
 
 // Set the horizontal scale of a sprite
 // param Sprite : Sprite to modify
 // param Scale : New scale (must be strictly positive)
-// void Sprite_SetScaleX(sfSprite* Sprite, float Scale);
-func (self *Sprite) SetScaleX(scale float) {
+// void Sprite_SetScaleX(sfSprite* Sprite, float32 Scale);
+func (self *Sprite) SetScaleX(scale float32) {
     C.sfSprite_SetScaleX(self.Cref, C.float(scale))
 }
 
 // Set the vertical scale of a sprite
 // param Sprite : Sprite to modify
 // param Scale : New scale (must be strictly positive)
-// void Sprite_SetScaleY(sfSprite* Sprite, float Scale);
-func (self *Sprite) SetScaleY(scale float) {
+// void Sprite_SetScaleY(sfSprite* Sprite, float32 Scale);
+func (self *Sprite) SetScaleY(scale float32) {
     C.sfSprite_SetScaleY(self.Cref, C.float(scale))
 }
 
@@ -1401,16 +1401,16 @@ func (self *Sprite) SetScaleY(scale float) {
 // param Sprite : Sprite to modify
 // param ScaleX : New horizontal scale (must be strictly positive)
 // param ScaleY : New vertical scale (must be strictly positive)
-// void Sprite_SetScale(sfSprite* Sprite, float ScaleC.FLOAT(X), float ScaleC.FLOAT(Y));
-func (self *Sprite) SetScale(scaleX float, scaleY float) {
+// void Sprite_SetScale(sfSprite* Sprite, float32 ScaleC.FLOAT(X), float32 ScaleC.FLOAT(Y));
+func (self *Sprite) SetScale(scaleX float32, scaleY float32) {
     C.sfSprite_SetScale(self.Cref, C.float(scaleX), C.float(scaleY))
 }
 
 // Set the orientation of a sprite
 // param Sprite : Sprite to modify
 // param Rotation : Angle of rotation, in degrees
-// void Sprite_SetRotation(sfSprite* Sprite, float Rotation);
-func (self *Sprite) SetRotation(rotation float) {
+// void Sprite_SetRotation(sfSprite* Sprite, float32 Rotation);
+func (self *Sprite) SetRotation(rotation float32) {
     C.sfSprite_SetRotation(self.Cref, C.float(rotation))
 }
 
@@ -1419,8 +1419,8 @@ func (self *Sprite) SetRotation(rotation float) {
 // param Sprite : Sprite to modify
 // param X : X coordinate of the center
 // param Y : Y coordinate of the center
-// void Sprite_SetCenter(sfSprite* Sprite, float C.FLOAT(X), float C.FLOAT(Y));
-func (self *Sprite) SetCenter(x float, y float) {
+// void Sprite_SetCenter(sfSprite* Sprite, float32 C.FLOAT(X), float32 C.FLOAT(Y));
+func (self *Sprite) SetCenter(x float32, y float32) {
     C.sfSprite_SetCenter(self.Cref, C.float(x), C.float(y))
 }
 
@@ -1443,57 +1443,57 @@ func (self *Sprite) SetBlendMode(mode BlendMode) {
 // Get the X position of a sprite
 // param Sprite : Sprite to read
 // return Current X position
-// float Sprite_GetX(sfSprite* Sprite);
-func (self *Sprite) GetX() float {
-    return float( C.sfSprite_GetX(self.Cref))
+// float32 Sprite_GetX(sfSprite* Sprite);
+func (self *Sprite) GetX() float32 {
+    return float32( C.sfSprite_GetX(self.Cref))
 }
 
 // Get the Y position of a sprite
 // param Sprite : Sprite to read
 // return Current Y position
-// float Sprite_GetY(sfSprite* Sprite);
-func (self *Sprite) GetY() float {
-    return float( C.sfSprite_GetY(self.Cref))
+// float32 Sprite_GetY(sfSprite* Sprite);
+func (self *Sprite) GetY() float32 {
+    return float32( C.sfSprite_GetY(self.Cref))
 }
 
 // Get the horizontal scale of a sprite
 // param Sprite : Sprite to read
 // return Current X scale factor (always positive)
-// float Sprite_GetScaleX(sfSprite* Sprite);
-func (self *Sprite) GetScaleX() float {
-    return float( C.sfSprite_GetScaleX(self.Cref))
+// float32 Sprite_GetScaleX(sfSprite* Sprite);
+func (self *Sprite) GetScaleX() float32 {
+    return float32( C.sfSprite_GetScaleX(self.Cref))
 }
 
 // Get the vertical scale of a sprite
 // param Sprite : Sprite to read
 // return Current Y scale factor (always positive)
-// float Sprite_GetScaleY(sfSprite* Sprite);
-func (self *Sprite) GetScaleY() float {
-    return float( C.sfSprite_GetScaleY(self.Cref))
+// float32 Sprite_GetScaleY(sfSprite* Sprite);
+func (self *Sprite) GetScaleY() float32 {
+    return float32( C.sfSprite_GetScaleY(self.Cref))
 }
 
 // Get the orientation of a sprite
 // param Sprite : Sprite to read
 // return Current rotation, in degrees
-// float Sprite_GetRotation(sfSprite* Sprite);
-func (self *Sprite) GetRotation() float {
-    return float( C.sfSprite_GetRotation(self.Cref))
+// float32 Sprite_GetRotation(sfSprite* Sprite);
+func (self *Sprite) GetRotation() float32 {
+    return float32( C.sfSprite_GetRotation(self.Cref))
 }
 
 // Get the X position of the center a sprite
 // param Sprite : Sprite to read
 // return Current X center
-// float Sprite_GetCenterX(sfSprite* Sprite);
-func (self *Sprite) GetCenterX() float {
-    return float( C.sfSprite_GetCenterX(self.Cref))
+// float32 Sprite_GetCenterX(sfSprite* Sprite);
+func (self *Sprite) GetCenterX() float32 {
+    return float32( C.sfSprite_GetCenterX(self.Cref))
 }
 
 // Get the Y position of the center a sprite
 // param Sprite : Sprite to read
 // return Current Y center
-// float Sprite_GetCenterY(sfSprite* Sprite);
-func (self *Sprite) GetCenterY() float {
-    return float( C.sfSprite_GetCenterY(self.Cref))
+// float32 Sprite_GetCenterY(sfSprite* Sprite);
+func (self *Sprite) GetCenterY() float32 {
+    return float32( C.sfSprite_GetCenterY(self.Cref))
 }
 
 // Get the color of a sprite
@@ -1516,8 +1516,8 @@ func (self *Sprite) GetBlendMode() BlendMode {
 // param Sprite : Sprite to modify
 // param OffsetX : Offset on the X axis
 // param OffsetY : Offset on the Y axis
-// void Sprite_Move(sfSprite* Sprite, float OffsetC.FLOAT(X), float OffsetC.FLOAT(Y));
-func (self *Sprite) Move(offsetX float, offsetY float) {
+// void Sprite_Move(sfSprite* Sprite, float32 OffsetC.FLOAT(X), float32 OffsetC.FLOAT(Y));
+func (self *Sprite) Move(offsetX float32, offsetY float32) {
     C.sfSprite_Move(self.Cref, C.float(offsetX), C.float(offsetY))
 }
 
@@ -1525,16 +1525,16 @@ func (self *Sprite) Move(offsetX float, offsetY float) {
 // param Sprite : Sprite to modify
 // param FactorX : Horizontal scaling factor (must be strictly positive)
 // param FactorY : Vertical scaling factor (must be strictly positive)
-// void Sprite_Scale(sfSprite* Sprite, float FactorC.FLOAT(X), float FactorC.FLOAT(Y));
-func (self *Sprite) Scale(factorX float, factorY float) {
+// void Sprite_Scale(sfSprite* Sprite, float32 FactorC.FLOAT(X), float32 FactorC.FLOAT(Y));
+func (self *Sprite) Scale(factorX float32, factorY float32) {
     C.sfSprite_Scale(self.Cref, C.float(factorX), C.float(factorY))
 }
 
 // Rotate a sprite
 // param Sprite : Sprite to modify
 // param Angle : Angle of rotation, in degrees
-// void Sprite_Rotate(sfSprite* Sprite, float Angle);
-func (self *Sprite) Rotate(angle float) {
+// void Sprite_Rotate(sfSprite* Sprite, float32 Angle);
+func (self *Sprite) Rotate(angle float32) {
     C.sfSprite_Rotate(self.Cref, C.float(angle))
 }
 
@@ -1545,9 +1545,9 @@ func (self *Sprite) Rotate(angle float) {
 // param PointY : Y coordinate of the point to transform
 // param X : Value to fill with the X coordinate of the converted point
 // param Y : Value to fill with the y coordinate of the converted point
-// void Sprite_TransformToLocal(sfSprite* Sprite, float PointC.FLOAT(X), float PointY, float* C.FLOAT(X), float* C.FLOAT(Y));
+// void Sprite_TransformToLocal(sfSprite* Sprite, float32 PointC.FLOAT(X), float32 PointY, float32* C.FLOAT(X), float32* C.FLOAT(Y));
 
-//func (self *Sprite) TransformToLocal(pointX float, pointY float, x float*, y float*) {
+//func (self *Sprite) TransformToLocal(pointX float32, pointY float32, x float32*, y float32*) {
 //    return C.sfSprite_TransformToLocal(self.Cref, pointC.FLOAT(X), pointY, C.float(x), C.float(y))
 //}
 
@@ -1559,9 +1559,9 @@ func (self *Sprite) Rotate(angle float) {
 // param PointY : Y coordinate of the point to transform
 // param X : Value to fill with the X coordinate of the converted point
 // param Y : Value to fill with the y coordinate of the converted point
-// void Sprite_TransformToGlobal(sfSprite* Sprite, float PointC.FLOAT(X), float PointY, float* C.FLOAT(X), float* C.FLOAT(Y));
+// void Sprite_TransformToGlobal(sfSprite* Sprite, float32 PointC.FLOAT(X), float32 PointY, float32* C.FLOAT(X), float32* C.FLOAT(Y));
 
-//func (self *Sprite) TransformToGlobal(pointX float, pointY float, x float*, y float*) {
+//func (self *Sprite) TransformToGlobal(pointX float32, pointY float32, x float32*, y float32*) {
 //    return C.sfSprite_TransformToGlobal(self.Cref, pointC.FLOAT(X), pointY, C.float(x), C.float(y))
 //}
 
@@ -1586,8 +1586,8 @@ func (self *Sprite) SetSubRect(subRect IntRect) {
 // param Sprite : Sprite to modify
 // param Width : New width (must be strictly positive)
 // param Height : New height (must be strictly positive)
-// void Sprite_Resize(sfSprite* Sprite, float Width, float Height);
-func (self *Sprite) Resize(width float, height float) {
+// void Sprite_Resize(sfSprite* Sprite, float32 Width, float32 Height);
+func (self *Sprite) Resize(width float32, height float32) {
     C.sfSprite_Resize(self.Cref, C.float(width), C.float(height))
 }
 
@@ -1626,17 +1626,17 @@ func (self *Sprite) GetSubRect() IntRect {
 // Get a sprite width
 // param Sprite : Sprite to read
 // return Width of the sprite
-// float Sprite_GetWidth(sfSprite* Sprite);
-func (self *Sprite) GetWidth() float {
-    return float( C.sfSprite_GetWidth(self.Cref))
+// float32 Sprite_GetWidth(sfSprite* Sprite);
+func (self *Sprite) GetWidth() float32 {
+    return float32( C.sfSprite_GetWidth(self.Cref))
 }
 
 // Get a sprite height
 // param Sprite : Sprite to read
 // return Height of the sprite
-// float Sprite_GetHeight(sfSprite* Sprite);
-func (self *Sprite) GetHeight() float {
-    return float( C.sfSprite_GetHeight(self.Cref))
+// float32 Sprite_GetHeight(sfSprite* Sprite);
+func (self *Sprite) GetHeight() float32 {
+    return float32( C.sfSprite_GetHeight(self.Cref))
 }
 
 // Get the color of a given pixel in a sprite
@@ -1679,39 +1679,39 @@ func (self *PostFX) Destroy() {
     C.sfPostFX_Destroy(self.Cref)
 }
 
-// Change a parameter of a post-fx (1 float)
+// Change a parameter of a post-fx (1 float32)
 // param PostFX : Post-effect to modify
 // param Name : Parameter name in the effect
 // param X : Value to assign
-// void PostFX_SetParameter1(sfPostFX* PostFX, const char* Name, float X);
-func (self *PostFX) SetParameter1(name string, x float) {
+// void PostFX_SetParameter1(sfPostFX* PostFX, const char* Name, float32 X);
+func (self *PostFX) SetParameter1(name string, x float32) {
     C.sfPostFX_SetParameter1(self.Cref, C.CString(name), C.float(x))
 }
 
-// Change a parameter of a post-fx (2 floats)
+// Change a parameter of a post-fx (2 float32s)
 // param PostFX : Post-effect to modify
 // param Name : Parameter name in the effect
 // param X, Y : Values to assign
-// void PostFX_SetParameter2(sfPostFX* PostFX, const char* Name, float X, float Y);
-func (self *PostFX) SetParameter2(name string, x, y float) {
+// void PostFX_SetParameter2(sfPostFX* PostFX, const char* Name, float32 X, float32 Y);
+func (self *PostFX) SetParameter2(name string, x, y float32) {
     C.sfPostFX_SetParameter2(self.Cref, C.CString(name), C.float(x), C.float(y))
 }
 
-// Change a parameter of a post-fx (3 floats)
+// Change a parameter of a post-fx (3 float32s)
 // param PostFX : Post-effect to modify
 // param Name : Parameter name in the effect
 // param X, Y, Z : Values to assign
-// void PostFX_SetParameter3(sfPostFX* PostFX, const char* Name, float X, float Y, float Z);
-func (self *PostFX) SetParameter3(name string, x, y, z float) {
+// void PostFX_SetParameter3(sfPostFX* PostFX, const char* Name, float32 X, float32 Y, float32 Z);
+func (self *PostFX) SetParameter3(name string, x, y, z float32) {
     C.sfPostFX_SetParameter3(self.Cref, C.CString(name), C.float(x), C.float(y), C.float(z))
 }
 
-// Change a parameter of a post-fx (4 floats)
+// Change a parameter of a post-fx (4 float32s)
 // param PostFX : Post-effect to modify
 // param Name : Parameter name in the effect
 // param X, Y, Z, W : Values to assign
-// void PostFX_SetParameter4(sfPostFX* PostFX, const char* Name, float X, float Y, float Z, float W);
-func (self *PostFX) SetParameter4(name string, x, y, z, w float) {
+// void PostFX_SetParameter4(sfPostFX* PostFX, const char* Name, float32 X, float32 Y, float32 Z, float32 W);
+func (self *PostFX) SetParameter4(name string, x, y, z, w float32) {
     C.sfPostFX_SetParameter4(self.Cref, C.CString(name), C.float(x), C.float(y), C.float(z), C.float(w))
 }
 
@@ -1944,18 +1944,18 @@ func (self *RenderWindow) SetFramerateLimit(limit uint) {
 // Get time elapsed since last frame of a window
 // param RenderWindow : Renderwindow object
 // return Time elapsed, in seconds
-// float sfRenderWindow_GetFrameTime(sfRenderWindow* RenderWindow);
-func (self *RenderWindow) GetFrameTime() float {
-	return float(12)
-    //return float(C.sfRenderWindow_GetFrameTime(self.Cref))
+// float32 sfRenderWindow_GetFrameTime(sfRenderWindow* RenderWindow);
+func (self *RenderWindow) GetFrameTime() float32 {
+	return float32(12)
+    //return float32(C.sfRenderWindow_GetFrameTime(self.Cref))
 }
 
 // Change the joystick threshold, ie. the value below which
 // no move event will be generated
 // param RenderWindow : Renderwindow object
 // param Threshold : New threshold, in range [0, 100]
-// void sfRenderWindow_SetJoystickThreshold(sfRenderWindow* RenderWindow, float Threshold);
-func (self *RenderWindow) SetJoystickThreshold(threshold float) {
+// void sfRenderWindow_SetJoystickThreshold(sfRenderWindow* RenderWindow, float32 Threshold);
+func (self *RenderWindow) SetJoystickThreshold(threshold float32) {
     C.sfRenderWindow_SetJoystickThreshold(self.Cref, C.float(threshold))
 }
 
@@ -2025,9 +2025,9 @@ func (self *RenderWindow) GetDefaultView() View {
 // param ViewX : Pointer to fill with the X coordinate of the converted point
 // param ViewY : Pointer to fill with the Y coordinate of the converted point
 // param TargetView : Target view to convert the point to (pass NULL to use the current view)
-// void sfRenderWindow_ConvertCoords(sfRenderWindow* RenderWindow, unsigned int WindowX, unsigned int WindowY, float* ViewX, float* ViewY, sfView* TargetView);
+// void sfRenderWindow_ConvertCoords(sfRenderWindow* RenderWindow, unsigned int WindowX, unsigned int WindowY, float32* ViewX, float32* ViewY, sfView* TargetView);
 
-// func (self *RenderWindow) ConvertCoords(windowX, windowY uint, viewX, viewY float, targetView View) {
+// func (self *RenderWindow) ConvertCoords(windowX, windowY uint, viewX, viewY float32, targetView View) {
 //     C.sfRenderWindow_ConvertCoords(self.Cref, C.uint(windowX), C.uint(windowY), C.float(viewX), C.float(viewY), targetView.Cref)
 // }
 

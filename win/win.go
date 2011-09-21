@@ -183,8 +183,8 @@ func (self *Input) GetMouseY() int {
 // param Axis : Identifier of the axis to read
 // return Current joystick position, in the range [-100, 100]
 // float sfInput_GetJoystickAxis(sfInput* Input, unsigned int JoyId, sfJoyAxis Axis);
-func (self *Input) GetJoystickAxis(joyId uint, axis JoyAxis) float {
-    return float( C.sfInput_GetJoystickAxis(self.Cref, C.uint(joyId), axis.Cref) )
+func (self *Input) GetJoystickAxis(joyId uint, axis JoyAxis) float32 {
+    return float32( C.sfInput_GetJoystickAxis(self.Cref, C.uint(joyId), axis.Cref) )
 }
 
 
@@ -439,8 +439,8 @@ func (self *Window) SetFramerateLimit(limit uint) {
 // param Window : Window object
 // return Time elapsed, in seconds
 // float sfWindow_GetFrameTime(sfWindow* Window);
-func (self *Window) GetFrameTime() float {
-    return float(C.sfWindow_GetFrameTime(self.Cref))
+func (self *Window) GetFrameTime() float32 {
+    return float32(C.sfWindow_GetFrameTime(self.Cref))
 }
 
 // Change the joystick threshold, ie. the value below which
@@ -448,6 +448,6 @@ func (self *Window) GetFrameTime() float {
 // param Window : Window object
 // param Threshold : New threshold, in range [0, 100]
 // void sfWindow_SetJoystickThreshold(sfWindow* Window, float Threshold);
-func (self *Window) SetJoystickThreshold(threshold float) {
+func (self *Window) SetJoystickThreshold(threshold float32) {
     C.sfWindow_SetJoystickThreshold(self.Cref, C.float(threshold))
 }

@@ -70,7 +70,7 @@ func (self *Input) GetMouseY() int {
 /// param Axis : Identifier of the axis to read
 /// return Current joystick position, in the range [-100, 100]
 // float sfInput_GetJoystickAxis(sfInput* Input, unsigned int JoyId, sfJoyAxis Axis);
-func (self *Input) GetJoystickAxis(joyId uint, axis JoyAxis) float {
+func (self *Input) GetJoystickAxis(joyId uint, axis JoyAxis) float32 {
     return C.sfInput_GetJoystickAxis(self.Cref, joyId, axis.Cref)
 }
 #endif // SFML_INPUT_H

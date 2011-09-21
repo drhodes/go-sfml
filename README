@@ -13,7 +13,7 @@ I am in no way affiliated with SFML.
 These bindings are experimental, the API is subject to change and has
 only been tested on linux. (Ubuntu 10.4 lucid x86)  
 
--------------------------------------------------------------------------------
+_____________________________________________________________________________
 DEPENDENCIES:
 
 libcsfml 1.5
@@ -33,19 +33,21 @@ libcsfml-window1.5
 libcsfml1.5-dbg
 ~~
 
--------------------------------------------------------------------------------
+_____________________________________________________________________________
 INSTALLING:
 
-go-sfml$ make install
+go-sfml$ gomake install
 
 I hope it works for you, and if it doesn't - please complain over at 
 http://github.com/drhodes/go-sfml/issues
 
 
--------------------------------------------------------------------------------
+_____________________________________________________________________________
+GIVE IT A WHIRL:
+
 Now try out the example in the test directory,
 
-test $ make
+test $ gomake
 test $ ./win-example
 
 You should see a rotating, scaling gopher.

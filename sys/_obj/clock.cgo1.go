@@ -1,7 +1,7 @@
 // Created by cgo - DO NOT EDIT
+
 //line clock.go:1
 package sys
-
 
 type Clock struct {
 	Cref *[0]byte
@@ -23,7 +23,6 @@ func (self *Clock) GetTime() float32 {
 func (self *Clock) Reset() {
 	_Cfunc_sfClock_Reset(self.Cref)
 }
-
 
 func Sleep(duration float32) {
 	_Cfunc_sfSleep(_Ctype_float(duration))

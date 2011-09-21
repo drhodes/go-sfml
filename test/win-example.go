@@ -2,10 +2,9 @@ package main
 
 import (	
 	"sfml/gfx"
-	//"sfml/win"
 	"sfml/sys"
 	"fmt"
-	//"math"
+	"math"
 )
 
 func Debug(x interface{}){	fmt.Printf("%#+v\n", x) }
@@ -14,7 +13,7 @@ func main() {
 	clock := sys.ClockCreate()
 	Debug(clock)
 
-	mode := gfx.CreateVideoMode(1024, 1024, 32)
+	mode := gfx.CreateVideoMode(512, 512, 32)
 	Debug(mode)
 	
 	settings := gfx.CreateWindowSettings(24, 8, 1)
@@ -36,34 +35,34 @@ func main() {
 	gopher.SetX(200)
 	gopher.SetY(200)
 	
-	//seagreen := gfx.Color_FromRGB_P(244,23,34)
-
-	//seagreen := gfx.ColorFromRGB(0,34,23)
-	//Debug(seagreen)
+	seagreen := gfx.Color_FromRGB_P(244,23,34)
+	//seagreen := gfx.ColorFromRGBA(244,23,34,34)
+	//seagreen = gfx.ColorFromRGB(0,34,23)
+	Debug(seagreen)
 
 	//frame := 0 
 	//evt := gfx.Event{}
+	
 
-	app.SetFramerateLimit(10)
+	app.SetFramerateLimit(60)
 
-	//for app.IsOpened() {			
-	for {
-		//Debug(app)
-		//Debug(evt)
-		
+	var tick float32 = 0
+	for app.IsOpened() {				
 		//tick := clock.GetTime()
-		txt.SetText(fmt.Sprintf("%v fps", app.GetFrameTime()))
-		//gopher.SetRotation(tick*100)
-		//scale := float(1 + (math.Sin(float64(tick)/10)))
-		//gopher.SetScaleX(scale)
-		//gopher.SetScaleY(scale)
+		//txt.SetText(fmt.Sprintf("%v fps", app.GetFrameTime()))
+		tick += .001;
+		gopher.SetRotation(tick*100)
+		scale := float32(1 + (math.Sin(float64(tick)/10)))
+		gopher.SetScaleX(scale)
+		gopher.SetScaleY(scale)
 
 		app.DrawSprite(gopher)
-		//app.DrawString(txt)
+		app.DrawString(txt)
 		
-		//seagreen.R += 1
+		seagreen.R += 1
+		seagreen.G -= 1
 		app.Display()
-		//app.Clear(seagreen)
+		app.Clear(seagreen)
 	}
 }
 

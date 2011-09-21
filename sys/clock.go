@@ -16,8 +16,8 @@ func (self *Clock) Destroy() {
 	self.Cref = nil
 }
 
-func (self *Clock) GetTime() float {
-	return float(C.sfClock_GetTime(self.Cref))
+func (self *Clock) GetTime() float32 {
+	return float32(C.sfClock_GetTime(self.Cref))
 }
 
 func (self *Clock) Reset() {
@@ -26,6 +26,6 @@ func (self *Clock) Reset() {
 
 
 //------------------------------------------------------
-func Sleep(duration float){
+func Sleep(duration float32){
 	C.sfSleep(C.float(duration))
 }
