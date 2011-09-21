@@ -1,8 +1,0 @@
-#pragma dynimport sfClock_Destroy sfClock_Destroy ""
-#pragma dynimport __libc_start_main __libc_start_main@GLIBC_2.0 "libc.so.6"
-#pragma dynimport sfClock_Reset sfClock_Reset ""
-#pragma dynimport sfClock_GetTime sfClock_GetTime ""
-#pragma dynimport sfClock_Create sfClock_Create ""
-#pragma dynimport sfSleep sfSleep ""
-#pragma dynimport _ _ "libcsfml-system.so.1.5"
-#pragma dynimport _ _ "libc.so.6"
