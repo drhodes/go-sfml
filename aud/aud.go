@@ -1,14 +1,13 @@
 package aud
 
-
+// #cgo linux CFLAGS: -I/usr/custom/CSFML-2.0-rc/include
+// #cgo LDFLAGS:  -lcsfml-system -lcsfml-audio
 // #include <SFML/Audio/Listener.h>
 // #include <SFML/Audio/Music.h>
 // #include <SFML/Audio/Sound.h>
 // #include <SFML/Audio/SoundBuffer.h>
 // #include <SFML/Audio/SoundBufferRecorder.h>
 // #include <SFML/Audio/SoundRecorder.h>
-
-
 import "C"
 
 import(
@@ -65,9 +64,6 @@ func NewInput(val *C.sfInput) Input {
 type Input struct {
 	Cref *C.sfInput
 }
-
-
-
 
 //-------------------------------------
 func NewWindow(val *C.sfWindow) Window {

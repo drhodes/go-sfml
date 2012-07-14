@@ -3,43 +3,14 @@ package sys
 import "testing"
 
 func TestConstructors(t *testing.T) {		
-	clock := ClockCreate()
-	Debug(clock)
-	
-	for clock.GetTime() < .5 {
-		Debug(clock.GetTime())
-		Sleep(clock.GetTime())
-	}
-
-	Debug(`Resetting:`)
-	clock.Reset()
-
-	Debug(`Sleeping .5 seconds:`)
-	Sleep(.5)
-
-	DebugN(`Getting time: `)
-	Debug(clock.GetTime())
-
-	Debug(clock)
-	Debug(`Destroying Clock`)
-
-	clock.Destroy()
-	Debug(clock)
+	clock := ClockCreate()	
 }
 
 func BenchmarkGetTime(b *testing.B) {
-	clock := ClockCreate()
-	for i := 0; i < b.N; i++ {
-		clock.GetTime()
-	}
 }
 
 
 func BenchmarkClockDestroy(b *testing.B) {
-	clock := ClockCreate()	
-	for i := 0; i < b.N; i++ {
-		clock.Destroy()
-	}
 }
 
 

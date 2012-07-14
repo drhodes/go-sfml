@@ -16,30 +16,12 @@ only been tested on linux. (Ubuntu 10.4 lucid x86)
 _____________________________________________________________________________
 DEPENDENCIES:
 
-libcsfml 1.5
 
+CSFML RC 2.0
 
-If you're using Ubuntu:
-
-$ sudo apt-get install libcsfml-dev      # The SFML headers
-
-~~
-libcsfml-dev            - Development files for the C binding of SFML
-libcsfml-audio1.5 
-libcsfml-graphics1.5
-libcsfml-network1.5 
-libcsfml-system1.5  
-libcsfml-window1.5  
-libcsfml1.5-dbg
-~~
 
 _____________________________________________________________________________
 INSTALLING:
-
-go-sfml$ gomake install
-
-I hope it works for you, and if it doesn't - please complain over at 
-http://github.com/drhodes/go-sfml/issues
 
 
 _____________________________________________________________________________
