@@ -22,42 +22,36 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef SFML_CONTEXT_H
-#define SFML_CONTEXT_H
+#ifndef SFML_WINDOWHANDLE_H
+#define SFML_WINDOWHANDLE_H
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
 #include <SFML/Window/Export.h>
-#include <SFML/Window/Types.h>
 
 
 ////////////////////////////////////////////////////////////
-/// \brief Create a new context
-///
-/// This function activates the new context.
-///
-/// \return New sfContext object
-///
+/// Define a low-level window handle type, specific to
+/// each platform
 ////////////////////////////////////////////////////////////
-CSFML_WINDOW_API sfContext* sfContext_create(void);
+#if defined(CSFML_SYSTEM_WINDOWS)
 
-////////////////////////////////////////////////////////////
-/// \brief Destroy a context
-///
-/// \param context Context to destroy
-///
-////////////////////////////////////////////////////////////
-CSFML_WINDOW_API void sfContext_destroy(sfContext* context);
+    // Window handle is HWND (HWND__*) on Windows
+    struct HWND__;
+    typedef struct HWND__* sfWindowHandle;
 
-////////////////////////////////////////////////////////////
-/// \brief Activate or deactivate explicitely a context
-///
-/// \param context Context object
-/// \param active  sfTrue to activate, sfFalse to deactivate
-///
-////////////////////////////////////////////////////////////
-CSFML_WINDOW_API void sfContext_setActive(sfContext* context, sfBool active);
+#elif defined(CSFML_SYSTEM_LINUX) || defined(CSFML_SYSTEM_FREEBSD)
+
+    // Window handle is Window (unsigned long) on Unix - X11
+    typedef unsigned long sfWindowHandle;
+
+#elif defined(CSFML_SYSTEM_MACOS)
+
+    // Window handle is NSWindow (void*) on Mac OS X - Cocoa
+	typedef void* sfWindowHandle;
+
+#endif
 
 
-#endif // SFML_CONTEXT_H
+#endif // SFML_WINDOWHANDLE_H

@@ -1,8 +1,7 @@
 ////////////////////////////////////////////////////////////
 //
 // SFML - Simple and Fast Multimedia Library
-// Copyright (C) 2007-2009 Laurent Gomila (laurent.gom@gmail.com)
-//
+// Copyright (C) 2007-2012 Laurent Gomila (laurent.gom@gmail.com)//
 // This software is provided 'as-is', without any express or implied warranty.
 // In no event will the authors be held liable for any damages arising from the use of this software.
 //
@@ -28,150 +27,15 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <SFML/Config.h>
+#include <SFML/Window/Export.h>
+#include <SFML/Window/Joystick.h>
+#include <SFML/Window/Keyboard.h>
+#include <SFML/Window/Mouse.h>
 
 
 ////////////////////////////////////////////////////////////
-/// Definition of key codes for keyboard events
-////////////////////////////////////////////////////////////
-typedef enum
-{
-    sfKeyA = 'a',
-    sfKeyB = 'b',
-    sfKeyC = 'c',
-    sfKeyD = 'd',
-    sfKeyE = 'e',
-    sfKeyF = 'f',
-    sfKeyG = 'g',
-    sfKeyH = 'h',
-    sfKeyI = 'i',
-    sfKeyJ = 'j',
-    sfKeyK = 'k',
-    sfKeyL = 'l',
-    sfKeyM = 'm',
-    sfKeyN = 'n',
-    sfKeyO = 'o',
-    sfKeyP = 'p',
-    sfKeyQ = 'q',
-    sfKeyR = 'r',
-    sfKeyS = 's',
-    sfKeyT = 't',
-    sfKeyU = 'u',
-    sfKeyV = 'v',
-    sfKeyW = 'w',
-    sfKeyX = 'x',
-    sfKeyY = 'y',
-    sfKeyZ = 'z',
-    sfKeyNum0 = '0',
-    sfKeyNum1 = '1',
-    sfKeyNum2 = '2',
-    sfKeyNum3 = '3',
-    sfKeyNum4 = '4',
-    sfKeyNum5 = '5',
-    sfKeyNum6 = '6',
-    sfKeyNum7 = '7',
-    sfKeyNum8 = '8',
-    sfKeyNum9 = '9', 
-    sfKeyEscape = 256,
-    sfKeyLControl,
-    sfKeyLShift,
-    sfKeyLAlt,
-    sfKeyLSystem,      ///< OS specific key (left side) : windows (Win and Linux), apple (MacOS), ...
-    sfKeyRControl,
-    sfKeyRShift,
-    sfKeyRAlt,
-    sfKeyRSystem,      ///< OS specific key (right side) : windows (Win and Linux), apple (MacOS), ...
-    sfKeyMenu,
-    sfKeyLBracket,     ///< [
-    sfKeyRBracket,     ///< ]
-    sfKeySemiColon,    ///< ;
-    sfKeyComma,        ///< ,
-    sfKeyPeriod,       ///< .
-    sfKeyQuote,        ///< '
-    sfKeySlash,        ///< /
-    sfKeyBackSlash,
-    sfKeyTilde,        ///< ~
-    sfKeyEqual,        ///< =
-    sfKeyDash,         ///< -
-    sfKeySpace,
-    sfKeyReturn,
-    sfKeyBack,
-    sfKeyTab,
-    sfKeyPageUp,
-    sfKeyPageDown,
-    sfKeyEnd,
-    sfKeyHome,
-    sfKeyInsert,
-    sfKeyDelete,
-    sfKeyAdd,          ///< +
-    sfKeySubtract,     ///< -
-    sfKeyMultiply,     ///< *
-    sfKeyDivide,       ///< /
-    sfKeyLeft,         ///< Left arrow
-    sfKeyRight,        ///< Right arrow
-    sfKeyUp,           ///< Up arrow
-    sfKeyDown,         ///< Down arrow
-    sfKeyNumpad0,
-    sfKeyNumpad1,
-    sfKeyNumpad2,
-    sfKeyNumpad3,
-    sfKeyNumpad4,
-    sfKeyNumpad5,
-    sfKeyNumpad6,
-    sfKeyNumpad7,
-    sfKeyNumpad8,
-    sfKeyNumpad9,
-    sfKeyF1,
-    sfKeyF2,
-    sfKeyF3,
-    sfKeyF4,
-    sfKeyF5,
-    sfKeyF6,
-    sfKeyF7,
-    sfKeyF8,
-    sfKeyF9,
-    sfKeyF10,
-    sfKeyF11,
-    sfKeyF12,
-    sfKeyF13,
-    sfKeyF14,
-    sfKeyF15,
-    sfKeyPause,
-
-    sfKeyCount // For internal use
-} sfKeyCode;
-
-
-////////////////////////////////////////////////////////////
-/// Definition of button codes for mouse events
-////////////////////////////////////////////////////////////
-typedef enum
-{
-    sfButtonLeft,
-    sfButtonRight,
-    sfButtonMiddle,
-    sfButtonX1,
-    sfButtonX2
-} sfMouseButton;
-
-
-////////////////////////////////////////////////////////////
-/// Definition of joystick axis for joystick events
-////////////////////////////////////////////////////////////
-typedef enum
-{
-    sfJoyAxisX,
-    sfJoyAxisY,
-    sfJoyAxisZ,
-    sfJoyAxisR,
-    sfJoyAxisU,
-    sfJoyAxisV,
-    sfJoyAxisPOV
-} sfJoyAxis;
-
-
-////////////////////////////////////////////////////////////
-/// Definition of all the event types
+/// \brief Definition of all the event types
+///
 ////////////////////////////////////////////////////////////
 typedef enum
 {
@@ -188,112 +52,137 @@ typedef enum
     sfEvtMouseMoved,
     sfEvtMouseEntered,
     sfEvtMouseLeft,
-    sfEvtJoyButtonPressed,
-    sfEvtJoyButtonReleased,
-    sfEvtJoyMoved
+    sfEvtJoystickButtonPressed,
+    sfEvtJoystickButtonReleased,
+    sfEvtJoystickMoved,
+    sfEvtJoystickConnected,
+    sfEvtJoystickDisconnected
 } sfEventType;
 
 
 ////////////////////////////////////////////////////////////
-/// Keyboard event parameters
+/// \brief Keyboard event parameters
+///
 ////////////////////////////////////////////////////////////
 struct sfKeyEvent
 {
-    sfEventType Type;
-    sfKeyCode   Code;
-    sfBool      Alt;
-    sfBool      Control;
-    sfBool      Shift;
+    sfEventType type;
+    sfKeyCode   code;
+    sfBool      alt;
+    sfBool      control;
+    sfBool      shift;
+    sfBool      system;
 };
 
 ////////////////////////////////////////////////////////////
-/// Text event parameters
+/// \brief Text event parameters
+///
 ////////////////////////////////////////////////////////////
 struct sfTextEvent
 {
-    sfEventType Type;
-    sfUint32    Unicode;
+    sfEventType type;
+    sfUint32    unicode;
 };
 
 ////////////////////////////////////////////////////////////
-/// Mouse move event parameters
+/// \brief Mouse move event parameters
+///
 ////////////////////////////////////////////////////////////
 struct sfMouseMoveEvent
 {
-    sfEventType Type;
-    int         X;
-    int         Y;
+    sfEventType type;
+    int         x;
+    int         y;
 };
 
 ////////////////////////////////////////////////////////////
-/// Mouse buttons events parameters
+/// \brief Mouse buttons events parameters
+///
 ////////////////////////////////////////////////////////////
 struct sfMouseButtonEvent
 {
-    sfEventType   Type;
-    sfMouseButton Button;
-    int           X;
-    int           Y;
+    sfEventType   type;
+    sfMouseButton button;
+    int           x;
+    int           y;
 };
 
 ////////////////////////////////////////////////////////////
-/// Mouse wheel events parameters
+/// \brief Mouse wheel events parameters
+///
 ////////////////////////////////////////////////////////////
 struct sfMouseWheelEvent
 {
-    sfEventType Type;
-    int         Delta;
+    sfEventType type;
+    int         delta;
+    int         x;
+    int         y;
 };
 
 ////////////////////////////////////////////////////////////
-/// Joystick axis move event parameters
+/// \brief Joystick axis move event parameters
+///
 ////////////////////////////////////////////////////////////
-struct sfJoyMoveEvent
+struct sfJoystickMoveEvent
 {
-    sfEventType  Type;
-    unsigned int JoystickId;
-    sfJoyAxis    Axis;
-    float        Position;
+    sfEventType    type;
+    unsigned int   joystickId;
+    sfJoystickAxis axis;
+    float          position;
 };
 
 ////////////////////////////////////////////////////////////
-/// Joystick buttons events parameters
+/// \brief Joystick buttons events parameters
+///
 ////////////////////////////////////////////////////////////
-struct sfJoyButtonEvent
+struct sfJoystickButtonEvent
 {
-    sfEventType  Type;
-    unsigned int JoystickId;
-    unsigned int Button;
+    sfEventType  type;
+    unsigned int joystickId;
+    unsigned int button;
 };
 
 ////////////////////////////////////////////////////////////
-/// Size events parameters
+/// \brief Joystick connection/disconnection event parameters
+///
+////////////////////////////////////////////////////////////
+struct sfJoystickConnectEvent
+{
+    sfEventType  type;
+    unsigned int joystickId;
+};
+
+////////////////////////////////////////////////////////////
+/// \brief Size events parameters
+///
 ////////////////////////////////////////////////////////////
 struct sfSizeEvent
 {
-    sfEventType  Type;
-    unsigned int Width;
-    unsigned int Height;
+    sfEventType  type;
+    unsigned int width;
+    unsigned int height;
 };
 
 
 ////////////////////////////////////////////////////////////
-/// sfEvent defines a system event and its parameters
+/// \brief sfEvent defines a system event and its parameters
+///
 ////////////////////////////////////////////////////////////
 typedef union
 {
     ////////////////////////////////////////////////////////////
     // Member data
     ////////////////////////////////////////////////////////////
-    sfEventType               Type; ///< Type of the event
-    struct sfKeyEvent         Key;
-    struct sfTextEvent        Text;
-    struct sfMouseMoveEvent   MouseMove;
-    struct sfMouseButtonEvent MouseButton;
-    struct sfMouseWheelEvent  MouseWheel;
-    struct sfJoyMoveEvent     JoyMove;
-    struct sfJoyButtonEvent   JoyButton;
-    struct sfSizeEvent        Size;
+    sfEventType                   type; ///< Type of the event
+    struct sfSizeEvent            size;
+    struct sfKeyEvent             key;
+    struct sfTextEvent            text;
+    struct sfMouseMoveEvent       mouseMove;
+    struct sfMouseButtonEvent     mouseButton;
+    struct sfMouseWheelEvent      mouseWheel;
+    struct sfJoystickMoveEvent    joystickMove;
+    struct sfJoystickButtonEvent  joystickButton;
+    struct sfJoystickConnectEvent joystickConnect;
 } sfEvent;
 
 

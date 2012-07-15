@@ -1,0 +1,1 @@
+sfVector2f sfTransform_transformPoint(const sfTransform* transform, sfVector2f point);

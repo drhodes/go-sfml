@@ -21,69 +21,67 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef SFML_VIDEOMODE_H
-#define SFML_VIDEOMODE_H
+#ifndef SFML_MOUSE_H
+#define SFML_MOUSE_H
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
 #include <SFML/Window/Export.h>
-#include <stddef.h>
+#include <SFML/Window/Types.h>
+#include <SFML/System/Vector2.h>
 
 
 ////////////////////////////////////////////////////////////
-/// \brief sfVideoMode defines a video mode (width, height, bpp, frequency)
-///        and provides functions for getting modes supported
-///        by the display device
+/// \brief Mouse buttons
 ///
 ////////////////////////////////////////////////////////////
-typedef struct
+typedef enum
 {
-    unsigned int width;        ///< Video mode width, in pixels
-    unsigned int height;       ///< Video mode height, in pixels
-    unsigned int bitsPerPixel; ///< Video mode pixel depth, in bits per pixels
-} sfVideoMode;
+    sfMouseLeft,       ///< The left mouse button
+    sfMouseRight,      ///< The right mouse button
+    sfMouseMiddle,     ///< The middle (wheel) mouse button
+    sfMouseXButton1,   ///< The first extra mouse button
+    sfMouseXButton2,   ///< The second extra mouse button
+
+    sfMouseButtonCount ///< Keep last -- the total number of mouse buttons
+} sfMouseButton;
 
 
 ////////////////////////////////////////////////////////////
-/// \brief Get the current desktop video mode
+/// \brief Check if a mouse button is pressed
 ///
-/// \return Current desktop video mode
+/// \param button Button to check
+///
+/// \return sfTrue if the button is pressed, sfFalse otherwise
 ///
 ////////////////////////////////////////////////////////////
-CSFML_WINDOW_API sfVideoMode sfVideoMode_getDesktopMode(void);
+CSFML_WINDOW_API sfBool sfMouse_isButtonPressed(sfMouseButton button);
 
 ////////////////////////////////////////////////////////////
-/// \brief Retrieve all the video modes supported in fullscreen mode
+/// \brief Get the current position of the mouse
 ///
-/// When creating a fullscreen window, the video mode is restricted
-/// to be compatible with what the graphics driver and monitor
-/// support. This function returns the complete list of all video
-/// modes that can be used in fullscreen mode.
-/// The returned array is sorted from best to worst, so that
-/// the first element will always give the best mode (higher
-/// width, height and bits-per-pixel).
+/// This function returns the current position of the mouse
+/// cursor relative to the given window, or desktop if NULL is passed.
 ///
-/// \param count Pointer to a variable that will be filled with the number of modes in the array
+/// \param relativeTo Reference window
 ///
-/// \return Pointer to an array containing all the supported fullscreen modes
+/// \return Position of the mouse cursor, relative to the given window
 ///
 ////////////////////////////////////////////////////////////
-CSFML_WINDOW_API const sfVideoMode* sfVideoMode_getFullscreenModes(size_t* Count);
+CSFML_WINDOW_API sfVector2i sfMouse_getPosition(const sfWindow* relativeTo);
 
 ////////////////////////////////////////////////////////////
-/// \brief Tell whether or not a video mode is valid
+/// \brief Set the current position of the mouse
 ///
-/// The validity of video modes is only relevant when using
-/// fullscreen windows; otherwise any video mode can be used
-/// with no restriction.
+/// This function sets the current position of the mouse
+/// cursor relative to the given window, or desktop if NULL is passed.
 ///
-/// \param mode Video mode
-///
-/// \return sfTrue if the video mode is valid for fullscreen mode
+/// \param position   New position of the mouse
+/// \param relativeTo Reference window
 ///
 ////////////////////////////////////////////////////////////
-CSFML_WINDOW_API sfBool sfVideoMode_isValid(sfVideoMode mode);
+CSFML_WINDOW_API void sfMouse_setPosition(sfVector2i position, const sfWindow* relativeTo);
 
 
-#endif // SFML_VIDEOMODE_H
+#endif // SFML_MOUSE_H

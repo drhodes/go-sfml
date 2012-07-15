@@ -22,42 +22,27 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef SFML_CONTEXT_H
-#define SFML_CONTEXT_H
+#ifndef SFML_WINDOW_EXPORT_H
+#define SFML_WINDOW_EXPORT_H
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <SFML/Window/Export.h>
-#include <SFML/Window/Types.h>
+#include <SFML/Config.h>
 
 
 ////////////////////////////////////////////////////////////
-/// \brief Create a new context
-///
-/// This function activates the new context.
-///
-/// \return New sfContext object
-///
+// Define portable import / export macros
 ////////////////////////////////////////////////////////////
-CSFML_WINDOW_API sfContext* sfContext_create(void);
+#if defined(CSFML_WINDOW_EXPORTS)
 
-////////////////////////////////////////////////////////////
-/// \brief Destroy a context
-///
-/// \param context Context to destroy
-///
-////////////////////////////////////////////////////////////
-CSFML_WINDOW_API void sfContext_destroy(sfContext* context);
+    #define CSFML_WINDOW_API CSFML_API_EXPORT
 
-////////////////////////////////////////////////////////////
-/// \brief Activate or deactivate explicitely a context
-///
-/// \param context Context object
-/// \param active  sfTrue to activate, sfFalse to deactivate
-///
-////////////////////////////////////////////////////////////
-CSFML_WINDOW_API void sfContext_setActive(sfContext* context, sfBool active);
+#else
+
+    #define CSFML_WINDOW_API CSFML_API_IMPORT
+
+#endif
 
 
-#endif // SFML_CONTEXT_H
+#endif // SFML_WINDOW_EXPORT_H
