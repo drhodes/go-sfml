@@ -163,10 +163,12 @@ import sys
 if __name__ == "__main__":    
     text = sys.stdin.read()
     for line in text.split("\n"):
+        if "#include" in line:
+            print line
         if line.startswith("///"):
             print line
-        if line.startswith("CSFML_GRAPHICS_API"):
-            txt = line.split("CSFML_GRAPHICS_API")[1]
+        if line.startswith("CSFML_"):
+            txt = line.split("_API ")[1]
             print "// " + txt
             tree = parser.go(txt, parser.proto)            
             t = maketree(tree[0])

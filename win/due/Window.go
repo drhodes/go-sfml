@@ -1,17 +1,24 @@
+package win
+
+// #cgo LDFLAGS:-lcsfml-window
+// #include <SFML/Window/Export.h>
+// #include <SFML/Window/Event.h>
+// #include <SFML/Window/VideoMode.h>
+// #include <SFML/Window/WindowHandle.h>
+// #include <SFML/Window/Types.h>
+// #include <SFML/System/Vector2.h>
+import "C"
+
 ////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////
-/// \brief Enumeration of window creation styles
+///  Enumeration of window creation styles
 ///
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
-/// \brief Structure defining the window's creation settings
+///  Structure defining the window's creation settings
 ///
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
-/// \brief Construct a new window
+///  Construct a new window
 ///
 /// This function creates the window with the size and pixel
 /// depth defined in \a mode. An optional style can be passed to
@@ -31,8 +38,14 @@
 /// \return A new sfWindow object
 ///
 ////////////////////////////////////////////////////////////
+// sfWindow* sfWindow_create(sfVideoMode mode, const char* title, sfUint32 style, const sfContextSettings* settings);
+
+func NewWindow(title string, style uint32, settings ContextSettings ) Window { 
+    return C.sfWindow_create();
+}
+
 ////////////////////////////////////////////////////////////
-/// \brief Construct a window from an existing control
+///  Construct a window from an existing control
 ///
 /// Use this constructor if you want to create an OpenGL
 /// rendering area into an already existing control.
@@ -47,14 +60,26 @@
 /// \return A new sfWindow object
 ///
 ////////////////////////////////////////////////////////////
+// sfWindow* sfWindow_createFromHandle(sfWindowHandle handle, const sfContextSettings* settings);
+
+func (self Window) Createfromhandle(handle WindowHandle, settings ContextSettings ) *Window { 
+    return C.sfWindow_createFromHandle(handle.Cref, settings.Cref);
+}
+            
 ////////////////////////////////////////////////////////////
-/// \brief Destroy a window
+///  Destroy a window
 ///
 /// \param window Window to destroy
 ///
 ////////////////////////////////////////////////////////////
+// void sfWindow_destroy(sfWindow* window);
+
+func (self Window) Destroy() void { 
+    return C.sfWindow_destroy(self.Cref);
+}
+            
 ////////////////////////////////////////////////////////////
-/// \brief Close a window and destroy all the attached resources
+///  Close a window and destroy all the attached resources
 ///
 /// After calling this function, the sfWindow object remains
 /// valid, you must call sfWindow_destroy to actually delete it.
@@ -65,8 +90,14 @@
 /// \param window Window object
 ///
 ////////////////////////////////////////////////////////////
+// void sfWindow_close(sfWindow* window);
+
+func (self Window) Close() { 
+    return C.sfWindow_close(self.Cref);
+}
+            
 ////////////////////////////////////////////////////////////
-/// \brief Tell whether or not a window is opened
+///  Tell whether or not a window is opened
 ///
 /// This function returns whether or not the window exists.
 /// Note that a hidden window (sfWindow_SetVisible(sfFalse)) will return
@@ -77,8 +108,14 @@
 /// \return sfTrue if the window is opened, sfFalse if it has been closed
 ///
 ////////////////////////////////////////////////////////////
+// sfBool sfWindow_isOpen(const sfWindow* window);
+
+func (self Window) Isopen() bool { 
+    return C.sfWindow_isOpen();
+}
+            
 ////////////////////////////////////////////////////////////
-/// \brief Get the settings of the OpenGL context of a window
+///  Get the settings of the OpenGL context of a window
 ///
 /// Note that these settings may be different from what was
 /// passed to the sfWindow_create function,
@@ -90,8 +127,14 @@
 /// \return Structure containing the OpenGL context settings
 ///
 ////////////////////////////////////////////////////////////
+// sfContextSettings sfWindow_getSettings(const sfWindow* window);
+
+func (self Window) Getsettings() ContextSettings { 
+    return C.sfWindow_getSettings();
+}
+            
 ////////////////////////////////////////////////////////////
-/// \brief Pop the event on top of events stack, if any, and return it
+///  Pop the event on top of events stack, if any, and return it
 ///
 /// This function is not blocking: if there's no pending event then
 /// it will return false and leave \a event unmodified.
@@ -105,8 +148,14 @@
 /// \return sfTrue if an event was returned, or sfFalse if the events stack was empty
 ///
 ////////////////////////////////////////////////////////////
+// sfBool sfWindow_pollEvent(sfWindow* window, sfEvent* event);
+
+func (self Window) Pollevent(event *Event) Bool { 
+    return C.sfWindow_pollEvent();
+}
+            
 ////////////////////////////////////////////////////////////
-/// \brief Wait for an event and return it
+///  Wait for an event and return it
 ///
 /// This function is blocking: if there's no pending event then
 /// it will wait until an event is received.
@@ -122,16 +171,28 @@
 /// \return sfFalse if any error occured
 ///
 ////////////////////////////////////////////////////////////
+// sfBool sfWindow_waitEvent(sfWindow* window, sfEvent* event);
+
+func (self Window) Waitevent(event *Event) Bool { 
+    return C.sfWindow_waitEvent();
+}
+            
 ////////////////////////////////////////////////////////////
-/// \brief Get the position of a window
+///  Get the position of a window
 ///
 /// \param window Window object
 ///
 /// \return Position in pixels
 ///
 ////////////////////////////////////////////////////////////
+// sfVector2i sfWindow_getPosition(const sfWindow* window);
+
+func (self Window) Getposition() Vector2i { 
+    return C.sfWindow_getPosition();
+}
+            
 ////////////////////////////////////////////////////////////
-/// \brief Change the position of a window on screen
+///  Change the position of a window on screen
 ///
 /// This function only works for top-level windows
 /// (i.e. it will be ignored for windows created from
@@ -141,8 +202,14 @@
 /// \param position New position of the window, in pixels
 ///
 ////////////////////////////////////////////////////////////
+// void sfWindow_setPosition(sfWindow* window, sfVector2i position);
+
+func (self Window) Setposition(position Vector2i) void { 
+    return C.sfWindow_setPosition();
+}
+            
 ////////////////////////////////////////////////////////////
-/// \brief Get the size of the rendering region of a window
+///  Get the size of the rendering region of a window
 ///
 /// The size doesn't include the titlebar and borders
 /// of the window.
@@ -152,22 +219,40 @@
 /// \return Size in pixels
 ///
 ////////////////////////////////////////////////////////////
+// sfVector2u sfWindow_getSize(const sfWindow* window);
+
+func (self Window) Getsize() Vector2u { 
+    return C.sfWindow_getSize();
+}
+            
 ////////////////////////////////////////////////////////////
-/// \brief Change the size of the rendering region of a window
+///  Change the size of the rendering region of a window
 ///
 /// \param window Window object
 /// \param size   New size, in pixels
 ///
 ////////////////////////////////////////////////////////////
+// void sfWindow_setSize(sfWindow* window, sfVector2u size);
+
+func (self Window) Setsize(size Vector2u) void { 
+    return C.sfWindow_setSize();
+}
+            
 ////////////////////////////////////////////////////////////
-/// \brief Change the title of a window
+///  Change the title of a window
 ///
 /// \param window Window object
 /// \param title  New title
 ///
 ////////////////////////////////////////////////////////////
+// void sfWindow_setTitle(sfWindow* window, const char* title);
+
+func (self Window) Settitle(title *char ) void { 
+    return C.sfWindow_setTitle();
+}
+            
 ////////////////////////////////////////////////////////////
-/// \brief Change a window's icon
+///  Change a window's icon
 ///
 /// \a pixels must be an array of \a width x \a height pixels
 /// in 32-bits RGBA format.
@@ -178,22 +263,40 @@
 /// \param pixels Pointer to the array of pixels in memory
 ///
 ////////////////////////////////////////////////////////////
+// void sfWindow_setIcon(sfWindow* window, unsigned int width, unsigned int height, const sfUint8* pixels);
+
+func (self Window) Seticon(width int , height int , pixels *Uint8 ) void { 
+    return C.sfWindow_setIcon();
+}
+            
 ////////////////////////////////////////////////////////////
-/// \brief Show or hide a window
+///  Show or hide a window
 ///
 /// \param window  Window object
 /// \param visible sfTrue to show the window, sfFalse to hide it
 ///
 ////////////////////////////////////////////////////////////
+// void sfWindow_setVisible(sfWindow* window, sfBool visible);
+
+func (self Window) Setvisible(visible Bool) void { 
+    return C.sfWindow_setVisible();
+}
+            
 ////////////////////////////////////////////////////////////
-/// \brief Show or hide the mouse cursor
+///  Show or hide the mouse cursor
 ///
 /// \param window  Window object
 /// \param visible sfTrue to show, sfFalse to hide
 ///
 ////////////////////////////////////////////////////////////
+// void sfWindow_setMouseCursorVisible(sfWindow* window, sfBool visible);
+
+func (self Window) Setmousecursorvisible(visible Bool) void { 
+    return C.sfWindow_setMouseCursorVisible();
+}
+            
 ////////////////////////////////////////////////////////////
-/// \brief Enable or disable vertical synchronization
+///  Enable or disable vertical synchronization
 ///
 /// Activating vertical synchronization will limit the number
 /// of frames displayed to the refresh rate of the monitor.
@@ -204,8 +307,14 @@
 /// \param enabled sfTrue to enable v-sync, sfFalse to deactivate
 ///
 ////////////////////////////////////////////////////////////
+// void sfWindow_setVerticalSyncEnabled(sfWindow* window, sfBool enabled);
+
+func (self Window) SetVerticalSyncEnabled(enabled bool) void { 
+    return C.sfWindow_setVerticalSyncEnabled(self.Cref, C.sfBool(enabled))
+}
+            
 ////////////////////////////////////////////////////////////
-/// \brief Enable or disable automatic key-repeat
+///  Enable or disable automatic key-repeat
 ///
 /// If key repeat is enabled, you will receive repeated
 /// KeyPress events while keeping a key pressed. If it is disabled,
@@ -217,8 +326,14 @@
 /// \param enabled sfTrue to enable, sfFalse to disable
 ///
 ////////////////////////////////////////////////////////////
+// void sfWindow_setKeyRepeatEnabled(sfWindow* window, sfBool enabled);
+
+func (self Window) Setkeyrepeatenabled(enabled Bool) void { 
+    return C.sfWindow_setKeyRepeatEnabled();
+}
+            
 ////////////////////////////////////////////////////////////
-/// \brief Activate or deactivate a window as the current target
+///  Activate or deactivate a window as the current target
 ///        for OpenGL rendering
 ///
 /// A window is active only on the current thread, if you want to
@@ -233,8 +348,14 @@
 /// \return sfTrue if operation was successful, sfFalse otherwise
 ///
 ////////////////////////////////////////////////////////////
+// sfBool sfWindow_setActive(sfWindow* window, sfBool active);
+
+func (self Window) Setactive(active Bool) Bool { 
+    return C.sfWindow_setActive();
+}
+            
 ////////////////////////////////////////////////////////////
-/// \brief Display on screen what has been rendered to the
+///  Display on screen what has been rendered to the
 ///        window so far
 ///
 /// This function is typically called after all OpenGL rendering
@@ -244,8 +365,14 @@
 /// \param window Window object
 ///
 ////////////////////////////////////////////////////////////
+// void sfWindow_display(sfWindow* window);
+
+func (self Window) Display() void { 
+    return C.sfWindow_display();
+}
+            
 ////////////////////////////////////////////////////////////
-/// \brief Limit the framerate to a maximum fixed frequency
+///  Limit the framerate to a maximum fixed frequency
 ///
 /// If a limit is set, the window will use a small delay after
 /// each call to sfWindow_Display to ensure that the current frame
@@ -255,8 +382,14 @@
 /// \param limit  Framerate limit, in frames per seconds (use 0 to disable limit)
 ///
 ////////////////////////////////////////////////////////////
+// void sfWindow_setFramerateLimit(sfWindow* window, unsigned int limit);
+
+func (self Window) Setframeratelimit(limit int ) void { 
+    return C.sfWindow_setFramerateLimit();
+}
+            
 ////////////////////////////////////////////////////////////
-/// \brief Change the joystick threshold
+///  Change the joystick threshold
 ///
 /// The joystick threshold is the value below which
 /// no JoyMoved event will be generated.
@@ -265,8 +398,14 @@
 /// \param threshold New threshold, in the range [0, 100]
 ///
 ////////////////////////////////////////////////////////////
+// void sfWindow_setJoystickThreshold(sfWindow* window, float threshold);
+
+func (self Window) Setjoystickthreshold(threshold float) void { 
+    return C.sfWindow_setJoystickThreshold();
+}
+            
 ////////////////////////////////////////////////////////////
-/// \brief Get the OS-specific handle of the window
+///  Get the OS-specific handle of the window
 ///
 /// The type of the returned handle is sfWindowHandle,
 /// which is a typedef to the handle type defined by the OS.
@@ -279,3 +418,9 @@
 /// \return System handle of the window
 ///
 ////////////////////////////////////////////////////////////
+// sfWindowHandle sfWindow_getSystemHandle(const sfWindow* window);
+
+func (self Window) Getsystemhandle() WindowHandle { 
+    return C.sfWindow_getSystemHandle();
+}
+            
