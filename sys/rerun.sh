@@ -5,7 +5,7 @@ WATCH_PATH=`pwd`
 while inotifywait -e modify -r ./ 2> /dev/null; do	
 	clear
 	echo "------------------------------------------------------------------"
-	./build.sh
+	go test #./build.sh
 
 	if [ "$?" -eq "0" ]
 	then 

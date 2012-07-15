@@ -22,26 +22,27 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef SFML_GRAPHICS_TYPES_H
-#define SFML_GRAPHICS_TYPES_H
+#ifndef SFML_GRAPHICS_EXPORT_H
+#define SFML_GRAPHICS_EXPORT_H
+
+////////////////////////////////////////////////////////////
+// Headers
+////////////////////////////////////////////////////////////
+#include <SFML/Config.h>
 
 
-typedef struct sfCircleShape sfCircleShape;
-typedef struct sfConvexShape sfConvexShape;
-typedef struct sfFont sfFont;
-typedef struct sfImage sfImage;
-typedef struct sfShader sfShader;
-typedef struct sfRectangleShape sfRectangleShape;
-typedef struct sfRenderTexture sfRenderTexture;
-typedef struct sfRenderWindow sfRenderWindow;
-typedef struct sfShape sfShape;
-typedef struct sfSprite sfSprite;
-typedef struct sfText sfText;
-typedef struct sfTexture sfTexture;
-typedef struct sfTransform sfTransform;
-typedef struct sfTransformable sfTransformable;
-typedef struct sfVertexArray sfVertexArray;
-typedef struct sfView sfView;
+////////////////////////////////////////////////////////////
+// Define portable import / export macros
+////////////////////////////////////////////////////////////
+#if defined(CSFML_GRAPHICS_EXPORTS)
+
+    #define CSFML_GRAPHICS_API CSFML_API_EXPORT
+
+#else
+
+    #define CSFML_GRAPHICS_API CSFML_API_IMPORT
+
+#endif
 
 
-#endif // SFML_GRAPHICS_TYPES_H
+#endif // SFML_GRAPHICS_EXPORT_H

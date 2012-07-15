@@ -22,26 +22,26 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef SFML_GRAPHICS_TYPES_H
-#define SFML_GRAPHICS_TYPES_H
+#ifndef SFML_VERTEX_H
+#define SFML_VERTEX_H
+
+////////////////////////////////////////////////////////////
+// Headers
+////////////////////////////////////////////////////////////
+#include <SFML/Graphics/Export.h>
+#include <SFML/Graphics/Color.h>
+#include <SFML/System/Vector2.h>
 
 
-typedef struct sfCircleShape sfCircleShape;
-typedef struct sfConvexShape sfConvexShape;
-typedef struct sfFont sfFont;
-typedef struct sfImage sfImage;
-typedef struct sfShader sfShader;
-typedef struct sfRectangleShape sfRectangleShape;
-typedef struct sfRenderTexture sfRenderTexture;
-typedef struct sfRenderWindow sfRenderWindow;
-typedef struct sfShape sfShape;
-typedef struct sfSprite sfSprite;
-typedef struct sfText sfText;
-typedef struct sfTexture sfTexture;
-typedef struct sfTransform sfTransform;
-typedef struct sfTransformable sfTransformable;
-typedef struct sfVertexArray sfVertexArray;
-typedef struct sfView sfView;
+////////////////////////////////////////////////////////////
+/// Define a point with color and texture coordinates
+////////////////////////////////////////////////////////////
+typedef struct
+{
+    sfVector2f position;  ///< Position of the vertex
+    sfColor    color;     ///< Color of the vertex
+    sfVector2f texCoords; ///< Coordinates of the texture's pixel to map to the vertex
+} sfVertex;
 
 
-#endif // SFML_GRAPHICS_TYPES_H
+#endif // SFML_VERTEX_H

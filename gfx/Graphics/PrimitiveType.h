@@ -22,25 +22,33 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef SFML_GLYPH_H
-#define SFML_GLYPH_H
+#ifndef SFML_PRIMITIVETYPE_H
+#define SFML_PRIMITIVETYPE_H
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <SFML/Graphics/Rect.h>
+#include <SFML/Graphics/Export.h>
 
 
 ////////////////////////////////////////////////////////////
-/// \brief sfGlyph describes a glyph (a visual character)
+/// \brief Types of primitives that a sf::VertexArray can render
+///
+/// Points and lines have no area, therefore their thickness
+/// will always be 1 pixel, regarldess the current transform
+/// and view.
 ///
 ////////////////////////////////////////////////////////////
-typedef struct
+typedef enum 
 {
-    int       advance;     ///< Offset to move horizontically to the next character
-    sfIntRect bounds;      ///< Bounding rectangle of the glyph, in coordinates relative to the baseline
-    sfIntRect textureRect; ///< Texture coordinates of the glyph inside the font's image
-} sfGlyph;
+    sfPoints,         ///< List of individual points
+    sfLines,          ///< List of individual lines
+    sfLinesStrip,     ///< List of connected lines, a point uses the previous point to form a line
+    sfTriangles,      ///< List of individual triangles
+    sfTrianglesStrip, ///< List of connected triangles, a point uses the two previous points to form a triangle
+    sfTrianglesFan,   ///< List of connected triangles, a point uses the common center and the previous point to form a triangle
+    sfQuads           ///< List of individual quads
+} sfPrimitiveType;
 
 
-#endif // SFML_GLYPH_H
+#endif // SFML_BLENDMODE_H

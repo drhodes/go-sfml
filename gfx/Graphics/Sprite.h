@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////
 //
 // SFML - Simple and Fast Multimedia Library
-// Copyright (C) 2007-2009 Laurent Gomila (laurent.gom@gmail.com)
+// Copyright (C) 2007-2012 Laurent Gomila (laurent.gom@gmail.com)
 //
 // This software is provided 'as-is', without any express or implied warranty.
 // In no event will the authors be held liable for any damages arising from the use of this software.
@@ -28,365 +28,305 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <SFML/Config.h>
+#include <SFML/Graphics/Export.h>
 #include <SFML/Graphics/BlendMode.h>
 #include <SFML/Graphics/Color.h>
 #include <SFML/Graphics/Rect.h>
 #include <SFML/Graphics/Types.h>
+#include <SFML/System/Vector2.h>
 
 
 ////////////////////////////////////////////////////////////
-/// Create a new sprite
+/// \brief Create a new sprite
 ///
 /// \return A new sfSprite object, or NULL if it failed
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API sfSprite* sfSprite_Create();
+CSFML_GRAPHICS_API sfSprite* sfSprite_create(void);
 
 ////////////////////////////////////////////////////////////
-/// Destroy an existing sprite
+/// \brief Copy an existing sprite
 ///
-/// \param Sprite : Sprite to delete
+/// \param sprite Sprite to copy
+///
+/// \return Copied object
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API void sfSprite_Destroy(sfSprite* Sprite);
+CSFML_GRAPHICS_API sfSprite* sfSprite_copy(sfSprite* sprite);
 
 ////////////////////////////////////////////////////////////
-/// Set the X position of a sprite
+/// \brief Destroy an existing sprite
 ///
-/// \param Sprite : Sprite to modify
-/// \param X :      New X coordinate
+/// \param sprite Sprite to delete
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API void sfSprite_SetX(sfSprite* Sprite, float X);
+CSFML_GRAPHICS_API void sfSprite_destroy(sfSprite* sprite);
 
 ////////////////////////////////////////////////////////////
-/// Set the T position of a sprite
+/// \brief Set the position of a sprite
 ///
-/// \param Sprite : Sprite to modify
-/// \param Y :      New Y coordinate
+/// This function completely overwrites the previous position.
+/// See sfSprite_move to apply an offset based on the previous position instead.
+/// The default position of a sprite Sprite object is (0, 0).
+///
+/// \param sprite   Sprite object
+/// \param position New position
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API void sfSprite_SetY(sfSprite* Sprite, float Y);
+CSFML_GRAPHICS_API void sfSprite_setPosition(sfSprite* sprite, sfVector2f position);
 
 ////////////////////////////////////////////////////////////
-/// Set the position of a sprite
+/// \brief Set the orientation of a sprite
 ///
-/// \param Sprite : Sprite to modify
-/// \param X :      New X coordinate
-/// \param Y :      New Y coordinate
+/// This function completely overwrites the previous rotation.
+/// See sfSprite_rotate to add an angle based on the previous rotation instead.
+/// The default rotation of a sprite Sprite object is 0.
+///
+/// \param sprite Sprite object
+/// \param angle  New rotation, in degrees
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API void sfSprite_SetPosition(sfSprite* Sprite, float X, float Y);
+CSFML_GRAPHICS_API void sfSprite_setRotation(sfSprite* sprite, float angle);
 
 ////////////////////////////////////////////////////////////
-/// Set the horizontal scale of a sprite
+/// \brief Set the scale factors of a sprite
 ///
-/// \param Sprite : Sprite to modify
-/// \param Scale :  New scale (must be strictly positive)
+/// This function completely overwrites the previous scale.
+/// See sfSprite_scale to add a factor based on the previous scale instead.
+/// The default scale of a sprite Sprite object is (1, 1).
+///
+/// \param sprite Sprite object
+/// \param scale  New scale factors
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API void sfSprite_SetScaleX(sfSprite* Sprite, float Scale);
+CSFML_GRAPHICS_API void sfSprite_setScale(sfSprite* sprite, sfVector2f scale);
 
 ////////////////////////////////////////////////////////////
-/// Set the vertical scale of a sprite
+/// \brief Set the local origin of a sprite
 ///
-/// \param Sprite : Sprite to modify
-/// \param Scale :  New scale (must be strictly positive)
+/// The origin of an object defines the center point for
+/// all transformations (position, scale, rotation).
+/// The coordinates of this point must be relative to the
+/// top-left corner of the object, and ignore all
+/// transformations (position, scale, rotation).
+/// The default origin of a sprite Sprite object is (0, 0).
+///
+/// \param sprite Sprite object
+/// \param origin New origin
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API void sfSprite_SetScaleY(sfSprite* Sprite, float Scale);
+CSFML_GRAPHICS_API void sfSprite_setOrigin(sfSprite* sprite, sfVector2f origin);
 
 ////////////////////////////////////////////////////////////
-/// Set the scale of a sprite
+/// \brief Get the position of a sprite
 ///
-/// \param Sprite : Sprite to modify
-/// \param ScaleX : New horizontal scale (must be strictly positive)
-/// \param ScaleY : New vertical scale (must be strictly positive)
+/// \param sprite Sprite object
+///
+/// \return Current position
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API void sfSprite_SetScale(sfSprite* Sprite, float ScaleX, float ScaleY);
+CSFML_GRAPHICS_API sfVector2f sfSprite_getPosition(const sfSprite* sprite);
 
 ////////////////////////////////////////////////////////////
-/// Set the orientation of a sprite
+/// \brief Get the orientation of a sprite
 ///
-/// \param Sprite :   Sprite to modify
-/// \param Rotation : Angle of rotation, in degrees
+/// The rotation is always in the range [0, 360].
 ///
-////////////////////////////////////////////////////////////
-CSFML_API void sfSprite_SetRotation(sfSprite* Sprite, float Rotation);
-
-////////////////////////////////////////////////////////////
-/// Set the center of a sprite, in coordinates relative to
-/// its left-top corner
-///
-/// \param Sprite : Sprite to modify
-/// \param X :      X coordinate of the center
-/// \param Y :      Y coordinate of the center
-///
-////////////////////////////////////////////////////////////
-CSFML_API void sfSprite_SetCenter(sfSprite* Sprite, float X, float Y);
-
-////////////////////////////////////////////////////////////
-/// Set the color of a sprite
-///
-/// \param Sprite : Sprite to modify
-/// \param Color :  New color
-///
-////////////////////////////////////////////////////////////
-CSFML_API void sfSprite_SetColor(sfSprite* Sprite, sfColor Color);
-
-////////////////////////////////////////////////////////////
-/// Set the blending mode for a sprite
-///
-/// \param Sprite : Sprite to modify
-/// \param Mode :   New blending mode
-///
-////////////////////////////////////////////////////////////
-CSFML_API void sfSprite_SetBlendMode(sfSprite* Sprite, sfBlendMode Mode);
-
-////////////////////////////////////////////////////////////
-/// Get the X position of a sprite
-///
-/// \param Sprite : Sprite to read
-///
-/// \return Current X position
-///
-////////////////////////////////////////////////////////////
-CSFML_API float sfSprite_GetX(sfSprite* Sprite);
-
-////////////////////////////////////////////////////////////
-/// Get the Y position of a sprite
-///
-/// \param Sprite : Sprite to read
-///
-/// \return Current Y position
-///
-////////////////////////////////////////////////////////////
-CSFML_API float sfSprite_GetY(sfSprite* Sprite);
-
-////////////////////////////////////////////////////////////
-/// Get the horizontal scale of a sprite
-///
-/// \param Sprite : Sprite to read
-///
-/// \return Current X scale factor (always positive)
-///
-////////////////////////////////////////////////////////////
-CSFML_API float sfSprite_GetScaleX(sfSprite* Sprite);
-
-////////////////////////////////////////////////////////////
-/// Get the vertical scale of a sprite
-///
-/// \param Sprite : Sprite to read
-///
-/// \return Current Y scale factor (always positive)
-///
-////////////////////////////////////////////////////////////
-CSFML_API float sfSprite_GetScaleY(sfSprite* Sprite);
-
-////////////////////////////////////////////////////////////
-/// Get the orientation of a sprite
-///
-/// \param Sprite : Sprite to read
+/// \param sprite Sprite object
 ///
 /// \return Current rotation, in degrees
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API float sfSprite_GetRotation(sfSprite* Sprite);
+CSFML_GRAPHICS_API float sfSprite_getRotation(const sfSprite* sprite);
 
 ////////////////////////////////////////////////////////////
-/// Get the X position of the center a sprite
+/// \brief Get the current scale of a sprite
 ///
-/// \param Sprite : Sprite to read
+/// \param sprite Sprite object
 ///
-/// \return Current X center
+/// \return Current scale factors
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API float sfSprite_GetCenterX(sfSprite* Sprite);
+CSFML_GRAPHICS_API sfVector2f sfSprite_getScale(const sfSprite* sprite);
 
 ////////////////////////////////////////////////////////////
-/// Get the Y position of the center a sprite
+/// \brief Get the local origin of a sprite
 ///
-/// \param Sprite : Sprite to read
+/// \param sprite Sprite object
 ///
-/// \return Current Y center
+/// \return Current origin
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API float sfSprite_GetCenterY(sfSprite* Sprite);
+CSFML_GRAPHICS_API sfVector2f sfSprite_getOrigin(const sfSprite* sprite);
 
 ////////////////////////////////////////////////////////////
-/// Get the color of a sprite
+/// \brief Move a sprite by a given offset
 ///
-/// \param Sprite : Sprite to read
+/// This function adds to the current position of the object,
+/// unlike sfSprite_setPosition which overwrites it.
 ///
-/// \return Current color
+/// \param sprite Sprite object
+/// \param offset Offset
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API sfColor sfSprite_GetColor(sfSprite* Sprite);
+CSFML_GRAPHICS_API void sfSprite_move(sfSprite* sprite, sfVector2f offset);
 
 ////////////////////////////////////////////////////////////
-/// Get the current blending mode of a sprite
+/// \brief Rotate a sprite
 ///
-/// \param Sprite : Sprite to read
+/// This function adds to the current rotation of the object,
+/// unlike sfSprite_setRotation which overwrites it.
 ///
-/// \return Current blending mode
+/// \param sprite Sprite object
+/// \param angle  Angle of rotation, in degrees
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API sfBlendMode sfSprite_GetBlendMode(sfSprite* Sprite);
+CSFML_GRAPHICS_API void sfSprite_rotate(sfSprite* sprite, float angle);
 
 ////////////////////////////////////////////////////////////
-/// Move a sprite
+/// \brief Scale a sprite
 ///
-/// \param Sprite :  Sprite to modify
-/// \param OffsetX : Offset on the X axis
-/// \param OffsetY : Offset on the Y axis
+/// This function multiplies the current scale of the object,
+/// unlike sfSprite_setScale which overwrites it.
+///
+/// \param sprite  Sprite object
+/// \param factors Scale factors
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API void sfSprite_Move(sfSprite* Sprite, float OffsetX, float OffsetY);
+CSFML_GRAPHICS_API void sfSprite_scale(sfSprite* sprite, sfVector2f factors);
 
 ////////////////////////////////////////////////////////////
-/// Scale a sprite
+/// \brief Get the combined transform of a sprite
 ///
-/// \param Sprite :  Sprite to modify
-/// \param FactorX : Horizontal scaling factor (must be strictly positive)
-/// \param FactorY : Vertical scaling factor (must be strictly positive)
+/// \param sprite Sprite object
+///
+/// \return Transform combining the position/rotation/scale/origin of the object
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API void sfSprite_Scale(sfSprite* Sprite, float FactorX, float FactorY);
+CSFML_GRAPHICS_API const sfTransform* sfSprite_getTransform(const sfSprite* sprite);
 
 ////////////////////////////////////////////////////////////
-/// Rotate a sprite
+/// \brief Get the inverse of the combined transform of a sprite
 ///
-/// \param Sprite : Sprite to modify
-/// \param Angle :  Angle of rotation, in degrees
+/// \param sprite Sprite object
+///
+/// \return Inverse of the combined transformations applied to the object
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API void sfSprite_Rotate(sfSprite* Sprite, float Angle);
+CSFML_GRAPHICS_API const sfTransform* sfSprite_getInverseTransform(const sfSprite* sprite);
 
 ////////////////////////////////////////////////////////////
-/// Transform a point from global coordinates into the sprite's local coordinates
-/// (ie it applies the inverse of object's center, translation, rotation and scale to the point)
+/// \brief Change the source texture of a sprite
 ///
-/// \param Sprite : Sprite object
-/// \param PointX : X coordinate of the point to transform
-/// \param PointY : Y coordinate of the point to transform
-/// \param X :      Value to fill with the X coordinate of the converted point
-/// \param Y :      Value to fill with the y coordinate of the converted point
+/// The \a texture argument refers to a texture that must
+/// exist as long as the sprite uses it. Indeed, the sprite
+/// doesn't store its own copy of the texture, but rather keeps
+/// a pointer to the one that you passed to this function.
+/// If the source texture is destroyed and the sprite tries to
+/// use it, the behaviour is undefined.
+/// If \a resetRect is true, the TextureRect property of
+/// the sprite is automatically adjusted to the size of the new
+/// texture. If it is false, the texture rect is left unchanged.
+///
+/// \param sprite    Sprite object
+/// \param texture   New texture
+/// \param resetRect Should the texture rect be reset to the size of the new texture?
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API void sfSprite_TransformToLocal(sfSprite* Sprite, float PointX, float PointY, float* X, float* Y);
+CSFML_GRAPHICS_API void sfSprite_setTexture(sfSprite* sprite, const sfTexture* texture, sfBool resetRect);
 
 ////////////////////////////////////////////////////////////
-/// Transform a point from the sprite's local coordinates into global coordinates
-/// (ie it applies the object's center, translation, rotation and scale to the point)
+/// \brief Set the sub-rectangle of the texture that a sprite will display
 ///
-/// \param Sprite : Sprite object
-/// \param PointX : X coordinate of the point to transform
-/// \param PointY : Y coordinate of the point to transform
-/// \param X :      Value to fill with the X coordinate of the converted point
-/// \param Y :      Value to fill with the y coordinate of the converted point
+/// The texture rect is useful when you don't want to display
+/// the whole texture, but rather a part of it.
+/// By default, the texture rect covers the entire texture.
+///
+/// \param sprite    Sprite object
+/// \param rectangle Rectangle defining the region of the texture to display
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API void sfSprite_TransformToGlobal(sfSprite* Sprite, float PointX, float PointY, float* X, float* Y);
+CSFML_GRAPHICS_API void sfSprite_setTextureRect(sfSprite* sprite, sfIntRect rectangle);
 
 ////////////////////////////////////////////////////////////
-/// Change the image of a sprite
+/// \brief Set the global color of a sprite
 ///
-/// \param Sprite : Sprite to modify
-/// \param Image :  New image
+/// This color is modulated (multiplied) with the sprite's
+/// texture. It can be used to colorize the sprite, or change
+/// its global opacity.
+/// By default, the sprite's color is opaque white.
+///
+/// \param sprite Sprite object
+/// \param color  New color of the sprite
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API void sfSprite_SetImage(sfSprite* Sprite, sfImage* Image);
+CSFML_GRAPHICS_API void sfSprite_setColor(sfSprite* sprite, sfColor color);
 
 ////////////////////////////////////////////////////////////
-/// Set the sub-rectangle of a sprite inside the source image
+/// \brief Get the source texture of a sprite
 ///
-/// \param Sprite :  Sprite to modify
-/// \param SubRect : New sub-rectangle
+/// If the sprite has no source texture, a NULL pointer is returned.
+/// The returned pointer is const, which means that you can't
+/// modify the texture when you retrieve it with this function.
+///
+/// \param sprite Sprite object
+///
+/// \return Pointer to the sprite's texture
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API void sfSprite_SetSubRect(sfSprite* Sprite, sfIntRect SubRect);
+CSFML_GRAPHICS_API const sfTexture* sfSprite_getTexture(const sfSprite* sprite);
 
 ////////////////////////////////////////////////////////////
-/// Resize a sprite (by changing its scale factors)
+/// \brief Get the sub-rectangle of the texture displayed by a sprite
 ///
-/// \param Sprite : Sprite to modify
-/// \param Width :  New width (must be strictly positive)
-/// \param Height : New height (must be strictly positive)
+/// \param sprite Sprite object
+///
+/// \return Texture rectangle of the sprite
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API void sfSprite_Resize(sfSprite* Sprite, float Width, float Height);
+CSFML_GRAPHICS_API sfIntRect sfSprite_getTextureRect(const sfSprite* sprite);
 
 ////////////////////////////////////////////////////////////
-/// Flip a sprite horizontally
+/// \brief Get the global color of a sprite
 ///
-/// \param Sprite :  Sprite to modify
-/// \param Flipped : sfTrue to flip the sprite
+/// \param sprite Sprite object
+///
+/// \return Global color of the sprite
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API void sfSprite_FlipX(sfSprite* Sprite, sfBool Flipped);
+CSFML_GRAPHICS_API sfColor sfSprite_getColor(const sfSprite* sprite);
 
 ////////////////////////////////////////////////////////////
-/// Flip a sprite vertically
+/// \brief Get the local bounding rectangle of a sprite
 ///
-/// \param Sprite :  Sprite to modify
-/// \param Flipped : sfTrue to flip the sprite
+/// The returned rectangle is in local coordinates, which means
+/// that it ignores the transformations (translation, rotation,
+/// scale, ...) that are applied to the entity.
+/// In other words, this function returns the bounds of the
+/// entity in the entity's coordinate system.
+///
+/// \param sprite Sprite object
+///
+/// \return Local bounding rectangle of the entity
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API void sfSprite_FlipY(sfSprite* Sprite, sfBool Flipped);
+CSFML_GRAPHICS_API sfFloatRect sfSprite_getLocalBounds(const sfSprite* sprite);
 
 ////////////////////////////////////////////////////////////
-/// Get the source image of a sprite
+/// \brief Get the global bounding rectangle of a sprite
 ///
-/// \param Sprite : Sprite to read
+/// The returned rectangle is in global coordinates, which means
+/// that it takes in account the transformations (translation,
+/// rotation, scale, ...) that are applied to the entity.
+/// In other words, this function returns the bounds of the
+/// sprite in the global 2D world's coordinate system.
 ///
-/// \return Pointer to the image (can be NULL)
+/// \param sprite Sprite object
 ///
-////////////////////////////////////////////////////////////
-CSFML_API sfImage* sfSprite_GetImage(sfSprite* Sprite);
-
-////////////////////////////////////////////////////////////
-/// Get the sub-rectangle of a sprite inside the source image
-///
-/// \param Sprite : Sprite to read
-///
-/// \return Sub-rectangle
+/// \return Global bounding rectangle of the entity
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API sfIntRect sfSprite_GetSubRect(sfSprite* Sprite);
-
-////////////////////////////////////////////////////////////
-/// Get a sprite width
-///
-/// \param Sprite : Sprite to read
-///
-/// \return Width of the sprite
-///
-////////////////////////////////////////////////////////////
-CSFML_API float sfSprite_GetWidth(sfSprite* Sprite);
-
-////////////////////////////////////////////////////////////
-/// Get a sprite height
-///
-/// \param Sprite : Sprite to read
-///
-/// \return Height of the sprite
-///
-////////////////////////////////////////////////////////////
-CSFML_API float sfSprite_GetHeight(sfSprite* Sprite);
-
-////////////////////////////////////////////////////////////
-/// Get the color of a given pixel in a sprite
-///
-/// \param Sprite : Sprite to read
-/// \param X :      X coordinate of the pixel to get
-/// \param Y :      Y coordinate of the pixel to get
-///
-/// \return Color of pixel (X, Y)
-///
-////////////////////////////////////////////////////////////
-CSFML_API sfColor sfSprite_GetPixel(sfSprite* Sprite, unsigned int X, unsigned int Y);
+CSFML_GRAPHICS_API sfFloatRect sfSprite_getGlobalBounds(const sfSprite* sprite);
 
 
 #endif // SFML_SPRITE_H

@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////
 //
 // SFML - Simple and Fast Multimedia Library
-// Copyright (C) 2007-2009 Laurent Gomila (laurent.gom@gmail.com)
+// Copyright (C) 2007-2012 Laurent Gomila (laurent.gom@gmail.com)
 //
 // This software is provided 'as-is', without any express or implied warranty.
 // In no event will the authors be held liable for any damages arising from the use of this software.
@@ -28,7 +28,7 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <SFML/Config.h>
+#include <SFML/Graphics/Export.h>
 
 
 ////////////////////////////////////////////////////////////
@@ -37,57 +37,45 @@
 ////////////////////////////////////////////////////////////
 typedef struct
 {
-    float Left;
-    float Top;
-    float Right;
-    float Bottom;
+    float left;
+    float top;
+    float width;
+    float height;
 } sfFloatRect;
 
 typedef struct
 {
-    int Left;
-    int Top;
-    int Right;
-    int Bottom;
+    int left;
+    int top;
+    int width;
+    int height;
 } sfIntRect;
 
-
 ////////////////////////////////////////////////////////////
-/// Move a rectangle by the given offset
+/// \brief Check if a point is inside a rectangle's area
 ///
-/// \param Rect :    Rectangle to move
-/// \param OffsetX : Horizontal offset
-/// \param OffsetY : Vertical offset
-///
-////////////////////////////////////////////////////////////
-CSFML_API void sfFloatRect_Offset(sfFloatRect* Rect, float OffsetX, float OffsetY);
-CSFML_API void sfIntRect_Offset(sfIntRect* Rect, int OffsetX, int OffsetY);
-
-////////////////////////////////////////////////////////////
-/// Check if a point is inside a rectangle's area
-///
-/// \param Rect : Rectangle to test
-/// \param X :    X coordinate of the point to test
-/// \param Y :    Y coordinate of the point to test
+/// \param rect Rectangle to test
+/// \param x    X coordinate of the point to test
+/// \param y    Y coordinate of the point to test
 ///
 /// \return sfTrue if the point is inside
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API sfBool sfFloatRect_Contains(sfFloatRect* Rect, float X, float Y);
-CSFML_API sfBool sfIntRect_Contains(sfIntRect* Rect, int X, int Y);
+CSFML_GRAPHICS_API sfBool sfFloatRect_contains(const sfFloatRect* rect, float x, float y);
+CSFML_GRAPHICS_API sfBool sfIntRect_contains(const sfIntRect* rect, int x, int y);
 
 ////////////////////////////////////////////////////////////
-/// Check intersection between two rectangles
+/// \brief Check intersection between two rectangles
 ///
-/// \param Rect1 :           First rectangle to test
-/// \param Rect2 :           Second rectangle to test
-/// \param OverlappingRect : Rectangle to be filled with overlapping rect (can be NULL)
+/// \param rect1        First rectangle to test
+/// \param rect2        Second rectangle to test
+/// \param intersection Rectangle to be filled with overlapping rect (can be NULL)
 ///
 /// \return sfTrue if rectangles overlap
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API sfBool sfFloatRect_Intersects(sfFloatRect* Rect1, sfFloatRect* Rect2, sfFloatRect* OverlappingRect);
-CSFML_API sfBool sfIntRect_Intersects(sfIntRect* Rect1, sfIntRect* Rect2, sfIntRect* OverlappingRect);
+CSFML_GRAPHICS_API sfBool sfFloatRect_intersects(const sfFloatRect* rect1, const sfFloatRect* rect2, sfFloatRect* intersection);
+CSFML_GRAPHICS_API sfBool sfIntRect_intersects(const sfIntRect* rect1, const sfIntRect* rect2, sfIntRect* intersection);
 
 
 #endif // SFML_RECT_H

@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////
 //
 // SFML - Simple and Fast Multimedia Library
-// Copyright (C) 2007-2009 Laurent Gomila (laurent.gom@gmail.com)
+// Copyright (C) 2007-2012 Laurent Gomila (laurent.gom@gmail.com)
 //
 // This software is provided 'as-is', without any express or implied warranty.
 // In no event will the authors be held liable for any damages arising from the use of this software.
@@ -28,203 +28,247 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <SFML/Config.h>
+#include <SFML/Graphics/Export.h>
 #include <SFML/Graphics/Color.h>
 #include <SFML/Graphics/Rect.h>
 #include <SFML/Graphics/Types.h>
+#include <SFML/System/InputStream.h>
+#include <SFML/System/Vector2.h>
+#include <stddef.h>
 
 
 ////////////////////////////////////////////////////////////
-/// Create a new empty image
+/// \brief Create an image
+///
+/// This image is filled with black pixels.
+///
+/// \param width  Width of the image
+/// \param height Height of the image
+///
+/// \return A new sfImage object
+///
+////////////////////////////////////////////////////////////
+CSFML_GRAPHICS_API sfImage* sfImage_create(unsigned int width, unsigned int height);
+
+////////////////////////////////////////////////////////////
+/// \brief Create an image and fill it with a unique color
+///
+/// \param width  Width of the image
+/// \param height Height of the image
+/// \param color  Fill color
+///
+/// \return A new sfImage object
+///
+////////////////////////////////////////////////////////////
+CSFML_GRAPHICS_API sfImage* sfImage_createFromColor(unsigned int width, unsigned int height, sfColor color);
+
+////////////////////////////////////////////////////////////
+/// \brief Create an image from an array of pixels
+///
+/// The \a pixel array is assumed to contain 32-bits RGBA pixels,
+/// and have the given \a width and \a height. If not, this is
+/// an undefined behaviour.
+/// If \a pixels is null, an empty image is created.
+///
+/// \param width  Width of the image
+/// \param height Height of the image
+/// \param pixels Array of pixels to copy to the image
+///
+/// \return A new sfImage object
+///
+////////////////////////////////////////////////////////////
+CSFML_GRAPHICS_API sfImage* sfImage_createFromPixels(unsigned int width, unsigned int height, const sfUint8* pixels);
+
+////////////////////////////////////////////////////////////
+/// \brief Create an image from a file on disk
+///
+/// The supported image formats are bmp, png, tga, jpg, gif,
+/// psd, hdr and pic. Some format options are not supported,
+/// like progressive jpeg.
+/// If this function fails, the image is left unchanged.
+///
+/// \param filename Path of the image file to load
 ///
 /// \return A new sfImage object, or NULL if it failed
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API sfImage* sfImage_Create();
+CSFML_GRAPHICS_API sfImage* sfImage_createFromFile(const char* filename);
 
 ////////////////////////////////////////////////////////////
-/// Create a new image filled with a color
+/// \brief Create an image from a file in memory
 ///
-/// \param Width :  Image width
-/// \param Height : Image height
-/// \param Col :    Image color
+/// The supported image formats are bmp, png, tga, jpg, gif,
+/// psd, hdr and pic. Some format options are not supported,
+/// like progressive jpeg.
+/// If this function fails, the image is left unchanged.
+///
+/// \param data Pointer to the file data in memory
+/// \param size Size of the data to load, in bytes
 ///
 /// \return A new sfImage object, or NULL if it failed
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API sfImage* sfImage_CreateFromColor(unsigned int Width, unsigned int Height, sfColor Color);
+CSFML_GRAPHICS_API sfImage* sfImage_createFromMemory(const void* data, size_t size);
 
 ////////////////////////////////////////////////////////////
-/// Create a new image from an array of pixels in memory
+/// \brief Create an image from a custom stream
 ///
-/// \param Width :  Image width
-/// \param Height : Image height
-/// \param Data :   Pointer to the pixels in memory (assumed format is RGBA)
+/// The supported image formats are bmp, png, tga, jpg, gif,
+/// psd, hdr and pic. Some format options are not supported,
+/// like progressive jpeg.
+/// If this function fails, the image is left unchanged.
+///
+/// \param stream Source stream to read from
 ///
 /// \return A new sfImage object, or NULL if it failed
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API sfImage* sfImage_CreateFromPixels(unsigned int Width, unsigned int Height, const sfUint8* Data);
+CSFML_GRAPHICS_API sfImage* sfImage_createFromStream(sfInputStream* stream);
 
 ////////////////////////////////////////////////////////////
-/// Create a new image from a file
+/// \brief Copy an existing image
 ///
-/// \param Filename : Path of the image file to load
+/// \param image Image to copy
 ///
-/// \return A new sfImage object, or NULL if it failed
+/// \return Copied object
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API sfImage* sfImage_CreateFromFile(const char* Filename);
+CSFML_GRAPHICS_API sfImage* sfImage_copy(sfImage* image);
 
 ////////////////////////////////////////////////////////////
-/// Create a new image from a file in memory
+/// \brief Destroy an existing image
 ///
-/// \param Data :        Pointer to the file data in memory
-/// \param SizeInBytes : Size of the data to load, in bytes
-///
-/// \return A new sfImage object, or NULL if it failed
+/// \param image Image to delete
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API sfImage* sfImage_CreateFromMemory(const char* Data, size_t SizeInBytes);
+CSFML_GRAPHICS_API void sfImage_destroy(sfImage* image);
 
 ////////////////////////////////////////////////////////////
-/// Destroy an existing image
+/// \brief Save an image to a file on disk
 ///
-/// \param Image : Image to delete
+/// The format of the image is automatically deduced from
+/// the extension. The supported image formats are bmp, png,
+/// tga and jpg. The destination file is overwritten
+/// if it already exists. This function fails if the image is empty.
 ///
-////////////////////////////////////////////////////////////
-CSFML_API void sfImage_Destroy(sfImage* Image);
-
-////////////////////////////////////////////////////////////
-/// Save the content of an image to a file
-///
-/// \param Image :    Image to save
-/// \param Filename : Path of the file to save (overwritten if already exist)
+/// \param image    Image object
+/// \param filename Path of the file to save
 ///
 /// \return sfTrue if saving was successful
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API sfBool sfImage_SaveToFile(sfImage* Image, const char* Filename);
+CSFML_GRAPHICS_API sfBool sfImage_saveToFile(const sfImage* image, const char* filename);
 
 ////////////////////////////////////////////////////////////
-/// Create a transparency mask for an image from a specified colorkey
+/// \brief Return the size of an image
 ///
-/// \param Image :    Image to modify
-/// \param ColorKey : Color to become transparent
-/// \param Alpha :    Alpha value to use for transparent pixels
+/// \param image Image object
+///
+/// \return Size in pixels
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API void sfImage_CreateMaskFromColor(sfImage* Image, sfColor ColorKey, sfUint8 Alpha);
+CSFML_GRAPHICS_API sfVector2u sfImage_getSize(const sfImage* image);
 
 ////////////////////////////////////////////////////////////
-/// Copy pixels from another image onto this one.
-/// This function does a slow pixel copy and should only
-/// be used at initialization time
+/// \brief Create a transparency mask from a specified color-key
 ///
-/// \param Image :      Destination image
-/// \param Source :     Source image to copy
-/// \param DestX :      X coordinate of the destination position
-/// \param DestY :      Y coordinate of the destination position
-/// \param SourceRect : Sub-rectangle of the source image to copy
+/// This function sets the alpha value of every pixel matching
+/// the given color to \a alpha (0 by default), so that they
+/// become transparent.
+///
+/// \param image Image object
+/// \param color Color to make transparent
+/// \param alpha Alpha value to assign to transparent pixels
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API void sfImage_Copy(sfImage* Image, sfImage* Source, unsigned int DestX, unsigned int DestY, sfIntRect SourceRect);
+CSFML_GRAPHICS_API void sfImage_createMaskFromColor(sfColor color, sfUint8 alpha);
 
 ////////////////////////////////////////////////////////////
-/// Create the image from the current contents of the
-/// given window
+/// \brief Copy pixels from an image onto another
 ///
-/// \param Image :      Destination image
-/// \param Window :     Window to capture
-/// \param SourceRect : Sub-rectangle of the screen to copy (empty by default - entire image)
+/// This function does a slow pixel copy and should not be
+/// used intensively. It can be used to prepare a complex
+/// static image from several others, but if you need this
+/// kind of feature in real-time you'd better use sfRenderTexture.
 ///
-/// \return True if creation was successful
+/// If \a sourceRect is empty, the whole image is copied.
+/// If \a applyAlpha is set to true, the transparency of
+/// source pixels is applied. If it is false, the pixels are
+/// copied unchanged with their alpha value.
+///
+/// \param image      Image object
+/// \param source     Source image to copy
+/// \param destX      X coordinate of the destination position
+/// \param destY      Y coordinate of the destination position
+/// \param sourceRect Sub-rectangle of the source image to copy
+/// \param applyAlpha Should the copy take in account the source transparency?
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API sfBool sfImage_CopyScreen(sfImage* Image, sfRenderWindow* Window, sfIntRect SourceRect);
+CSFML_GRAPHICS_API void sfImage_copyImage(sfImage* image, const sfImage* source, unsigned int destX, unsigned int destY, sfIntRect sourceRect, sfBool applyAlpha);
 
 ////////////////////////////////////////////////////////////
-/// Change the color of a pixel of an image
-/// Don't forget to call Update when you end modifying pixels
+/// \brief Change the color of a pixel in an image
 ///
-/// \param Image : Image to modify
-/// \param X :     X coordinate of pixel in the image
-/// \param Y :     Y coordinate of pixel in the image
-/// \param Col :   New color for pixel (X, Y)
+/// This function doesn't check the validity of the pixel
+/// coordinates, using out-of-range values will result in
+/// an undefined behaviour.
+///
+/// \param image Image object
+/// \param x     X coordinate of pixel to change
+/// \param y     Y coordinate of pixel to change
+/// \param color New color of the pixel
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API void sfImage_SetPixel(sfImage* Image, unsigned int X, unsigned int Y, sfColor Color);
+CSFML_GRAPHICS_API void sfImage_setPixel(sfImage* image, unsigned int x, unsigned int y, sfColor color);
 
 ////////////////////////////////////////////////////////////
-/// Get a pixel from an image
+/// \brief Get the color of a pixel in an image
 ///
-/// \param Image : Image to read
-/// \param X :     X coordinate of pixel in the image
-/// \param Y :     Y coordinate of pixel in the image
+/// This function doesn't check the validity of the pixel
+/// coordinates, using out-of-range values will result in
+/// an undefined behaviour.
 ///
-/// \return Color of pixel (x, y)
+/// \param image Image object
+/// \param x     X coordinate of pixel to get
+/// \param y     Y coordinate of pixel to get
+///
+/// \return Color of the pixel at coordinates (x, y)
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API sfColor sfImage_GetPixel(sfImage* Image, unsigned int X, unsigned int Y);
+CSFML_GRAPHICS_API sfColor sfImage_getPixel(const sfImage* image, unsigned int x, unsigned int y);
 
 ////////////////////////////////////////////////////////////
-/// Get a read-only pointer to the array of pixels of an image (8 bits integers RGBA)
-/// Array size is sfImage_GetWidth() x sfImage_GetHeight() x 4
-/// This pointer becomes invalid if you reload or resize the image
+/// \brief Get a read-only pointer to the array of pixels of an image
 ///
-/// \param Image : Image to read
+/// The returned value points to an array of RGBA pixels made of
+/// 8 bits integers components. The size of the array is
+/// getWidth() * getHeight() * 4.
+/// Warning: the returned pointer may become invalid if you
+/// modify the image, so you should never store it for too long.
+/// If the image is empty, a null pointer is returned.
 ///
-/// \return Pointer to the array of pixels
+/// \param image Image object
+///
+/// \return Read-only pointer to the array of pixels
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API const sfUint8* sfImage_GetPixelsPtr(sfImage* Image);
+CSFML_GRAPHICS_API const sfUint8* sfImage_getPixelsPtr(const sfImage* image);
 
 ////////////////////////////////////////////////////////////
-/// Bind the image for rendering
+/// \brief Flip an image horizontally (left <-> right)
 ///
-/// \param Image : Image to bind
+/// \param image Image object
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API void sfImage_Bind(sfImage* Image);
+CSFML_GRAPHICS_API void sfImage_flipHorizontally(sfImage* image);
 
 ////////////////////////////////////////////////////////////
-/// Enable or disable image smooth filter
+/// \brief Flip an image vertically (top <-> bottom)
 ///
-/// \param Image :  Image to modify
-/// \param Smooth : sfTrue to enable smoothing filter, false to disable it
-///
-////////////////////////////////////////////////////////////
-CSFML_API void sfImage_SetSmooth(sfImage* Image, sfBool Smooth);
-
-////////////////////////////////////////////////////////////
-/// Return the width of the image
-///
-/// \param Image : Image to read
-///
-/// \return Width in pixels
+/// \param image Image object
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API unsigned int sfImage_GetWidth(sfImage* Image);
-
-////////////////////////////////////////////////////////////
-/// Return the height of the image
-///
-/// \param Image : Image to read
-///
-/// \return Height in pixels
-///
-////////////////////////////////////////////////////////////
-CSFML_API unsigned int sfImage_GetHeight(sfImage* Image);
-
-////////////////////////////////////////////////////////////
-/// Tells whether the smoothing filter is enabled or not on an image
-///
-/// \param Image :  Image to read
-///
-/// \return sfTrue if the smoothing filter is enabled
-///
-////////////////////////////////////////////////////////////
-CSFML_API sfBool sfImage_IsSmooth(sfImage* Image);
+CSFML_GRAPHICS_API void sfImage_flipVertically(sfImage* image);
 
 
 #endif // SFML_IMAGE_H

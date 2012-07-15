@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////
 //
 // SFML - Simple and Fast Multimedia Library
-// Copyright (C) 2007-2009 Laurent Gomila (laurent.gom@gmail.com)
+// Copyright (C) 2007-2012 Laurent Gomila (laurent.gom@gmail.com)
 //
 // This software is provided 'as-is', without any express or implied warranty.
 // In no event will the authors be held liable for any damages arising from the use of this software.
@@ -28,130 +28,179 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <SFML/Config.h>
+#include <SFML/Graphics/Export.h>
 #include <SFML/Graphics/Rect.h>
 #include <SFML/Graphics/Types.h>
+#include <SFML/System/Vector2.h>
 
 
 ////////////////////////////////////////////////////////////
-/// Construct a default view (1000x1000)
+/// \brief Create a default view
+///
+/// This function creates a default view of (0, 0, 1000, 1000)
+///
+/// \return A new sfView object
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API sfView* sfView_Create();
+CSFML_GRAPHICS_API sfView* sfView_create(void);
 
 ////////////////////////////////////////////////////////////
-/// Construct a view from a rectangle
+/// \brief Construct a view from a rectangle
 ///
-/// \param Rect : Rectangle defining the bounds of the view
+/// \param rectangle Rectangle defining the zone to display
+///
+/// \return A new sfView object
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API sfView* sfView_CreateFromRect(sfFloatRect Rect);
+CSFML_GRAPHICS_API sfView* sfView_createFromRect(sfFloatRect rectangle);
 
 ////////////////////////////////////////////////////////////
-/// Destroy an existing view
+/// \brief Copy an existing view
 ///
-/// \param View : View to destroy
+/// \param view View to copy
+///
+/// \return Copied object
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API void sfView_Destroy(sfView* View);
+CSFML_GRAPHICS_API sfView* sfView_copy(sfView* view);
 
 ////////////////////////////////////////////////////////////
-/// Change the center of a view
+/// \brief Destroy an existing view
 ///
-/// \param View : View to modify
-/// \param X :    X coordinate of the new center
-/// \param Y :    Y coordinate of the new center
+/// \param view View to destroy
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API void sfView_SetCenter(sfView* View, float X, float Y);
+CSFML_GRAPHICS_API void sfView_destroy(sfView* view);
 
 ////////////////////////////////////////////////////////////
-/// Change the half-size of a view
+/// \brief Set the center of a view
 ///
-/// \param View :       View to modify
-/// \param HalfWidth :  New half-width
-/// \param HalfHeight : New half-height
+/// \param view   View object
+/// \param center New center
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API void sfView_SetHalfSize(sfView* View, float HalfWidth, float HalfHeight);
+CSFML_GRAPHICS_API void sfView_setCenter(sfView* view, sfVector2f center);
 
 ////////////////////////////////////////////////////////////
-/// Rebuild a view from a rectangle
+/// \brief Set the size of a view
 ///
-/// \param View :     View to modify
-/// \param ViewRect : Rectangle defining the position and size of the view
+/// \param view View object
+/// \param size New size of the view
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API void sfView_SetFromRect(sfView* View, sfFloatRect ViewRect);
+CSFML_GRAPHICS_API void sfView_setSize(sfView* view, sfVector2f size);
 
 ////////////////////////////////////////////////////////////
-/// Get the X coordinate of the center of a view
+/// \brief Set the orientation of a view
 ///
-/// \param View : View to read
+/// The default rotation of a view is 0 degree.
 ///
-/// \return X coordinate of the center of the view
+/// \param view  View object
+/// \param angle New angle, in degrees
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API float sfView_GetCenterX(sfView* View);
+CSFML_GRAPHICS_API void sfView_setRotation(sfView* view, float angle);
 
 ////////////////////////////////////////////////////////////
-/// Get the Y coordinate of the center of a view
+/// \brief Set the target viewport of a view
 ///
-/// \param View : View to read
+/// The viewport is the rectangle into which the contents of the
+/// view are displayed, expressed as a factor (between 0 and 1)
+/// of the size of the render target to which the view is applied.
+/// For example, a view which takes the left side of the target would
+/// be defined by a rect of (0, 0, 0.5, 1).
+/// By default, a view has a viewport which covers the entire target.
 ///
-/// \return Y coordinate of the center of the view
+/// \param view     View object
+/// \param viewport New viewport rectangle
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API float sfView_GetCenterY(sfView* View);
+CSFML_GRAPHICS_API void sfView_setViewport(sfView* view, sfFloatRect viewport);
 
 ////////////////////////////////////////////////////////////
-/// Get the half-width of the view
+/// \brief Reset a view to the given rectangle
 ///
-/// \param View : View to read
+/// Note that this function resets the rotation angle to 0.
 ///
-/// \return Half-width of the view
+/// \param view      View object
+/// \param rectangle Rectangle defining the zone to display
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API float sfView_GetHalfSizeX(sfView* View);
+CSFML_GRAPHICS_API void sfView_reset(sfView* view, sfFloatRect rectangle);
 
 ////////////////////////////////////////////////////////////
-/// Get the half-height of the view
+/// \brief Get the center of a view
 ///
-/// \param View : View to read
+/// \param view View object
 ///
-/// \return Half-height of the view
+/// \return Center of the view
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API float sfView_GetHalfSizeY(sfView* View);
+CSFML_GRAPHICS_API sfVector2f sfView_getCenter(const sfView* view);
 
 ////////////////////////////////////////////////////////////
-/// Get the bounding rectangle of a view
+/// \brief Get the size of a view
 ///
-/// \param View : View to read
+/// \param view View object
 ///
-/// \return Bounding rectangle of the view
+/// \return Size of the view
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API sfFloatRect sfView_GetRect(sfView* View);
+CSFML_GRAPHICS_API sfVector2f sfView_getSize(const sfView* view);
 
 ////////////////////////////////////////////////////////////
-/// Move a view
+/// \brief Get the current orientation of a view
 ///
-/// \param View :    View to move
-/// \param OffsetX : Offset to move the view, on X axis
-/// \param OffsetY : Offset to move the view, on Y axis
+/// \param view View object
+///
+/// \return Rotation angle of the view, in degrees
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API void sfView_Move(sfView* View, float OffsetX, float OffsetY);
+CSFML_GRAPHICS_API float sfView_getRotation(const sfView* view);
 
 ////////////////////////////////////////////////////////////
-/// Resize a view rectangle to simulate a zoom / unzoom effect
+/// \brief Get the target viewport rectangle of a view
 ///
-/// \param View :   View to zoom
-/// \param Factor : Zoom factor to apply, relative to the current zoom
+/// \param view View object
+///
+/// \return Viewport rectangle, expressed as a factor of the target size
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API void sfView_Zoom(sfView* View, float Factor);
+CSFML_GRAPHICS_API sfFloatRect sfView_getViewport(const sfView* view);
+
+////////////////////////////////////////////////////////////
+/// \brief Move a view relatively to its current position
+///
+/// \param view   View object
+/// \param offset Offset
+///
+////////////////////////////////////////////////////////////
+CSFML_GRAPHICS_API void sfView_move(sfView* view, sfVector2f offset);
+
+////////////////////////////////////////////////////////////
+/// \brief Rotate a view relatively to its current orientation
+///
+/// \param view  View object
+/// \param angle Angle to rotate, in degrees
+///
+////////////////////////////////////////////////////////////
+CSFML_GRAPHICS_API void sfView_rotate(sfView* view, float angle);
+
+////////////////////////////////////////////////////////////
+/// \brief Resize a view rectangle relatively to its current size
+///
+/// Resizing the view simulates a zoom, as the zone displayed on
+/// screen grows or shrinks.
+/// \a factor is a multiplier:
+/// \li 1 keeps the size unchanged
+/// \li > 1 makes the view bigger (objects appear smaller)
+/// \li < 1 makes the view smaller (objects appear bigger)
+///
+/// \param view   View object
+/// \param factor Zoom factor to apply
+///
+////////////////////////////////////////////////////////////
+CSFML_GRAPHICS_API void sfView_zoom(sfView* view, float factor);
 
 
 #endif // SFML_VIEW_H

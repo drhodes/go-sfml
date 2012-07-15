@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////
 //
 // SFML - Simple and Fast Multimedia Library
-// Copyright (C) 2007-2009 Laurent Gomila (laurent.gom@gmail.com)
+// Copyright (C) 2007-2012 Laurent Gomila (laurent.gom@gmail.com)
 //
 // This software is provided 'as-is', without any express or implied warranty.
 // In no event will the authors be held liable for any damages arising from the use of this software.
@@ -28,69 +28,118 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
+#include <SFML/Graphics/Export.h>
 #include <SFML/Graphics/Glyph.h>
 #include <SFML/Graphics/Types.h>
+#include <SFML/System/InputStream.h>
+#include <stddef.h>
 
 
 ////////////////////////////////////////////////////////////
-/// Create a new empty font
+/// \brief Create a new font from a file
+///
+/// \param filename Path of the font file to load
 ///
 /// \return A new sfFont object, or NULL if it failed
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API sfFont* sfFont_Create();
+CSFML_GRAPHICS_API sfFont* sfFont_createFromFile(const char* filename);
 
 ////////////////////////////////////////////////////////////
-/// Create a new font from a file
+/// \brief Create a new image font a file in memory
 ///
-/// \param Filename : Path of the font file to load
-/// \param CharSize : Size of characters in bitmap - the bigger, the higher quality
-/// \param Charset :  Characters set to generate (just pass NULL to get the default charset)
+/// \param data        Pointer to the file data in memory
+/// \param sizeInBytes Size of the data to load, in bytes
 ///
 /// \return A new sfFont object, or NULL if it failed
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API sfFont* sfFont_CreateFromFile(const char* Filename, unsigned int CharSize, const sfUint32* Charset);
+CSFML_GRAPHICS_API sfFont* sfFont_createFromMemory(const void* data, size_t sizeInBytes);
 
 ////////////////////////////////////////////////////////////
-/// Create a new image font a file in memory
+/// \brief Create a new image font a custom stream
 ///
-/// \param Data :        Pointer to the file data in memory
-/// \param SizeInBytes : Size of the data to load, in bytes
-/// \param CharSize :    Size of characters in bitmap - the bigger, the higher quality
-/// \param Charset :     Characters set to generate (just pass NULL to get the default charset)
+/// \param stream Source stream to read from
 ///
 /// \return A new sfFont object, or NULL if it failed
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API sfFont* sfFont_CreateFromMemory(const char* Data, size_t SizeInBytes, unsigned int CharSize, const sfUint32* Charset);
+CSFML_GRAPHICS_API sfFont* sfFont_createFromStream(sfInputStream* stream);
 
 ////////////////////////////////////////////////////////////
-/// Destroy an existing font
+/// \brief Copy an existing font
 ///
-/// \param Font : Font to delete
+/// \param font Font to copy
+///
+/// \return Copied object
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API void sfFont_Destroy(sfFont* Font);
+CSFML_GRAPHICS_API sfFont* sfFont_copy(sfFont* font);
 
 ////////////////////////////////////////////////////////////
-/// Get the base size of characters in a font;
-/// All glyphs dimensions are based on this value
+/// \brief Destroy an existing font
 ///
-/// \param Font : Font object
-///
-/// \return Base size of characters
+/// \param font Font to delete
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API unsigned int sfFont_GetCharacterSize(sfFont* Font);
+CSFML_GRAPHICS_API void sfFont_destroy(sfFont* font);
 
 ////////////////////////////////////////////////////////////
-/// Get the built-in default font (Arial)
+/// \brief Get a glyph in a font
+///
+/// \param font          Source font
+/// \param codePoint     Unicode code point of the character to get
+/// \param characterSize Character size, in pixels
+/// \param bold          Retrieve the bold version or the regular one?
+///
+/// \return The corresponding glyph
+///
+////////////////////////////////////////////////////////////
+CSFML_GRAPHICS_API sfGlyph sfFont_getGlyph(sfFont* font, sfUint32 codePoint, unsigned int characterSize, sfBool bold);
+
+////////////////////////////////////////////////////////////
+/// \brief Get the kerning value corresponding to a given pair of characters in a font
+///
+/// \param font          Source font
+/// \param first         Unicode code point of the first character
+/// \param second        Unicode code point of the second character
+/// \param characterSize Character size, in pixels
+///
+/// \return Kerning offset, in pixels
+///
+////////////////////////////////////////////////////////////
+CSFML_GRAPHICS_API int sfFont_getKerning(sfFont* font, sfUint32 first, sfUint32 second, unsigned int characterSize);
+
+////////////////////////////////////////////////////////////
+/// \brief Get the line spacing value
+///
+/// \param font          Source font
+/// \param codePoint     Unicode code point of the character to get
+/// \param characterSize Character size, in pixels
+///
+/// \return Line spacing, in pixels
+///
+////////////////////////////////////////////////////////////
+CSFML_GRAPHICS_API int sfFont_getLineSpacing(sfFont* font, unsigned int characterSize);
+
+////////////////////////////////////////////////////////////
+/// \brief Get the texture containing the glyphs of a given size in a font
+///
+/// \param font          Source font
+/// \param characterSize Character size, in pixels
+///
+/// \return Read-only pointer to the texture
+///
+////////////////////////////////////////////////////////////
+CSFML_GRAPHICS_API const sfTexture* sfFont_getTexture(sfFont* font, unsigned int characterSize);
+
+////////////////////////////////////////////////////////////
+/// \brief Get the built-in default font (Arial)
 ///
 /// \return Pointer to the default font
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API sfFont* sfFont_GetDefaultFont();
+CSFML_GRAPHICS_API const sfFont* sfFont_getDefaultFont(void);
 
 
 #endif // SFML_IMAGE_H

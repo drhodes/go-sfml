@@ -22,26 +22,28 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef SFML_GRAPHICS_TYPES_H
-#define SFML_GRAPHICS_TYPES_H
+#ifndef SFML_RENDERSTATES_H
+#define SFML_RENDERSTATES_H
+
+////////////////////////////////////////////////////////////
+// Headers
+////////////////////////////////////////////////////////////
+#include <SFML/Graphics/Export.h>
+#include <SFML/Graphics/BlendMode.h>
+#include <SFML/Graphics/Types.h>
 
 
-typedef struct sfCircleShape sfCircleShape;
-typedef struct sfConvexShape sfConvexShape;
-typedef struct sfFont sfFont;
-typedef struct sfImage sfImage;
-typedef struct sfShader sfShader;
-typedef struct sfRectangleShape sfRectangleShape;
-typedef struct sfRenderTexture sfRenderTexture;
-typedef struct sfRenderWindow sfRenderWindow;
-typedef struct sfShape sfShape;
-typedef struct sfSprite sfSprite;
-typedef struct sfText sfText;
-typedef struct sfTexture sfTexture;
-typedef struct sfTransform sfTransform;
-typedef struct sfTransformable sfTransformable;
-typedef struct sfVertexArray sfVertexArray;
-typedef struct sfView sfView;
+////////////////////////////////////////////////////////////
+/// \brief Define the states used for drawing to a RenderTarget
+///
+////////////////////////////////////////////////////////////
+typedef struct
+{
+    sfBlendMode      blendMode; ///< Blending mode
+    sfTransform*     transform; ///< Transform
+    const sfTexture* texture;   ///< Texture
+    const sfShader*  shader;    ///< Shader
+} sfRenderStates;
 
 
-#endif // SFML_GRAPHICS_TYPES_H
+#endif // SFML_RENDERSTATES_H

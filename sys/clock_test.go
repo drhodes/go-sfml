@@ -1,16 +1,50 @@
 package sys
 
-import "testing"
+import (
+	"testing"
+	"log"
+)
 
 func TestConstructors(t *testing.T) {		
-	clock := ClockCreate()	
+	clock := NewClock()
+	clock.Restart()
 }
 
 func BenchmarkGetTime(b *testing.B) {
 }
 
+func BenchmarkClockDestroy(b *testing.B) {	
+}
 
-func BenchmarkClockDestroy(b *testing.B) {
+func TestMicroseconds(t *testing.T) {
+}
+
+func TestAsSeconds(t *testing.T) {
+}
+
+func TestAsMilliseconds(t *testing.T) {
+	sec := Seconds(123)
+	if sec.AsMilliseconds() != 123000 {
+		log.Println(sec)
+		t.Fail()
+	}
+}
+
+func TestAsMicroseconds(t *testing.T) {
+	sec := Seconds(123)
+	if sec.AsMicroseconds() != 123000000 {
+		t.Fail()
+	}
+}
+
+func TestSeconds(t *testing.T) {
+	sec := Seconds(123)
+	if sec.AsSeconds() != 123 {
+		t.Fail()
+	}
+}
+
+func TestMilliseconds(t *testing.T) {
 }
 
 

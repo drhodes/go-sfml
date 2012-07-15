@@ -22,8 +22,8 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef SFML_SHAPE_H
-#define SFML_SHAPE_H
+#ifndef SFML_CONVEXSHAPE_H
+#define SFML_CONVEXSHAPE_H
 
 ////////////////////////////////////////////////////////////
 // Headers
@@ -35,72 +35,73 @@
 #include <SFML/System/Vector2.h>
 
 
-typedef unsigned int (*sfShapeGetPointCountCallback)(void*);        ///< Type of the callback used to get the number of points in a shape
-typedef sfVector2f (*sfShapeGetPointCallback)(unsigned int, void*); ///< Type of the callback used to get a point of a shape
+////////////////////////////////////////////////////////////
+/// \brief Create a new convex shape
+///
+/// \return A new sfConvexShape object, or NULL if it failed
+///
+////////////////////////////////////////////////////////////
+CSFML_GRAPHICS_API sfConvexShape* sfConvexShape_create(void);
 
 ////////////////////////////////////////////////////////////
-/// \brief Create a new shape
+/// \brief Copy an existing convex shape
 ///
-/// \param getPointCount Callback that provides the point count of the shape
-/// \param getPoint      Callback that provides the points of the shape
-/// \param userData      Data to pass to the callback functions
+/// \param shape Shape to copy
 ///
-/// \return A new sfShape object
+/// \return Copied object
 ///
 ////////////////////////////////////////////////////////////
-CSFML_GRAPHICS_API sfShape* sfShape_create(sfShapeGetPointCountCallback getPointCount,
-                                           sfShapeGetPointCallback getPoint,
-                                           void* userData);
+CSFML_GRAPHICS_API sfConvexShape* sfConvexShape_copy(sfConvexShape* shape);
 
 ////////////////////////////////////////////////////////////
-/// \brief Destroy an existing shape
+/// \brief Destroy an existing convex Shape
 ///
 /// \param Shape Shape to delete
 ///
 ////////////////////////////////////////////////////////////
-CSFML_GRAPHICS_API void sfShape_destroy(sfShape* shape);
+CSFML_GRAPHICS_API void sfConvexShape_destroy(sfConvexShape* shape);
 
 ////////////////////////////////////////////////////////////
-/// \brief Set the position of a shape
+/// \brief Set the position of a convex shape
 ///
 /// This function completely overwrites the previous position.
-/// See sfShape_move to apply an offset based on the previous position instead.
+/// See sfConvexShape_move to apply an offset based on the previous position instead.
 /// The default position of a circle Shape object is (0, 0).
 ///
 /// \param shape    Shape object
 /// \param position New position
 ///
 ////////////////////////////////////////////////////////////
-CSFML_GRAPHICS_API void sfShape_setPosition(sfShape* shape, sfVector2f position);
+CSFML_GRAPHICS_API void sfConvexShape_setPosition(sfConvexShape* shape, sfVector2f position);
 
 ////////////////////////////////////////////////////////////
-/// \brief Set the orientation of a shape
+/// \brief Set the orientation of a convex shape
 ///
 /// This function completely overwrites the previous rotation.
-/// See sfShape_rotate to add an angle based on the previous rotation instead.
+/// See sfConvexShape_rotate to add an angle based on the previous rotation instead.
 /// The default rotation of a circle Shape object is 0.
 ///
 /// \param shape Shape object
 /// \param angle New rotation, in degrees
 ///
 ////////////////////////////////////////////////////////////
-CSFML_GRAPHICS_API void sfShape_setRotation(sfShape* shape, float angle);
+CSFML_GRAPHICS_API void sfConvexShape_setRotation(sfConvexShape* shape, float angle);
 
 ////////////////////////////////////////////////////////////
-/// \brief Set the scale factors of a shape
+/// \brief Set the scale factors of a convex shape
 ///
 /// This function completely overwrites the previous scale.
-/// See sfShape_scale to add a factor based on the previous scale instead.
+/// See sfConvexShape_scale to add a factor based on the previous scale instead.
 /// The default scale of a circle Shape object is (1, 1).
 ///
 /// \param shape Shape object
 /// \param scale New scale factors
 ///
 ////////////////////////////////////////////////////////////
-CSFML_GRAPHICS_API void sfShape_setScale(sfShape* shape, sfVector2f scale);
+CSFML_GRAPHICS_API void sfConvexShape_setScale(sfConvexShape* shape, sfVector2f scale);
 
 ////////////////////////////////////////////////////////////
-/// \brief Set the local origin of a shape
+/// \brief Set the local origin of a convex shape
 ///
 /// The origin of an object defines the center point for
 /// all transformations (position, scale, rotation).
@@ -113,20 +114,20 @@ CSFML_GRAPHICS_API void sfShape_setScale(sfShape* shape, sfVector2f scale);
 /// \param origin New origin
 ///
 ////////////////////////////////////////////////////////////
-CSFML_GRAPHICS_API void sfShape_setOrigin(sfShape* shape, sfVector2f origin);
+CSFML_GRAPHICS_API void sfConvexShape_setOrigin(sfConvexShape* shape, sfVector2f origin);
 
 ////////////////////////////////////////////////////////////
-/// \brief Get the position of a shape
+/// \brief Get the position of a convex shape
 ///
 /// \param shape Shape object
 ///
 /// \return Current position
 ///
 ////////////////////////////////////////////////////////////
-CSFML_GRAPHICS_API sfVector2f sfShape_getPosition(const sfShape* shape);
+CSFML_GRAPHICS_API sfVector2f sfConvexShape_getPosition(const sfConvexShape* shape);
 
 ////////////////////////////////////////////////////////////
-/// \brief Get the orientation of a shape
+/// \brief Get the orientation of a convex shape
 ///
 /// The rotation is always in the range [0, 360].
 ///
@@ -135,86 +136,86 @@ CSFML_GRAPHICS_API sfVector2f sfShape_getPosition(const sfShape* shape);
 /// \return Current rotation, in degrees
 ///
 ////////////////////////////////////////////////////////////
-CSFML_GRAPHICS_API float sfShape_getRotation(const sfShape* shape);
+CSFML_GRAPHICS_API float sfConvexShape_getRotation(const sfConvexShape* shape);
 
 ////////////////////////////////////////////////////////////
-/// \brief Get the current scale of a shape
+/// \brief Get the current scale of a convex shape
 ///
 /// \param shape Shape object
 ///
 /// \return Current scale factors
 ///
 ////////////////////////////////////////////////////////////
-CSFML_GRAPHICS_API sfVector2f sfShape_getScale(const sfShape* shape);
+CSFML_GRAPHICS_API sfVector2f sfConvexShape_getScale(const sfConvexShape* shape);
 
 ////////////////////////////////////////////////////////////
-/// \brief Get the local origin of a shape
+/// \brief Get the local origin of a convex shape
 ///
 /// \param shape Shape object
 ///
 /// \return Current origin
 ///
 ////////////////////////////////////////////////////////////
-CSFML_GRAPHICS_API sfVector2f sfShape_getOrigin(const sfShape* shape);
+CSFML_GRAPHICS_API sfVector2f sfConvexShape_getOrigin(const sfConvexShape* shape);
 
 ////////////////////////////////////////////////////////////
-/// \brief Move a shape by a given offset
+/// \brief Move a convex shape by a given offset
 ///
 /// This function adds to the current position of the object,
-/// unlike sfShape_setPosition which overwrites it.
+/// unlike sfConvexShape_setPosition which overwrites it.
 ///
 /// \param shape  Shape object
 /// \param offset Offset
 ///
 ////////////////////////////////////////////////////////////
-CSFML_GRAPHICS_API void sfShape_move(sfShape* shape, sfVector2f offset);
+CSFML_GRAPHICS_API void sfConvexShape_move(sfConvexShape* shape, sfVector2f offset);
 
 ////////////////////////////////////////////////////////////
-/// \brief Rotate a shape
+/// \brief Rotate a convex shape
 ///
 /// This function adds to the current rotation of the object,
-/// unlike sfShape_setRotation which overwrites it.
+/// unlike sfConvexShape_setRotation which overwrites it.
 ///
 /// \param shape Shape object
 /// \param angle Angle of rotation, in degrees
 ///
 ////////////////////////////////////////////////////////////
-CSFML_GRAPHICS_API void sfShape_rotate(sfShape* shape, float angle);
+CSFML_GRAPHICS_API void sfConvexShape_rotate(sfConvexShape* shape, float angle);
 
 ////////////////////////////////////////////////////////////
-/// \brief Scale a shape
+/// \brief Scale a convex shape
 ///
 /// This function multiplies the current scale of the object,
-/// unlike sfShape_setScale which overwrites it.
+/// unlike sfConvexShape_setScale which overwrites it.
 ///
 /// \param shape   Shape object
 /// \param factors Scale factors
 ///
 ////////////////////////////////////////////////////////////
-CSFML_GRAPHICS_API void sfShape_scale(sfShape* shape, sfVector2f factors);
+CSFML_GRAPHICS_API void sfConvexShape_scale(sfConvexShape* shape, sfVector2f factors);
 
 ////////////////////////////////////////////////////////////
-/// \brief Get the combined transform of a shape
+/// \brief Get the combined transform of a convex shape
 ///
 /// \param shape shape object
 ///
 /// \return Transform combining the position/rotation/scale/origin of the object
 ///
 ////////////////////////////////////////////////////////////
-CSFML_GRAPHICS_API const sfTransform* sfShape_getTransform(const sfShape* shape);
+CSFML_GRAPHICS_API const sfTransform* sfConvexShape_getTransform(const sfConvexShape* shape);
 
 ////////////////////////////////////////////////////////////
-/// \brief Get the inverse of the combined transform of a shape
+/// \brief Get the inverse of the combined transform of a convex shape
 ///
 /// \param shape shape object
 ///
 /// \return Inverse of the combined transformations applied to the object
 ///
 ////////////////////////////////////////////////////////////
-CSFML_GRAPHICS_API const sfTransform* sfShape_getInverseTransform(const sfShape* shape);
+CSFML_GRAPHICS_API const sfTransform* sfConvexShape_getInverseTransform(const sfConvexShape* shape);
 
 ////////////////////////////////////////////////////////////
-/// \brief Change the source texture of a shape
+/// \brief Change the source texture of a convex shape
 ///
 /// The \a texture argument refers to a texture that must
 /// exist as long as the shape uses it. Indeed, the shape
@@ -232,10 +233,10 @@ CSFML_GRAPHICS_API const sfTransform* sfShape_getInverseTransform(const sfShape*
 /// \param resetRect Should the texture rect be reset to the size of the new texture?
 ///
 ////////////////////////////////////////////////////////////
-CSFML_GRAPHICS_API void sfShape_setTexture(sfShape* shape, const sfTexture* texture, sfBool resetRect);
+CSFML_GRAPHICS_API void sfConvexShape_setTexture(sfConvexShape* shape, const sfTexture* texture, sfBool resetRect);
 
 ////////////////////////////////////////////////////////////
-/// \brief Set the sub-rectangle of the texture that a shape will display
+/// \brief Set the sub-rectangle of the texture that a convex shape will display
 ///
 /// The texture rect is useful when you don't want to display
 /// the whole texture, but rather a part of it.
@@ -245,10 +246,10 @@ CSFML_GRAPHICS_API void sfShape_setTexture(sfShape* shape, const sfTexture* text
 /// \param rect  Rectangle defining the region of the texture to display
 ///
 ////////////////////////////////////////////////////////////
-CSFML_GRAPHICS_API void sfShape_setTextureRect(sfShape* shape, sfIntRect rect);
+CSFML_GRAPHICS_API void sfConvexShape_setTextureRect(sfConvexShape* shape, sfIntRect rect);
 
 ////////////////////////////////////////////////////////////
-/// \brief Set the fill color of a shape
+/// \brief Set the fill color of a convex shape
 ///
 /// This color is modulated (multiplied) with the shape's
 /// texture if any. It can be used to colorize the shape,
@@ -261,10 +262,10 @@ CSFML_GRAPHICS_API void sfShape_setTextureRect(sfShape* shape, sfIntRect rect);
 /// \param color New color of the shape
 ///
 ////////////////////////////////////////////////////////////
-CSFML_GRAPHICS_API void sfShape_setFillColor(sfShape* shape, sfColor color);
+CSFML_GRAPHICS_API void sfConvexShape_setFillColor(sfConvexShape* shape, sfColor color);
 
 ////////////////////////////////////////////////////////////
-/// \brief Set the outline color of a shape
+/// \brief Set the outline color of a convex shape
 ///
 /// You can use sfTransparent to disable the outline.
 /// By default, the shape's outline color is opaque white.
@@ -273,10 +274,10 @@ CSFML_GRAPHICS_API void sfShape_setFillColor(sfShape* shape, sfColor color);
 /// \param color New outline color of the shape
 ///
 ////////////////////////////////////////////////////////////
-CSFML_GRAPHICS_API void sfShape_setOutlineColor(sfShape* shape, sfColor color);
+CSFML_GRAPHICS_API void sfConvexShape_setOutlineColor(sfConvexShape* shape, sfColor color);
 
 ////////////////////////////////////////////////////////////
-/// \brief Set the thickness of a shape's outline
+/// \brief Set the thickness of a convex shape's outline
 ///
 /// This number cannot be negative. Using zero disables
 /// the outline.
@@ -286,10 +287,10 @@ CSFML_GRAPHICS_API void sfShape_setOutlineColor(sfShape* shape, sfColor color);
 /// \param thickness New outline thickness
 ///
 ////////////////////////////////////////////////////////////
-CSFML_GRAPHICS_API void sfShape_setOutlineThickness(sfShape* shape, float thickness);
+CSFML_GRAPHICS_API void sfConvexShape_setOutlineThickness(sfConvexShape* shape, float thickness);
 
 ////////////////////////////////////////////////////////////
-/// \brief Get the source texture of a shape
+/// \brief Get the source texture of a convex shape
 ///
 /// If the shape has no source texture, a NULL pointer is returned.
 /// The returned pointer is const, which means that you can't
@@ -300,60 +301,60 @@ CSFML_GRAPHICS_API void sfShape_setOutlineThickness(sfShape* shape, float thickn
 /// \return Pointer to the shape's texture
 ///
 ////////////////////////////////////////////////////////////
-CSFML_GRAPHICS_API const sfTexture* sfShape_getTexture(const sfShape* shape);
+CSFML_GRAPHICS_API const sfTexture* sfConvexShape_getTexture(const sfConvexShape* shape);
 
 ////////////////////////////////////////////////////////////
-/// \brief Get the sub-rectangle of the texture displayed by a shape
+/// \brief Get the sub-rectangle of the texture displayed by a convex shape
 ///
 /// \param shape Shape object
 ///
 /// \return Texture rectangle of the shape
 ///
 ////////////////////////////////////////////////////////////
-CSFML_GRAPHICS_API sfIntRect sfShape_getTextureRect(const sfShape* shape);
+CSFML_GRAPHICS_API sfIntRect sfConvexShape_getTextureRect(const sfConvexShape* shape);
 
 ////////////////////////////////////////////////////////////
-/// \brief Get the fill color of a shape
+/// \brief Get the fill color of a convex shape
 ///
 /// \param shape Shape object
 ///
 /// \return Fill color of the shape
 ///
 ////////////////////////////////////////////////////////////
-CSFML_GRAPHICS_API sfColor sfShape_getFillColor(const sfShape* shape);
+CSFML_GRAPHICS_API sfColor sfConvexShape_getFillColor(const sfConvexShape* shape);
 
 ////////////////////////////////////////////////////////////
-/// \brief Get the outline color of a shape
+/// \brief Get the outline color of a convex shape
 ///
 /// \param shape Shape object
 ///
 /// \return Outline color of the shape
 ///
 ////////////////////////////////////////////////////////////
-CSFML_GRAPHICS_API sfColor sfShape_getOutlineColor(const sfShape* shape);
+CSFML_GRAPHICS_API sfColor sfConvexShape_getOutlineColor(const sfConvexShape* shape);
 
 ////////////////////////////////////////////////////////////
-/// \brief Get the outline thickness of a shape
+/// \brief Get the outline thickness of a convex shape
 ///
 /// \param shape Shape object
 ///
 /// \return Outline thickness of the shape
 ///
 ////////////////////////////////////////////////////////////
-CSFML_GRAPHICS_API float sfShape_getOutlineThickness(const sfShape* shape);
+CSFML_GRAPHICS_API float sfConvexShape_getOutlineThickness(const sfConvexShape* shape);
 
 ////////////////////////////////////////////////////////////
-/// \brief Get the total number of points of a shape
+/// \brief Get the total number of points of a convex shape
 ///
 /// \param shape Shape object
 ///
 /// \return Number of points of the shape
 ///
 ////////////////////////////////////////////////////////////
-CSFML_GRAPHICS_API unsigned int sfShape_getPointCount(const sfShape* shape);
+CSFML_GRAPHICS_API unsigned int sfConvexShape_getPointCount(const sfConvexShape* shape);
 
 ////////////////////////////////////////////////////////////
-/// \brief Get a point of a shape
+/// \brief Get a point of a convex shape
 ///
 /// The result is undefined if \a index is out of the valid range.
 ///
@@ -363,10 +364,37 @@ CSFML_GRAPHICS_API unsigned int sfShape_getPointCount(const sfShape* shape);
 /// \return Index-th point of the shape
 ///
 ////////////////////////////////////////////////////////////
-CSFML_GRAPHICS_API sfVector2f sfShape_getPoint(const sfShape* shape, unsigned int index);
+CSFML_GRAPHICS_API sfVector2f sfConvexShape_getPoint(const sfConvexShape* shape, unsigned int index);
 
 ////////////////////////////////////////////////////////////
-/// \brief Get the local bounding rectangle of a shape
+/// \brief Set the number of points of a convex shap
+///
+/// \a count must be greater than 2 to define a valid shape.
+///
+/// \param shape Shape object
+/// \param count New number of points of the shape
+///
+////////////////////////////////////////////////////////////
+CSFML_GRAPHICS_API void sfConvexShape_setPointCount(sfConvexShape* shape, unsigned int count);
+
+////////////////////////////////////////////////////////////
+/// \brief Set the position of a point in a convex shape
+///
+/// Don't forget that the polygon must remain convex, and
+/// the points need to stay ordered!
+/// setPointCount must be called first in order to set the total
+/// number of points. The result is undefined if \a index is out
+/// of the valid range.
+///
+/// \param shape Shape object
+/// \param index Index of the point to change, in range [0 .. GetPointCount() - 1]
+/// \param point New point
+///
+////////////////////////////////////////////////////////////
+CSFML_GRAPHICS_API void sfConvexShape_setPoint(sfConvexShape* shape, unsigned int index, sfVector2f point);
+
+////////////////////////////////////////////////////////////
+/// \brief Get the local bounding rectangle of a convex shape
 ///
 /// The returned rectangle is in local coordinates, which means
 /// that it ignores the transformations (translation, rotation,
@@ -379,10 +407,10 @@ CSFML_GRAPHICS_API sfVector2f sfShape_getPoint(const sfShape* shape, unsigned in
 /// \return Local bounding rectangle of the entity
 ///
 ////////////////////////////////////////////////////////////
-CSFML_GRAPHICS_API sfFloatRect sfShape_getLocalBounds(const sfShape* shape);
+CSFML_GRAPHICS_API sfFloatRect sfConvexShape_getLocalBounds(const sfConvexShape* shape);
 
 ////////////////////////////////////////////////////////////
-/// \brief Get the global bounding rectangle of a shape
+/// \brief Get the global bounding rectangle of a convex shape
 ///
 /// The returned rectangle is in global coordinates, which means
 /// that it takes in account the transformations (translation,
@@ -395,17 +423,7 @@ CSFML_GRAPHICS_API sfFloatRect sfShape_getLocalBounds(const sfShape* shape);
 /// \return Global bounding rectangle of the entity
 ///
 ////////////////////////////////////////////////////////////
-CSFML_GRAPHICS_API sfFloatRect sfShape_getGlobalBounds(const sfShape* shape);
-
-////////////////////////////////////////////////////////////
-/// \brief Recompute the internal geometry of a shape
-///
-/// This function must be called by specialized shape objects
-/// everytime their points change (ie. the result of either
-/// the getPointCount or getPoint callbacks is different).
-///
-////////////////////////////////////////////////////////////
-CSFML_GRAPHICS_API void sfShape_update(sfShape* shape);
+CSFML_GRAPHICS_API sfFloatRect sfConvexShape_getGlobalBounds(const sfConvexShape* shape);
 
 
-#endif // SFML_SHAPE_H
+#endif // SFML_CONVEXSHAPE_H
