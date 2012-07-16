@@ -5,7 +5,7 @@ import (
 	"log"
 )
 
-const verb = true
+const verb = false
 
 func TestConstructors(t *testing.T) {		
 	//clock := sys.NewClock()
