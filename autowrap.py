@@ -163,10 +163,23 @@ import sys
 if __name__ == "__main__":    
     text = sys.stdin.read()
     for line in text.split("\n"):
+        
+        if "///////" in line: continue
+        line = line.replace("\brief ", "")
+        line = line.replace("///", "//")
         if "#include" in line:
             print line
         if line.startswith("///"):
-            print line
+            print line[1:]
+            continue
+
+        # anything after here must be a function to parse
+        if "//" in line:
+            continue
+
+        if "(" not in line:
+            continue
+
         if line.startswith("CSFML_"):
             txt = line.split("_API ")[1]
             print "// " + txt

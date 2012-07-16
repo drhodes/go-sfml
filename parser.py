@@ -24,7 +24,7 @@ def some():             return -1, proto
 
 pyPEG.print_trace = False
 
-def go(t, rule):
+def go(t, rule):    
     return parseLine( t,
                       rule,
                       resultSoFar = [], 
@@ -44,6 +44,8 @@ def go(t, rule):
 #print go(txt2, proto)
 #t3 = "const sfFont* sfFont_getDefaultFont(void);"
 #go(t3, proto)
+t4 = "sfColor sfColor_fromRGB(sfUint8 red, sfUint8 green, sfUint8 blue);"
+print go(t4, proto)
 
 # def walk(node):
 #     if node.__class__.__name__ == "Symbol":

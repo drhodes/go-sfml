@@ -1,28 +1,28 @@
 package gfx
 
-import "testing"
+
+import (
+	"testing"
+	//"log"
+)
+
+//const verb = true
 
 func TestConstructors(t *testing.T) {		
-	clr1 := ColorFromRGB(1,2,3)
-	Debug(clr1)
-	
-	clr2 := ColorFromRGBA(1,2,3,254)
-	Debug(clr2)
-	
-	Debug(clr1.Add(clr2))
-	Debug(clr1.Modulate(clr2))
-
-	Debug(Color_FromRGB_P(12,23,34))
-}	
-
-
-func BenchmarkColorAdd(b *testing.B) {		
-	clr1 := ColorFromRGB(1,2,3)
-	clr2 := ColorFromRGBA(1,2,3,254)
-
-	for i := 0; i < b.N; i++ {
-		clr1.Add(clr2)		
-	}
+	//clock := sys.NewClock()
 }
 
+func TestColor(t *testing.T) {		
+	c1 := FromRGBA(12,12,12,12)
+	c2 := FromRGB(12,12,12)
+	c1.Modulate(c2)
+	c1.Add(c2)
+}
+
+
+func BenchmarkGetTime(b *testing.B) {
+}
+
+func BenchmarkClockDestroy(b *testing.B) {	
+}
 
