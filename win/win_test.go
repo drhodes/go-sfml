@@ -3,10 +3,9 @@ package win
 import (
 	"testing"
 	"log"
-	//"sfml/sys"
 )
 
-const verbose = false;
+const verb = true
 
 func TestConstructors(t *testing.T) {		
 	//clock := sys.NewClock()
@@ -14,13 +13,25 @@ func TestConstructors(t *testing.T) {
 
 func TestMode(t *testing.T) {		
 	mode := GetDesktopMode()
-	if verbose {
+	if verb {
 		log.Println("Width", mode.Width())
 		log.Println("Height", mode.Height())
 		log.Println("BitsPerPixel", mode.BitsPerPixel())
+		log.Println("Mode Valid", mode.IsValid())
 	}
 }
 
+func TestGetModes(t *testing.T) {		
+	modes := GetFullscreenModes()
+	for _, m := range modes {
+		if !m.IsValid() {
+			t.Fail()
+		}
+		if verb {
+			log.Println(m.Show())
+		}
+	}
+}
 
 
 
