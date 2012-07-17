@@ -1,0 +1,1 @@
+go install ./gfx ./sys ./win

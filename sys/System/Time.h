@@ -22,69 +22,89 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef SFML_CLOCK_H
-#define SFML_CLOCK_H
+#ifndef SFML_TIME_H
+#define SFML_TIME_H
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
 #include <SFML/System/Export.h>
-#include <SFML/System/Time.h>
-#include <SFML/System/Types.h>
 
 
 ////////////////////////////////////////////////////////////
-/// \brief Create a new clock and start it
-///
-/// \return A new sfClock object
+/// \brief Represents a time value
 ///
 ////////////////////////////////////////////////////////////
-CSFML_SYSTEM_API sfClock* sfClock_create(void);
+typedef struct
+{
+    sfInt64 microseconds;
+} sfTime;
 
 ////////////////////////////////////////////////////////////
-/// \brief Create a new clock by copying an existing one
-///
-/// \param clock Clock to copy
-///
-/// \return A new sfClock object which is a copy of \a clock
+/// \brief Predefined "zero" time value 
 ///
 ////////////////////////////////////////////////////////////
-CSFML_SYSTEM_API sfClock* sfClock_copy(sfClock* clock);
+CSFML_SYSTEM_API sfTime sfTime_Zero;
 
 ////////////////////////////////////////////////////////////
-/// \brief Destroy a clock
+/// \brief Return a time value as a number of seconds
 ///
-/// \param clock Clock to destroy
+/// \param time Time value
+///
+/// \return Time in seconds
 ///
 ////////////////////////////////////////////////////////////
-CSFML_SYSTEM_API void sfClock_destroy(sfClock* clock);
+CSFML_SYSTEM_API float sfTime_asSeconds(sfTime time);
 
 ////////////////////////////////////////////////////////////
-/// \brief Get the time elapsed in a clock
+/// \brief Return a time value as a number of milliseconds
 ///
-/// This function returns the time elapsed since the last call
-/// to sfClock_restart (or the construction of the object if
-/// sfClock_restart has not been called).
+/// \param time Time value
 ///
-/// \param clock Clock object
-///
-/// \return Time elapsed
+/// \return Time in milliseconds
 ///
 ////////////////////////////////////////////////////////////
-CSFML_SYSTEM_API sfTime sfClock_getElapsedTime(const sfClock* clock);
+CSFML_SYSTEM_API sfInt32 sfTime_asMilliseconds(sfTime time);
 
 ////////////////////////////////////////////////////////////
-/// \brief Restart a clock
+/// \brief Return a time value as a number of microseconds
 ///
-/// This function puts the time counter back to zero.
-/// It also returns the time elapsed since the clock was started.
+/// \param time Time value
 ///
-/// \param clock Clock object
-///
-/// \return Time elapsed
+/// \return Time in microseconds
 ///
 ////////////////////////////////////////////////////////////
-CSFML_SYSTEM_API sfTime sfClock_restart(sfClock* clock);
+CSFML_SYSTEM_API sfInt64 sfTime_asMicroseconds(sfTime time);
+
+////////////////////////////////////////////////////////////
+/// \brief Construct a time value from a number of seconds
+///
+/// \param amount Number of seconds
+///
+/// \return Time value constructed from the amount of seconds
+///
+////////////////////////////////////////////////////////////
+CSFML_SYSTEM_API sfTime sfSeconds(float amount);
+
+////////////////////////////////////////////////////////////
+/// \brief Construct a time value from a number of milliseconds
+///
+/// \param amount Number of milliseconds
+///
+/// \return Time value constructed from the amount of milliseconds
+///
+////////////////////////////////////////////////////////////
+CSFML_SYSTEM_API sfTime sfMilliseconds(sfInt32 amount);
+
+////////////////////////////////////////////////////////////
+/// \brief Construct a time value from a number of microseconds
+///
+/// \param amount Number of microseconds
+///
+/// \return Time value constructed from the amount of microseconds
+///
+////////////////////////////////////////////////////////////
+CSFML_SYSTEM_API sfTime sfMicroseconds(sfInt64 amount);
 
 
-#endif // SFML_CLOCK_H
+#endif // SFML_TIME_H

@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////
 //
 // SFML - Simple and Fast Multimedia Library
-// Copyright (C) 2007-2009 Laurent Gomila (laurent.gom@gmail.com)
+// Copyright (C) 2007-2012 Laurent Gomila (laurent.gom@gmail.com)
 //
 // This software is provided 'as-is', without any express or implied warranty.
 // In no event will the authors be held liable for any damages arising from the use of this software.
@@ -28,53 +28,76 @@
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
-#include <SFML/Config.h>
+#include <SFML/System/Export.h>
 #include <SFML/System/Types.h>
 
 
 ////////////////////////////////////////////////////////////
-/// Construct a new thread from a function pointer
+/// \brief Create a new thread from a function pointer
 ///
-/// \param Function : Entry point of the thread
-/// \param UserData : Data to pass to the thread function
+/// Note: this does *not* run the thread, use sfThread_launch.
+///
+/// \param function Entry point of the thread
+/// \param userData Custom data to pass to the thread function
+///
+/// \return A new sfThread object
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API sfThread* sfThread_Create(void (*Function)(void*), void* UserData);
+CSFML_SYSTEM_API sfThread* sfThread_create(void (*function)(void*), void* userData);
 
 ////////////////////////////////////////////////////////////
-/// Destroy an existing thread
+/// \brief Destroy a thread
 ///
-/// \param Thread : Thread to delete
+/// This function calls sfThread_wait, so that the internal thread
+/// cannot survive after the sfThread object is destroyed.
+///
+/// \param thread Thread to destroy
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API void sfThread_Destroy(sfThread* Thread);
+CSFML_SYSTEM_API void sfThread_destroy(sfThread* thread);
 
 ////////////////////////////////////////////////////////////
-/// Run a thread
+/// \brief Run a thread
 ///
-/// \param Thread : Thread to launch
+/// This function starts the entry point passed to the
+/// thread's constructor, and returns immediately.
+/// After this function returns, the thread's function is
+/// running in parallel to the calling code.
+///
+/// \param thread Thread object
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API void sfThread_Launch(sfThread* Thread);
+CSFML_SYSTEM_API void sfThread_launch(sfThread* thread);
 
 ////////////////////////////////////////////////////////////
-/// Wait until a thread finishes
+/// \brief Wait until a thread finishes
 ///
-/// \param Thread : Thread to wait for
+/// This function will block the execution until the
+/// thread's function ends.
+/// Warning: if the thread function never ends, the calling
+/// thread will block forever.
+/// If this function is called from its owner thread, it
+/// returns without doing anything.
+///
+/// \param thread Thread object
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API void sfThread_Wait(sfThread* Thread);
+CSFML_SYSTEM_API void sfThread_wait(sfThread* thread);
 
 ////////////////////////////////////////////////////////////
-/// Terminate a thread
+/// \brief Terminate a thread
+///
+/// This function immediately stops the thread, without waiting
+/// for its function to finish.
 /// Terminating a thread with this function is not safe,
-/// you should rather try to make the thread function
-/// terminate by itself
+/// and can lead to local variables not being destroyed
+/// on some operating systems. You should rather try to make
+/// the thread function terminate by itself.
 ///
-/// \param Thread : Thread to terminate
+/// \param thread Thread object
 ///
 ////////////////////////////////////////////////////////////
-CSFML_API void sfThread_Terminate(sfThread* Thread);
+CSFML_SYSTEM_API void sfThread_terminate(sfThread* thread);
 
 
 #endif // SFML_THREAD_H

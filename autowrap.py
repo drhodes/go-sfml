@@ -95,13 +95,47 @@ class void(Node):
     def show(self):        
         return ""
 
+
 class idgroup(Node):
     def __init__(self, *args):
         Node.__init__(self, args)
+
+    def cshow(self):
+        mapping = {
+            "Bool": "bool",
+            "sfInt32": "int32"
+            }
+        ctype = "sf" + self.args[0][0].show().capitalize()
+        cname = self.args[0][1].show()
+
+        return '%s(%s)' % (ctype, cname)
+
     def show(self):        
         temp = ' '.join([x.show() for x in reversed(self.args[0])])
         return temp
 
+
+cargs = [1]
+
+class parameterlist(Node):
+    def __init__(self, *args):
+        Node.__init__(self, args)
+        
+    def uglyhack(self):
+        args = []
+        for pair in self.args[0][1:]:
+            args.append(pair.cshow())
+
+        tmp = ', '.join(args)
+        if len(args) > 0:
+            tmp = ", " + tmp
+            
+        cargs[0] = tmp
+
+    def show(self):              
+        self.uglyhack()
+        result = ", ".join([a.show() for a in self.args[0]][1:]) 
+        return result
 
 
 
@@ -123,12 +157,15 @@ class proto(Node):
         rectype = fname.split("_")[0]
         parms = self.args[0][2].show()
         
+        cargsf = str(cargs[0]) 
+
+
         s = '''
 func (self %s) %s(%s) %s { 
-    return C.sf%s();
+    return C.sf%s(self.Cref%s);
 }
             '''
-        return s % (rectype, gofname, parms, rtype, fname)
+        return s % (rectype, gofname, parms, rtype, fname, cargsf)
 
 class some(Node):
     def __init__(self, *args):
@@ -137,12 +174,6 @@ class some(Node):
         temp = ''.join(x.show() for x in self.args[0])
         return temp
 
-class parameterlist(Node):
-    def __init__(self, *args):
-        Node.__init__(self, args)
-    def show(self):              
-        result = ", ".join([a.show() for a in self.args[0]][1:]) 
-        return result
 
 def tbl(n):
     d = {
@@ -172,6 +203,8 @@ if __name__ == "__main__":
         if line.startswith("///"):
             print line[1:]
             continue
+        if line.startswith("//"):
+            print line
 
         # anything after here must be a function to parse
         if "//" in line:
@@ -179,6 +212,8 @@ if __name__ == "__main__":
 
         if "(" not in line:
             continue
+
+        
 
         if line.startswith("CSFML_"):
             txt = line.split("_API ")[1]

@@ -2,7 +2,8 @@ Derek A. Rhodes / physci@gmail.com
 $ git clone git@github.com:drhodes/go-sfml.git
 
 ** currently reimplementing with cgo **
-BUILD CURRENTLY BROKEN
+BUILD CURRENTLY BROKEN, updating to SFML RC 2.0 with go1
+(relative stability, yay!)
 
 Go bindings for:
 Simple and Fast Multimedia Library
@@ -16,8 +17,39 @@ only been tested on linux. (Ubuntu 10.4 lucid x86)
 _____________________________________________________________________________
 DEPENDENCIES:
 
+Both SFML and CSFML libraries are needed, as CSFML links to SFML.
 
 CSFML RC 2.0
+SFML RC 2.0
+libjpeg 8
+libglew 1.7
+
+_____________________________________________________________________________
+BASIC LINUX LIBRARY CONFIGURATION
+
+Get the goods if you need them, here:
+
+http://www.sfml-dev.org/download.php
+http://sourceforge.net/projects/glew/files/glew/1.7.0/glew-1.7.0.tgz/download
+http://www.ijg.org/files/jpegsrc.v8.tar.gz
+
+Under linux I've found that all three of the following environmental variables
+to be required.  Through the pernicious windings and labyrinths of archia
+reigns the following incantation for thy linkage to bare fruit of object files
+in the realm of bash. Beware traveller.
+
+export C_INCLUDE_PATH=${C_INCLUDE_PATH}:/path/to/CSFML-2.0-rc/include
+export C_INCLUDE_PATH=${C_INCLUDE_PATH}:/path/to/glew-1.7.0/include
+export C_INCLUDE_PATH=${C_INCLUDE_PATH}:/path/to/jpeg-8/build/include
+
+export LIBRARY_PATH=${LIBRARY_PATH}:/path/to/CSFML-2.0-rc/lib
+export LIBRARY_PATH=${LIBRARY_PATH}:/path/to/SFML-2.0-rc/lib
+export LIBRARY_PATH=${LIBRARY_PATH}:/path/to/jpeg-8/build/lib
+
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/path/to/CSFML-2.0-rc/lib
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/path/to/SFML-2.0-rc/lib
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/path/to/glew-1.7.0/lib
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/path/to/jpeg-8/build/lib
 
 
 _____________________________________________________________________________

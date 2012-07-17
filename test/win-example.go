@@ -3,66 +3,90 @@ package main
 import (	
 	"sfml/gfx"
 	"sfml/sys"
+	"sfml/win"
 	"fmt"
-	"math"
+	"log"
 )
 
 func Debug(x interface{}){	fmt.Printf("%#+v\n", x) }
 
 func main() {
-	clock := sys.ClockCreate()
-	Debug(clock)
+	c := sys.NewClock()
+	vm := win.NewVideoMode(512,512,24)
 
-	mode := gfx.CreateVideoMode(512, 512, 32)
-	Debug(mode)
-	
-	settings := gfx.CreateWindowSettings(24, 8, 1)
-	Debug(settings)
-	app := gfx.CreateRenderWindow(mode, "Go Wrapper for SFML", 1, settings)
-	Debug(app)
-
-	fnt := gfx.FontCreateFromFile("./Inconsolata.otf", 96)
-	Debug(fnt)
-
-	txt := gfx.StringCreate()
-	txt.SetText("Hello Go")
-	txt.SetFont(fnt)
-	Debug(txt)
-
-	img := gfx.ImageCreateFromFile("../test/gopher.png")
-	gopher := gfx.CreateSprite()
-	gopher.SetImage(img)
-	gopher.SetX(200)
-	gopher.SetY(200)
-	
-	seagreen := gfx.Color_FromRGB_P(244,23,34)
-	//seagreen := gfx.ColorFromRGBA(244,23,34,34)
-	//seagreen = gfx.ColorFromRGB(0,34,23)
-	Debug(seagreen)
-
-	//frame := 0 
-	//evt := gfx.Event{}
-	
-
-	app.SetFramerateLimit(60)
-
-	var tick float32 = 0
-	for app.IsOpened() {				
-		//tick := clock.GetTime()
-		//txt.SetText(fmt.Sprintf("%v fps", app.GetFrameTime()))
-		tick += .001;
-		gopher.SetRotation(tick*100)
-		scale := float32(1 + (math.Sin(float64(tick)/10)))
-		gopher.SetScaleX(scale)
-		gopher.SetScaleY(scale)
-
-		app.DrawSprite(gopher)
-		app.DrawString(txt)
-		
-		seagreen.R += 1
-		seagreen.G -= 1
-		app.Display()
-		app.Clear(seagreen)
+	w, err := win.NewWindow(
+		vm,		
+		"HelloWorld",
+		win.StyleDefaultStyle,
+		win.ContextSettings{})
+	if err != nil {
+		log.Fatal(err)
 	}
+
+	img, err := gfx.ImageFromFile("./gopher.png3")
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println(img.Getsize())
+
+	w.SetFramerateLimit(60);
+
+	t := c.GetElapsedTime()		
+    for w.IsOpen() {
+		t = c.GetElapsedTime()		
+
+		if t.AsSeconds() > .5001 {
+			w.Close()
+		}
+	}
+	log.Println(t.AsSeconds())
+
 }
+
+
+
+// 	// fnt := gfx.FontCreateFromFile("./Inconsolata.otf", 96)
+// 	// Debug(fnt)
+
+// 	// txt := gfx.StringCreate()
+// 	// txt.SetText("Hello Go")
+// 	// txt.SetFont(fnt)
+// 	// Debug(txt)
+
+// 	img := gfx.ImageCreateFromFile("../test/gopher.png")
+// 	gopher := gfx.CreateSprite()
+// 	gopher.SetImage(img)
+// 	gopher.SetX(200)
+// 	gopher.SetY(200)
+	
+// 	seagreen := gfx.FromRGB(244,23,34)
+// 	// //seagreen := gfx.ColorFromRGBA(244,23,34,34)
+// 	// //seagreen = gfx.ColorFromRGB(0,34,23)
+// 	// Debug(seagreen)
+
+// 	//frame := 0 
+// 	//evt := gfx.Event{}
+	
+
+// 	// app.SetFramerateLimit(60)
+
+// 	// var tick float32 = 0
+// 	// for app.IsOpened() {				
+// 	// 	//tick := clock.GetTime()
+// 	// 	//txt.SetText(fmt.Sprintf("%v fps", app.GetFrameTime()))
+// 	// 	tick += .001;
+// 	// 	gopher.SetRotation(tick*100)
+// 	// 	scale := float32(1 + (math.Sin(float64(tick)/10)))
+// 	// 	gopher.SetScaleX(scale)
+// 	// 	gopher.SetScaleY(scale)
+
+// 	// 	app.DrawSprite(gopher)
+// 	// 	app.DrawString(txt)
+		
+// 	// 	seagreen.R += 1
+// 	// 	seagreen.G -= 1
+// 	// 	app.Display()
+// 	// 	app.Clear(seagreen)
+// 	// }
+// }
 

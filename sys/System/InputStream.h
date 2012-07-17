@@ -22,47 +22,33 @@
 //
 ////////////////////////////////////////////////////////////
 
-#ifndef SFML_MUTEX_H
-#define SFML_MUTEX_H
+#ifndef SFML_INPUTSTREAM_H
+#define SFML_INPUTSTREAM_H
 
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
 #include <SFML/System/Export.h>
-#include <SFML/System/Types.h>
+
+
+typedef sfInt64 (*sfInputStreamReadFunc)(void* data, sfInt64 size, void* userData);
+typedef sfInt64 (*sfInputStreamSeekFunc)(sfInt64 position, void* userData);
+typedef sfInt64 (*sfInputStreamTellFunc)(void* userData);
+typedef sfInt64 (*sfInputStreamGetSizeFunc)(void* userData);
 
 
 ////////////////////////////////////////////////////////////
-/// \brief Create a new mutex
-///
-/// \return A new sfMutex object
+/// \brief Set of callbacks that allow users to define custom file streams
 ///
 ////////////////////////////////////////////////////////////
-CSFML_SYSTEM_API sfMutex* sfMutex_create(void);
-
-////////////////////////////////////////////////////////////
-/// \brief Destroy a mutex
-///
-/// \param mutex Mutex to destroy
-///
-////////////////////////////////////////////////////////////
-CSFML_SYSTEM_API void sfMutex_destroy(sfMutex* mutex);
-
-////////////////////////////////////////////////////////////
-/// \brief Lock a mutex
-///
-/// \param mutex Mutex object
-///
-////////////////////////////////////////////////////////////
-CSFML_SYSTEM_API void sfMutex_lock(sfMutex* mutex);
-
-////////////////////////////////////////////////////////////
-/// \brief Unlock a mutex
-///
-/// \param mutex Mutex object
-///
-////////////////////////////////////////////////////////////
-CSFML_SYSTEM_API void sfMutex_unlock(sfMutex* mutex);
+typedef struct sfInputStream
+{
+    sfInputStreamReadFunc    read;     ///< Function to read data from the stream
+    sfInputStreamSeekFunc    seek;     ///< Function to set the current read position
+    sfInputStreamTellFunc    tell;     ///< Function to get the current read position
+    sfInputStreamGetSizeFunc getSize;  ///< Function to get the total number of bytes in the stream
+    void*                    userData; ///< User data that will be passed to the callbacks
+} sfInputStream;
 
 
-#endif // SFML_MUTEX_H
+#endif // SFML_INPUTSTREAM_H

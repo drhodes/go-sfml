@@ -13,7 +13,12 @@ package win
 // unsigned int VideoModeBitsPerPixel(sfVideoMode* vm) {
 // 	return vm->bitsPerPixel;
 // }
-// 
+// sfVideoMode _NewVideoMode(sfUint32 w, sfUint32 h, sfUint8 bpp) {
+//   sfVideoMode vm;
+//   vm.width = w; vm.height= h; vm.bitsPerPixel = bpp;
+//   return vm;
+// }
+//
 import "C"
 import (
 	"unsafe"
@@ -24,6 +29,15 @@ import (
 // and provides functions for getting modes supported by the display device
 type VideoMode struct {
 	Cref *C.sfVideoMode
+}
+
+func NewVideoMode(w,h,bpp uint) VideoMode {
+	v := C._NewVideoMode(C.sfUint32(w),C.sfUint32(h),C.sfUint8(bpp))
+	return VideoMode{&v}
+}
+
+func (self VideoMode) Nil() bool {
+	return self.Cref == nil
 }
 
 func (self VideoMode) Width() uint {
