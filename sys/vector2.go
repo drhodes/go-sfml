@@ -40,8 +40,30 @@ func NewVector2u(x, y uint) Vector2u {
 func NewVector2i(x, y int) Vector2i {
 	return Vector2i{C._NewVector2i(C.int(x), C.int(y))}
 }
+func (self Vector2i) X() int {
+	return int(self.Cref.x)
+}
+func (self Vector2i) Y() int {
+	return int(self.Cref.y)
+}
+
 
 func NewVector2f(x, y float32) Vector2f {
 	return Vector2f{C._NewVector2f(C.float(x), C.float(y))}
+}
+
+// internal
+func CNewVector2u(x, y C.uint) Vector2u {
+	return Vector2u{C._NewVector2u(x, y)}
+}
+
+// internal
+func CNewVector2i(x, y C.int) Vector2i {
+	return Vector2i{C._NewVector2i(x,y)}
+}
+
+// internal
+func CNewVector2f(x, y C.float) Vector2f {
+	return Vector2f{C._NewVector2f(x,y)}
 }
 
