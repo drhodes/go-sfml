@@ -157,15 +157,46 @@ func (self Window) GetSettings() ContextSettings {
 // returns true if an event was returned, or false if the events stack was empty
 //
 // sfBool sfWindow_pollEvent(sfWindow* window, sfEvent* event);
-func (self Window) PollEvent(event *Event) (bool, *EventType) {
+func foo(x interface{}) interface{} {
+	return x
+}
+
+func (self Window) PollEvent() interface{} {
 	// ok if got event.	
-	ok := C.sfWindow_pollEvent(self.Cref, event.Cref) == 1
+	e := NewEvent()
+	ok := C.sfWindow_pollEvent(self.Cref, e.Cref) == 1
 	if ok {
 		// look at the first byte, it's the event type
-		et := EventType((*event.Cref)[0])
-		return true, &et
+		et := EventType((*e.Cref)[0])
+		switch et {
+		case EvtClosed:			
+		case EvtResized:
+		case EvtLostFocus:
+		case EvtGainedFocus:
+		case EvtTextEntered:
+			return e.ToTextEvent()
+
+		case EvtKeyPressed, EvtKeyReleased:
+			return e.ToKeyEvent()	
+
+		case EvtMouseWheelMoved:
+			return e.ToMouseWheelEvent()
+
+		case EvtMouseButtonPressed, EvtMouseButtonReleased:
+			return e.ToMouseButtonEvent()
+
+		case EvtMouseMoved, EvtMouseEntered, EvtMouseLeft:
+			return e.ToMouseMoveEvent()
+
+		case EvtJoystickButtonPressed, EvtJoystickButtonReleased, EvtJoystickMoved:
+			return e.ToJoystickMoveEvent()
+		case EvtJoystickConnected:
+		case EvtJoystickDisconnected:
+			return e.ToJoystickConnectEvent()
+		case EvtNone:
+		}
 	}
-	return false, nil
+	return EvtNone
 }
 
 // Wait for an event and return it
@@ -226,7 +257,6 @@ func (self Window) PollEvent(event *Event) (bool, *EventType) {
 // func (self Window) Getsize() Vector2u {
 // 	return C.sfWindow_getSize();
 // }
-
 
 // Change the size of the rendering region of a window
 //

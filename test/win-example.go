@@ -3,6 +3,7 @@ package main
 import (	
 	"sfml/gfx"
 	"sfml/sys"
+	. "sfml/win"
 	"sfml/win"
 	"fmt"
 	"log"
@@ -10,15 +11,24 @@ import (
 
 func Debug(x interface{}){	fmt.Printf("%#+v\n", x) }
 
+func AwesomeKeyHandler(ke KeyEvent) {
+	switch ke.Type {
+	case EvtKeyPressed:
+		log.Println("Key Pressed: ", ke)
+	case EvtKeyReleased:
+		log.Println("Key Released: ", ke)
+	}
+}
+
 func main() {
 	c := sys.NewClock()
-	vm := win.NewVideoMode(512,512,24)
+	vm := NewVideoMode(512,512,24)
 
-	w, err := win.NewWindow(
+	w, err := NewWindow(
 		vm,		
 		"HelloWorld",
-		win.StyleDefaultStyle,
-		win.ContextSettings{})
+		StyleDefaultStyle,
+		ContextSettings{})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -32,18 +42,20 @@ func main() {
 	w.SetFramerateLimit(60);
 
 	t := c.GetElapsedTime()		
-	evt := win.NewEvent()
 
     for w.IsOpen() {
-		t = c.GetElapsedTime()		
+		t = c.GetElapsedTime()			
 		
-		if ok := w.PollEvent(&evt); ok {
-			log.Println(evt)
+		e := w.PollEvent()
+		switch e.(type) {
+		case KeyEvent:
+			AwesomeKeyHandler(e.(KeyEvent))
+		case MouseMoveEvent:		
+			me := e.(MouseMoveEvent)
+			log.Printf("MouseMove <%d, %d>\n", me.X(), me.Y())
+		case nil:
+			log.Println("LOOOOOOOOOL")
 		}
-
-		// if t.AsSeconds() > .5001 {
-		// 	w.Close()
-		// }
 	}
 	log.Println(t.AsSeconds())
 }
