@@ -163,7 +163,7 @@ func foo(x interface{}) interface{} {
 
 func (self Window) PollEvent() interface{} {
 	// ok if got event.	
-	e := NewEvent()
+	e := newEvent()
 	ok := C.sfWindow_pollEvent(self.Cref, e.Cref) == 1
 	if ok {
 		// look at the first byte, it's the event type

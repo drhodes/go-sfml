@@ -13,9 +13,9 @@ func Debug(x interface{}){	fmt.Printf("%#+v\n", x) }
 
 func AwesomeKeyHandler(ke KeyEvent) {
 	switch ke.Type {
-	case EvtKeyPressed:
+	case win.EvtKeyPressed:
 		log.Println("Key Pressed: ", ke)
-	case EvtKeyReleased:
+	case win.EvtKeyReleased:
 		log.Println("Key Released: ", ke)
 	}
 }
