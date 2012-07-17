@@ -23,7 +23,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	img, err := gfx.ImageFromFile("./gopher.png3")
+	img, err := gfx.ImageFromFile("./gopher.png")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -32,15 +32,20 @@ func main() {
 	w.SetFramerateLimit(60);
 
 	t := c.GetElapsedTime()		
+	evt := win.NewEvent()
+
     for w.IsOpen() {
 		t = c.GetElapsedTime()		
-
-		if t.AsSeconds() > .5001 {
-			w.Close()
+		
+		if ok := w.PollEvent(&evt); ok {
+			log.Println(evt)
 		}
+
+		// if t.AsSeconds() > .5001 {
+		// 	w.Close()
+		// }
 	}
 	log.Println(t.AsSeconds())
-
 }
 
 

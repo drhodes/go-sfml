@@ -16,6 +16,7 @@ import (
 	//"fmt"
 	//. "sfml/sys"
 	"errors"
+	//"log"
 )
 
 // Enumeration of window creation styles
@@ -148,17 +149,24 @@ func (self Window) GetSettings() ContextSettings {
 // it will return false and leave \a event unmodified.
 // Note that more than one event may be present in the events stack,
 // thus you should always call this function in a loop
-// to make sure that you process every pending event.
+// to make sure that you process every pending event
 //
-// \param window Window object
-// \param event  Event to be returned
+// in: window Window object
+// in: event  Event to be returned
 //
-// \return sfTrue if an event was returned, or sfFalse if the events stack was empty
+// returns true if an event was returned, or false if the events stack was empty
 //
 // sfBool sfWindow_pollEvent(sfWindow* window, sfEvent* event);
-// func (self Window) Pollevent(event Event) bool {
-// 	return C.sfWindow_pollEvent();
-// }
+func (self Window) PollEvent(event *Event) (bool, *EventType) {
+	// ok if got event.	
+	ok := C.sfWindow_pollEvent(self.Cref, event.Cref) == 1
+	if ok {
+		// look at the first byte, it's the event type
+		et := EventType((*event.Cref)[0])
+		return true, &et
+	}
+	return false, nil
+}
 
 // Wait for an event and return it
 //
@@ -179,7 +187,6 @@ func (self Window) GetSettings() ContextSettings {
 // func (self Window) Waitevent(event *Event) Bool {
 // 	return C.sfWindow_waitEvent();
 // }
-
 
 // Get the position of a window
 //
@@ -231,7 +238,6 @@ func (self Window) GetSettings() ContextSettings {
 // 	C.sfWindow_setSize(self.Cref, size.Cref);
 // }
 
-
 // Change the title of a window
 //
 // \param window Window object
@@ -241,7 +247,6 @@ func (self Window) GetSettings() ContextSettings {
 // func (self Window) Settitle(title *char ) void {
 // 	return C.sfWindow_setTitle();
 // }
-
 
 // Change a window's icon
 //
@@ -339,7 +344,7 @@ func (self Window) GetSettings() ContextSettings {
 //
 // void sfWindow_display(sfWindow* window);
 func (self Window) Display() {
-	C.sfWindow_display(self.Cref);
+	C.sfWindow_display(self.Cref)
 }
 
 // Limit the framerate to a maximum fixed frequency
@@ -353,7 +358,7 @@ func (self Window) Display() {
 //
 // void sfWindow_setFramerateLimit(sfWindow* window, unsigned int limit);
 func (self Window) SetFramerateLimit(limit uint) {
-	C.sfWindow_setFramerateLimit(self.Cref, C.uint(limit));
+	C.sfWindow_setFramerateLimit(self.Cref, C.uint(limit))
 }
 
 // Change the joystick threshold
