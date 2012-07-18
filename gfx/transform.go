@@ -8,6 +8,8 @@ package gfx
 // #include <SFML/Graphics/Transform.h>
 import "C"
 
+import "unsafe"
+
 type Transform struct {
 	Cref *C.sfTransform
 }
@@ -16,7 +18,7 @@ type Transform struct {
 // This function creates an identity transform.
 // \return A new sfTransform object
 // sfTransform* sfTransform_create(void);
-func NewTransform() Transform { 
+func IdentityTransform() Transform { 
     return Transform{C.sfTransform_create()}
 }
 
@@ -58,7 +60,6 @@ func (self Transform) Destroy() {
     C.sfTransform_destroy(self.Cref);
 }
 
-/*                       
             
 // \brief Return the 4x4 matrix of a transform
 // This function returns a pointer to an array of 16 floats
@@ -71,9 +72,20 @@ func (self Transform) Destroy() {
 // \param transform Transform object
 // \return Pointer to a 4x4 matrix
 // const float* sfTransform_getMatrix(const sfTransform* transform);
+func (self Transform) GetMatrix() [16]float32 { 
+	//size := 2
+	carr := C.sfTransform_getMatrix(self.Cref)
+	arr := [16]float32{}
 
-func (self *float) *float(Transform_getMatrix)  { 
-    return C.sf*float(self.Cref);
+	p := unsafe.Pointer(carr)
+	ptr := uintptr(p)
+	
+	for i:=0; i<16; i++ {
+		arr[i] = float32(*(*C.float)(p))		
+		ptr += 4
+		p = unsafe.Pointer(ptr)		
+	}
+	return arr
 }
             
 // \brief Return the inverse of a transform
@@ -82,21 +94,23 @@ func (self *float) *float(Transform_getMatrix)  {
 // \param transform Transform object
 // \param result Returned inverse matrix
 // void sfTransform_getInverse(const sfTransform* transform, sfTransform* result);
-
-func (self Transform) Getinverse(result *Transform) void { 
-    return C.sfTransform_getInverse(self.Cref, sf*transform(result));
+func (self Transform) GetInverse() Transform { 	
+	t := Transform{}
+    C.sfTransform_getInverse(self.Cref, t.Cref)
+	return t
 }
-            
+
 // \brief Apply a transform to a 2D point
 // \param transform Transform object
 // \param point     Point to transform
 // \return Transformed point
 // sfVector2f sfTransform_transformPoint(const sfTransform* transform, sfVector2f point);
-
-func (self Transform) Transformpoint(point Vector2f) Vector2f { 
-    return C.sfTransform_transformPoint(self.Cref, sfVector2f(point));
+func (self Transform) TransformPoint(x, y float32) (float32, float32) { 
+	pt := C.sfVector2f{C.float(x), C.float(y)}
+    vr := C.sfTransform_transformPoint(self.Cref, pt)
+	return float32(vr.x), float32(vr.y)
 }
-            
+
 // \brief Apply a transform to a rectangle
 // Since SFML doesn't provide support for oriented rectangles,
 // the result of this function is always an axis-aligned
@@ -107,11 +121,11 @@ func (self Transform) Transformpoint(point Vector2f) Vector2f {
 // \param rectangle Rectangle to transform
 // \return Transformed rectangle
 // sfFloatRect sfTransform_transformRect(const sfTransform* transform, sfFloatRect rectangle);
-
-func (self Transform) Transformrect(rectangle FloatRect) FloatRect { 
-    return C.sfTransform_transformRect(self.Cref, sfFloatrect(rectangle));
+func (self Transform) TransformRect(rect FloatRect) FloatRect { 
+    ref := C.sfTransform_transformRect(self.Cref, *rect.Cref)	
+	return FloatRect{&ref}
 }
-            
+
 // \brief Combine two transforms
 // The result is a transform that is equivalent to applying
 // \a transform followed by \a other. Mathematically, it is
@@ -119,28 +133,27 @@ func (self Transform) Transformrect(rectangle FloatRect) FloatRect {
 // \param transform Transform object
 // \param right     Transform to combine to \a transform
 // void sfTransform_combine(sfTransform* transform, const sfTransform* other);
-
-func (self Transform) Combine(other *Transform ) void { 
-    return C.sfTransform_combine(self.Cref, sf(*Transform));
+func (self Transform) Combine(other Transform) { 	
+    C.sfTransform_combine(self.Cref, other.Cref)
 }
+
             
 // \brief Combine a transform with a translation
 // \param transform Transform object
 // \param x         Offset to apply on X axis
 // \param y         Offset to apply on Y axis
 // void sfTransform_translate(sfTransform* transform, float x, float y);
-
-func (self Transform) Translate(x float, y float) void { 
-    return C.sfTransform_translate(self.Cref, sfFloat(x), sfFloat(y));
+func (self Transform) Translate(x, y float32) { 
+    C.sfTransform_translate(self.Cref, C.float(x), C.float(y))
 }
+
             
 // \brief Combine the current transform with a rotation
 // \param transform Transform object
 // \param angle     Rotation angle, in degrees
 // void sfTransform_rotate(sfTransform* transform, float angle);
-
-func (self Transform) Rotate(angle float) void { 
-    return C.sfTransform_rotate(self.Cref, sfFloat(angle));
+func (self Transform) Rotate(angle float32) { 
+    C.sfTransform_rotate(self.Cref, C.float(angle))
 }
             
 // \brief Combine the current transform with a rotation
@@ -153,9 +166,8 @@ func (self Transform) Rotate(angle float) void {
 // \param centerX   X coordinate of the center of rotation
 // \param centerY   Y coordinate of the center of rotation
 // void sfTransform_rotateWithCenter(sfTransform* transform, float angle, float centerX, float centerY);
-
-func (self Transform) Rotatewithcenter(angle float, centerX float, centerY float) void { 
-    return C.sfTransform_rotateWithCenter(self.Cref, sfFloat(angle), sfFloat(centerX), sfFloat(centerY));
+func (self Transform) RotateWithCenter(angle, centerX, centerY float32) { 
+    C.sfTransform_rotateWithCenter(self.Cref, C.float(angle), C.float(centerX), C.float(centerY))
 }
             
 // \brief Combine the current transform with a scaling
@@ -163,9 +175,8 @@ func (self Transform) Rotatewithcenter(angle float, centerX float, centerY float
 // \param scaleX    Scaling factor on the X axis
 // \param scaleY    Scaling factor on the Y axis
 // void sfTransform_scale(sfTransform* transform, float scaleX, float scaleY);
-
-func (self Transform) Scale(scaleX float, scaleY float) void { 
-    return C.sfTransform_scale(self.Cref, sfFloat(scaleX), sfFloat(scaleY));
+func (self Transform) Scale(scaleX, scaleY float32) { 
+    C.sfTransform_scale(self.Cref, C.float(scaleX), C.float(scaleY))
 }
             
 // \brief Combine the current transform with a scaling
@@ -179,9 +190,6 @@ func (self Transform) Scale(scaleX float, scaleY float) void {
 // \param centerX   X coordinate of the center of scaling
 // \param centerY   Y coordinate of the center of scaling
 // void sfTransform_scaleWithCenter(sfTransform* transform, float scaleX, float scaleY, float centerX, float centerY);
-
-func (self Transform) Scalewithcenter(scaleX float, scaleY float, centerX float, centerY float) void { 
-    return C.sfTransform_scaleWithCenter(self.Cref, sfFloat(scaleX), sfFloat(scaleY), sfFloat(centerX), sfFloat(centerY));
+func (self Transform) ScaleWithCenter(scaleX, scaleY, centerX, centerY float32) { 
+    C.sfTransform_scaleWithCenter(self.Cref, C.float(scaleX), C.float(scaleY), C.float(centerX), C.float(centerY))
 }
-            
-*/

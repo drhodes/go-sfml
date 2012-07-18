@@ -4,20 +4,6 @@ package win
 // #include <SFML/Window/VideoMode.h>
 // #include <string.h>
 // 
-// unsigned int VideoModeWidth(sfVideoMode* vm) {
-// 	return vm->width;
-// }
-// unsigned int VideoModeHeight(sfVideoMode* vm) {
-// 	return vm->height;
-// }
-// unsigned int VideoModeBitsPerPixel(sfVideoMode* vm) {
-// 	return vm->bitsPerPixel;
-// }
-// sfVideoMode _NewVideoMode(sfUint32 w, sfUint32 h, sfUint8 bpp) {
-//   sfVideoMode vm;
-//   vm.width = w; vm.height= h; vm.bitsPerPixel = bpp;
-//   return vm;
-// }
 //
 import "C"
 import (
@@ -32,7 +18,7 @@ type VideoMode struct {
 }
 
 func NewVideoMode(w,h,bpp uint) VideoMode {
-	v := C._NewVideoMode(C.sfUint32(w),C.sfUint32(h),C.sfUint8(bpp))
+	v := C.sfVideoMode{C.uint(w),C.uint(h),C.uint(bpp)}
 	return VideoMode{&v}
 }
 
@@ -41,15 +27,15 @@ func (self VideoMode) Nil() bool {
 }
 
 func (self VideoMode) Width() uint {
-	return uint(C.VideoModeWidth(self.Cref))
+	return uint(self.Cref.width)
 }
 
 func (self VideoMode) Height() uint {
-	return uint(C.VideoModeHeight(self.Cref))
+	return uint(self.Cref.height)
 }
 
 func (self VideoMode) BitsPerPixel() uint {
-	return uint(C.VideoModeBitsPerPixel(self.Cref))
+	return uint(self.Cref.bitsPerPixel)
 }
 
 func (self VideoMode) Show() string {
