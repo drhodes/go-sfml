@@ -350,9 +350,7 @@ CSFML_GRAPHICS_API void sfRenderWindow_drawVertexArray(sfRenderWindow* renderWin
 /// \param states       Render states to use for drawing (NULL to use the default states)
 ///
 ////////////////////////////////////////////////////////////
-CSFML_GRAPHICS_API void sfRenderWindow_drawPrimitives(sfRenderWindow* renderWindow,
-                                                      const sfVertex* vertices, unsigned int vertexCount,
-                                                      sfPrimitiveType type, const sfRenderStates* states);
+CSFML_GRAPHICS_API void sfRenderWindow_drawPrimitives(sfRenderWindow* renderWindow, const sfVertex* vertices, unsigned int vertexCount, sfPrimitiveType type, const sfRenderStates* states);
 
 ////////////////////////////////////////////////////////////
 /// \brief Save the current OpenGL render states and matrices
