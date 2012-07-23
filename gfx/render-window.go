@@ -127,7 +127,7 @@ func (self RenderWindow) Getsettings() win.ContextSettings {
 //
 // sfBool sfRenderWindow_pollEvent(sfRenderWindow* renderWindow, sfEvent* event);
 
-func (self RenderWindow) Pollevent() interface{} {
+func (self RenderWindow) PollEvent() interface{} {
 	// ok if got event.
 	e := win.NewEvent()
 	ok := C.sfRenderWindow_pollEvent(self.Cref, (*_Ctype_sfEvent) (e.Cref)) == 1
