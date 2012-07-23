@@ -307,7 +307,7 @@ func (self RenderWindow) SetActive(active bool) bool {
 	if active {
 		return C.sfRenderWindow_setActive(self.Cref, C.sfBool(1)) == 1
 	}
-	return C.sfRenderWindow_setActive(self.Cref, C.sfBool(0))
+	return C.sfRenderWindow_setActive(self.Cref, C.sfBool(0)) == 1
 }
 
 /*
