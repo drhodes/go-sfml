@@ -2,12 +2,43 @@ package main
 
 import (
 	"github.com/drhodes/go-sfml/gfx"
-	"github.com/drhodes/go-sfml/sys"
 	"github.com/drhodes/go-sfml/win"
-	"fmt"
 	"log"
 )
 
+func main() {
+	vm := win.NewVideoMode(800, 600, 32)
+	window := gfx.NewRenderWindowDefault(vm, "SFML window", win.StyleDefaultStyle)
+	black := gfx.FromRGB(0, 0, 0)
+
+	texture, err := gfx.TextureFromFile("gopher.png", gfx.IntRect{})
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	sprite, err := gfx.NewSprite()
+	if err != nil {
+		log.Fatal(err)
+	}
+	sprite.SetTexture(texture, false)
+
+	for window.IsOpen() {
+		e := window.PollEvent()
+		switch e.(type) {
+		case win.KeyEvent:
+			ev := e.(win.KeyEvent)
+			if ev.Code() == win.KeyEscape {
+				window.Close()
+			}
+		}
+		window.Clear(black)
+		window.DrawSprite(sprite)
+		window.Display()
+	}
+}
+
+
+/*
 func Debug(x interface{}){	fmt.Printf("%#+v\n", x) }
 
 func AwesomeKeyHandler(ke win.KeyEvent) {
@@ -23,27 +54,28 @@ func main() {
 	c := sys.NewClock()
 	vm := win.NewVideoMode(512,512,24)
 
-	w, err := win.NewWindow(
+	w := gfx.NewRenderWindowDefault(
 		vm,
 		"HelloWorld",
-		win.StyleDefaultStyle,
-		win.ContextSettings{})
-	if err != nil {
-		log.Fatal(err)
-	}
+		win.StyleDefaultStyle)
+	black := gfx.FromRGB(128, 128, 128)
 
-	img, err := gfx.ImageFromFile("./gopher.png")
+	tex, err := gfx.TextureFromFile("./gopher.png", gfx.NewIntRect(0, 0, 153, 55))
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println(img.Getsize())
+	gopher, _ := gfx.NewSprite()
+	gopher.SetTexture(tex, false)
+	gopher.SetPosition(200, 200)
 
 	w.SetFramerateLimit(60);
 
 	t := c.GetElapsedTime()
+	w.SetActive(true)
 
 	for w.IsOpen() {
 		t = c.GetElapsedTime()
+		fmt.Println(t.AsSeconds())
 		
 		e := w.PollEvent()
 		switch e.(type) {
@@ -55,6 +87,9 @@ func main() {
 		case nil:
 			log.Println("LOOOOOOOOOL")
 		}
+
+		w.Clear(black)
+		w.DrawSprite(gopher)
 	}
 	log.Println(t.AsSeconds())
 }
@@ -105,3 +140,4 @@ func main() {
 // 	// }
 // }
 
+*/
