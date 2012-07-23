@@ -130,7 +130,7 @@ func (self RenderWindow) Getsettings() win.ContextSettings {
 func (self RenderWindow) Pollevent() interface{} {
 	// ok if got event.
 	e := win.NewEvent()
-	ok := C.sfRenderWindow_pollEvent(self.Cref, e.Cref) == 1
+	ok := C.sfRenderWindow_pollEvent(self.Cref, (*_Ctype_sfEvent) (e.Cref)) == 1
 	if ok {
 		// look at the first byte, it's the event type
 		et := win.EventType((*e.Cref)[0])
