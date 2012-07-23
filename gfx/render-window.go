@@ -310,17 +310,15 @@ func (self RenderWindow) SetActive(active bool) bool {
 	return C.sfRenderWindow_setActive(self.Cref, C.sfBool(0)) == 1
 }
 
-/*
 // \brief Display a render window on screen
 //
 // \param renderWindow Render window object
 //
 // void sfRenderWindow_display(sfRenderWindow* renderWindow);
 
-func (self RenderWindow) Display() void { 
-    return C.sfRenderWindow_display(self.Cref);
+func (self RenderWindow) Display() {
+	C.sfRenderWindow_display(self.Cref);
 }
-*/
 
 // \brief Limit the framerate to a maximum fixed frequency for a render window
 //
