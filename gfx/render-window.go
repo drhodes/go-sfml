@@ -365,10 +365,13 @@ func (self RenderWindow) Getsystemhandle() WindowHandle {
 //
 // void sfRenderWindow_clear(sfRenderWindow* renderWindow, sfColor color);
 
-func (self RenderWindow) Clear(color Color) void { 
-    return C.sfRenderWindow_clear(self.Cref, sfColor(color));
+*/
+
+func (self RenderWindow) Clear(color Color) {
+	C.sfRenderWindow_clear(self.Cref, color.Cref);
 }
-            
+
+/*
 // \brief Change the current active view of a render window
 //
 // \param renderWindow Render window object
