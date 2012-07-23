@@ -49,9 +49,36 @@ func NewIntRect(left, top, width, height int32) IntRect {
 	return IntRect{&fr}
 }
 
+func (self IntRect) Left() int32 {
+	return int32(self.Cref.left)
+}
+func (self IntRect) Top() int32 {
+	return int32(self.Cref.top)
+}
+func (self IntRect) Width() int32 {
+	return int32(self.Cref.width)
+}
+func (self IntRect) Height() int32 {
+	return int32(self.Cref.height)
+}
+
 func (self FloatRect) Contains(x, y float32) bool {
 	return C.sfFloatRect_contains(self.Cref, C.float(x), C.float(y)) == 1
 }
+
+func (self FloatRect) Left() float32 {
+	return float32(self.Cref.left)
+}
+func (self FloatRect) Top() float32 {
+	return float32(self.Cref.top)
+}
+func (self FloatRect) Width() float32 {
+	return float32(self.Cref.width)
+}
+func (self FloatRect) Height() float32 {
+	return float32(self.Cref.height)
+}
+
 
 
 func (self IntRect) Contains(x, y int32) bool {

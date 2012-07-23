@@ -30,8 +30,9 @@ func NewPaddle() (*Paddle, error) {
 }
 
 func (self *Paddle) update(x float32) {
-	if x*2 < WIDTH {
-		self.sprite.SetPosition(x*2, HEIGHT-32)
+	self.x = x*2
+	if self.x < WIDTH {
+		self.sprite.SetPosition(self.x, HEIGHT-32)
 	}
 }
 
@@ -40,4 +41,16 @@ func (self *Paddle) collides(b *Ball) bool {
 	brect := b.sprite.GetGlobalBounds()
 	_, hit := prect.Intersects(brect)
 	return hit
+}
+
+// find an impulse depending on where the ball hits the paddle 
+func (self *Paddle) ImpulseX (b *Ball) float32 {
+	// -2 <-----|-----> 2
+	padleft := self.x
+	padwidth := self.sprite.GetGlobalBounds().Width()
+	padcenter := padleft + padwidth/2
+	ballcenter := b.x
+
+	factor := -((padcenter - ballcenter) / (padwidth/2))	
+	return factor * 2
 }

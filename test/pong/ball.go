@@ -7,8 +7,8 @@ import (
 )
 
 type Ball struct {
-	speed float32
-	lastx, lasty float32
+	speedx float32
+	speedy float32
 	x, y float32
 	sprite *gfx.Sprite
 }
@@ -19,7 +19,7 @@ func NewBall() (*Ball, error) {
 		return nil, E(err, "Couldn't make a ball")
 	}
 
-	b := Ball{5, 1, 1, 2, 2, spr}
+	b := Ball{0, 5, 1, WIDTH/2, spr}
 
 	fname := "./assets/ball.png"
 	tex, err := gfx.TextureFromFile(fname, gfx.NewIntRect(0,0,16,16))
@@ -31,64 +31,45 @@ func NewBall() (*Ball, error) {
 	b.sprite.Scale(.5,.5)
 	return &b, nil
 }
+func (self *Ball) Width() float32 {
+	return self.sprite.GetLocalBounds().Width()
+}
 
-func (self *Ball) xnudge(n float32) {
-	self.lastx = self.x
-	self.x += n
-}
-func (self *Ball) ynudge(n float32) {
-	self.lasty = self.y
-	self.y += n
-}
 
 // return false if ball hits floor
 func (self *Ball) update(paddle *Paddle) bool {
 	if paddle.collides(self) {
-		self.speed += .1
-		//log.Println("Bounce!")
-		self.ynudge(-self.speed)					
+		factor := paddle.ImpulseX(self)
+		self.speedx += factor
+		self.speedy *= -1
 	}
 
 	switch {
 	case self.x <= 0:
 		// hit the left wall, start moving right
-		//self.sprite.Scale(.99,.99)
-		self.xnudge(self.speed)
+		self.speedx *= -1
 		break
 	case self.x >= WIDTH - 16:
 		// hit the right wall, start moving left
-		//self.sprite.Scale(.99,.99)
-
-		self.xnudge(-self.speed)
+		self.speedx *= -1
 		break
-	case self.x > 0 && self.x < WIDTH && self.x < self.lastx:
-		// in the middle moving left 
-		self.xnudge(-self.speed)
-		break
-	case self.x > 0 && self.x < WIDTH && self.x > self.lastx:
-		// in the middle moving left 
-		self.xnudge(self.speed)
 	}
 
 	switch {
 	case self.y <= 0:
 		// hit the top wall, start moving down
-		self.ynudge(+self.speed)
+		self.speedy *= -1 
 		break
 	case self.y >= HEIGHT - 16:
 		// hit the floor
-		self.speed += .1
-		//log.Println("BOOM")
-		self.ynudge(-self.speed)			
+		self.speedy *= -1
+		self.y = 10;
+		self.speedx = 0;
+		self.speedy = 5;
 		return true
-	case self.y > 0 && self.y < HEIGHT && self.y > self.lasty:
-		// in the middle moving down
-		self.ynudge(+self.speed)
-		break
-	case self.y > 0 && self.y < HEIGHT && self.y < self.lasty:
-		// in the middle moving up 
-		self.ynudge(-self.speed)
 	}
+	self.x += self.speedx
+	self.y += self.speedy
 	self.sprite.SetPosition(self.x, self.y)
 	return false
 }

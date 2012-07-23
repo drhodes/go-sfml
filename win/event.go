@@ -43,6 +43,7 @@ import (
 	//"errors"
 )
 
+type CEvent *C.sfEvent
 type Event struct {
  	Cref *C.sfEvent
 }

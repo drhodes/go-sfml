@@ -34,12 +34,17 @@ const (
 	StyleDefaultStyle = StyleTitlebar | StyleResize | StyleClose
 )
 
+type CWindowHandle C.sfWindowHandle
 type WindowHandle struct {
 	Cref C.sfWindowHandle
 }
 
+// need to export this C type.
+type CWindow *C.sfWindow
+
 type Window struct {
-	Cref *C.sfWindow
+	//Cref *C.sfWindow
+	Cref CWindow
 }
 
 // Construct a new window

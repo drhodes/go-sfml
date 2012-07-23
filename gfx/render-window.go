@@ -68,12 +68,10 @@ func NewRenderWindowDefault(mode VideoMode, title string) RenderWindow {
 // \param settings Creation settings (pass NULL to use default values)
 // sfRenderWindow* sfRenderWindow_createFromHandle(sfWindowHandle handle, const sfContextSettings* settings);
 // func RenderWindowFromhandle(handle WindowHandle, settings ContextSettings) RenderWindow { 
-// 	//mptr := unsafe.Pointer(&mode)
+// 	mptr := unsafe.Pointer(&mode)
 // 	mp := (*C.sfVideoMode)(unsafe.Pointer(&handle))
-	
-	
 //     return RenderWindow { 
-// 		C.sfRenderWindow_createFromHandle(handle.Cref, settings.Cref),
+// 		C.sfRenderWindow_createFromHandle(C.sfWindowHandle(handle.Cref), (*C.sfContextSettings)(settings.Cref)),
 // 	}
 // }
             
