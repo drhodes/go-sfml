@@ -190,7 +190,7 @@ func (self Sprite) GetInverseTransform() Transform {
 // \param texture   New texture
 // \param resetRect Should the texture rect be reset to the size of the new texture?
 // void sfSprite_setTexture(sfSprite* sprite, const sfTexture* texture, sfBool resetRect);
-func (self Sprite) Settexture(tex Texture, resetRect bool) {
+func (self Sprite) SetTexture(tex *Texture, resetRect bool) {
 	C.sfSprite_setTexture(self.Cref, tex.Cref, Bool(resetRect));
 }
 
