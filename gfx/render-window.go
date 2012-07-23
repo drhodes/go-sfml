@@ -19,7 +19,7 @@ import "C"
 
 import (
 	"unsafe"
-	. "sfml/win"
+	"github.com/drhodes/go-sfml/win"
 )
 
 type RenderWindow struct {

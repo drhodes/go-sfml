@@ -14,7 +14,7 @@ import "C"
 import (
 	"errors"
 	"unsafe"
-	. "sfml/win"
+	"github.com/drhodes/go-sfml/win"
 )
 
 type Texture struct {
