@@ -129,35 +129,35 @@ func (self RenderWindow) Getsettings() win.ContextSettings {
 
 func (self RenderWindow) Pollevent() interface{} {
 	// ok if got event.
-	e := newEvent()
-	ok := C.sfWindow_pollEvent(self.Cref, e.Cref) == 1
+	e := win.NewEvent()
+	ok := C.sfRenderWindow_pollEvent(self.Cref, e.Cref) == 1
 	if ok {
 		// look at the first byte, it's the event type
-		et := EventType((*e.Cref)[0])
+		et := win.EventType((*e.Cref)[0])
 		switch et {
-		case EvtClosed:
-		case EvtResized:
-		case EvtLostFocus:
-		case EvtGainedFocus:
-		case EvtTextEntered:
+		case win.EvtClosed:
+		case win.EvtResized:
+		case win.EvtLostFocus:
+		case win.EvtGainedFocus:
+		case win.EvtTextEntered:
 			return e.ToTextEvent()
-		case EvtKeyPressed, EvtKeyReleased:
+		case win.EvtKeyPressed, win.EvtKeyReleased:
 			return e.ToKeyEvent()
-		case EvtMouseWheelMoved:
+		case win.EvtMouseWheelMoved:
 			return e.ToMouseWheelEvent()
-		case EvtMouseButtonPressed, EvtMouseButtonReleased:
+		case win.EvtMouseButtonPressed, win.EvtMouseButtonReleased:
 			return e.ToMouseButtonEvent()
-		case EvtMouseMoved, EvtMouseEntered, EvtMouseLeft:
+		case win.EvtMouseMoved, win.EvtMouseEntered, win.EvtMouseLeft:
 			return e.ToMouseMoveEvent()
-		case EvtJoystickButtonPressed, EvtJoystickButtonReleased, EvtJoystickMoved:
+		case win.EvtJoystickButtonPressed, win.EvtJoystickButtonReleased, win.EvtJoystickMoved:
 			return e.ToJoystickMoveEvent()
-		case EvtJoystickConnected:
-		case EvtJoystickDisconnected:
+		case win.EvtJoystickConnected:
+		case win.EvtJoystickDisconnected:
 			return e.ToJoystickConnectEvent()
-		case EvtNone:
+		case win.EvtNone:
 		}
 	}
-	return EvtNone
+	return win.EvtNone
 }
 
 /*
@@ -323,8 +323,8 @@ func (self RenderWindow) Display() void {
 //
 // void sfRenderWindow_setFramerateLimit(sfRenderWindow* renderWindow, unsigned int limit);
 
-func (self RenderWindow) Setframeratelimit(limit uint) {
-	return C.sfRenderWindow_setFramerateLimit(self.Cref, C.uint(limit)t));
+func (self RenderWindow) SetFramerateLimit(limit uint) {
+	C.sfRenderWindow_setFramerateLimit(self.Cref, C.uint(limit))
 }
 
 /*

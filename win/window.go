@@ -145,27 +145,27 @@ func foo(x interface{}) interface{} {
 }
 
 func (self Window) PollEvent() interface{} {
-	// ok if got event.	
+	// ok if got event.
 	e := newEvent()
 	ok := C.sfWindow_pollEvent(self.Cref, e.Cref) == 1
 	if ok {
 		// look at the first byte, it's the event type
 		et := EventType((*e.Cref)[0])
 		switch et {
-		case EvtClosed:			
+		case EvtClosed:
 		case EvtResized:
 		case EvtLostFocus:
-		case EvtGainedFocus:			
+		case EvtGainedFocus:
 		case EvtTextEntered:
 			return e.ToTextEvent()
 		case EvtKeyPressed, EvtKeyReleased:
-			return e.ToKeyEvent()				
+			return e.ToKeyEvent()
 		case EvtMouseWheelMoved:
-			return e.ToMouseWheelEvent()			
+			return e.ToMouseWheelEvent()
 		case EvtMouseButtonPressed, EvtMouseButtonReleased:
-			return e.ToMouseButtonEvent()			
+			return e.ToMouseButtonEvent()
 		case EvtMouseMoved, EvtMouseEntered, EvtMouseLeft:
-			return e.ToMouseMoveEvent()			
+			return e.ToMouseMoveEvent()
 		case EvtJoystickButtonPressed, EvtJoystickButtonReleased, EvtJoystickMoved:
 			return e.ToJoystickMoveEvent()
 		case EvtJoystickConnected:
