@@ -34,7 +34,7 @@ type RenderWindow struct {
 // \param settings Creation settings (pass NULL to use default values)
 //
 // sfRenderWindow* sfRenderWindow_create(sfVideoMode mode, const char* title, sfUint32 style, const sfContextSettings* settings);
-func NewRenderWindow(mode VideoMode, title string, style uint32, settings ContextSettings) RenderWindow {
+func NewRenderWindow(mode win.VideoMode, title string, style uint32, settings win.ContextSettings) RenderWindow {
 	mptr := unsafe.Pointer(&mode.Cref)
 	mp := (*C.sfVideoMode)(mptr)
 
@@ -45,7 +45,7 @@ func NewRenderWindow(mode VideoMode, title string, style uint32, settings Contex
 	return RenderWindow{ref}
 }
 
-func NewRenderWindowDefault(mode VideoMode, title string, style uint32) RenderWindow {
+func NewRenderWindowDefault(mode win.VideoMode, title string, style uint32) RenderWindow {
 	mptr := unsafe.Pointer(&mode.Cref)
 	mp := (*C.sfVideoMode)(mptr)
 
