@@ -39,7 +39,6 @@ func NewImage(width, height uint) Image {
 func ImageFromColor(width, height uint, color Color) Image {
     return Image{C.sfImage_createFromColor(C.uint(width), C.uint(height), color.Cref)};
 }
-
             
 // Create an image from an array of pixels
 // The \a pixel array is assumed to contain 32-bits RGBA pixels,

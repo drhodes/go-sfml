@@ -2,66 +2,53 @@ package main
 
 import (	
 	"sfml/gfx"
-	"sfml/sys"
-	. "sfml/win"
 	"sfml/win"
-	"fmt"
 	"log"
 )
 
-func Debug(x interface{}){	fmt.Printf("%#+v\n", x) }
-
-func AwesomeKeyHandler(ke KeyEvent) {
-	switch ke.Type {
-	case win.EvtKeyPressed:
-		log.Println("Key Pressed: ", ke)
-	case win.EvtKeyReleased:
-		log.Println("Key Released: ", ke)
-	}
-}
-
-// type Ball struct {
-// 	curpos 
-// 	spr 
-// }
-
+const WIDTH=800
+const HEIGHT=600
 
 func main() {
-	vm := NewVideoMode(512,512,24)
+	vm := win.NewVideoMode(WIDTH, HEIGHT, 24)
+	w := gfx.NewRenderWindowDefault(vm, "Pong");
+	w.SetMouseCursorVisible(false)
 
-	w, err := NewWindow(
-		vm,		
-		"PONG",
-		StyleDefaultStyle,
-		ContextSettings{},
-	)
+	ball, err := NewBall()
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal(E(err, `Couldn't create a ball in main`))
 	}
 
-	img, err := gfx.ImageFromFile("./gopher.png")
+	paddle, err := NewPaddle()
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal(E(err, `Couldn't create a paddle in main`))
 	}
-	log.Println(img.Getsize())
-	w.SetFramerateLimit(60);
-
+	
+	w.SetFrameRateLimit(60)
+	w.SetVerticalSyncEnabled(true)
+	
     for w.IsOpen() {
-		t = c.GetElapsedTime()			
-		
-		e := w.PollEvent()
+		e, _ := w.PollEvent()
 		switch e.(type) {
-		case KeyEvent:
-			AwesomeKeyHandler(e.(KeyEvent))
-		case MouseMoveEvent:		
-			me := e.(MouseMoveEvent)
-			log.Printf("MouseMove <%d, %d>\n", me.X(), me.Y())
-		case nil:
-			log.Println("LOOOOOOOOOL")
-		}
-	}
-	log.Println(t.AsSeconds())
-}
+		case win.KeyEvent:
+			KeyHandler(e.(win.KeyEvent))			
+		case win.MouseMoveEvent:		
+			MouseHandle(e.(win.MouseMoveEvent), paddle)
+		}		
 
+		w.Drain()
+		w.Clear(gfx.FromRGB(uint8(ball.y/10), 45, 45))
+
+		hitfloor := ball.update(paddle) 
+		if hitfloor {
+			w.Clear(gfx.FromRGB(200,200,200))
+		}
+
+
+		w.DrawSpriteDefault(ball.sprite)
+		w.DrawSpriteDefault(paddle.sprite)
+		w.Display()		
+	}
+}
 
 

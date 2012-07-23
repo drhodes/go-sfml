@@ -105,7 +105,7 @@ func (self Event) ToJoystickConnectEvent() JoystickConnectEvent {
 
 
 
-func newEvent() Event {
+func NewEvent() Event {
 	e := C.sfEvent{}
 	return Event{ &e }
 }
@@ -134,6 +134,8 @@ const (
 	EvtJoystickDisconnected
 	EvtNone // go introduction.
 )
+
+type NullEvent uint
 
 ////////////////////////////////////////////////////////////
 /// \brief Keyboard event parameters

@@ -77,7 +77,7 @@ func TextureFromImageRect(img Image, area IntRect) (*Texture, error) {
 	return &Texture{tex}, nil
 }
 
-func TextureFromImageWhole(img Image, area IntRect ) (*Texture, error) { 
+func TextureFromImageWhole(img Image) (*Texture, error) { 
     tex := C.sfTexture_createFromImage(img.Cref, nil);
 	if tex == nil {
 		return nil, errors.New("Couldn't create texture from image")
@@ -127,13 +127,12 @@ func (self Texture) CopyToImage() Image {
 // \param x       X offset in the texture where to copy the source pixels
 // \param y       Y offset in the texture where to copy the source pixels
 // void sfTexture_updateFromPixels(sfTexture* texture, const sfUint8* pixels, unsigned int width, unsigned int height, unsigned int x, unsigned int y);
-func (self Texture) Updatefrompixels(pixels []uint8, w, h, x, y int ) { 
+func (self Texture) UpdateFromPixels(pixels []uint8, w, h, x, y int ) { 
 	ptr := unsafe.Pointer(&pixels[0])
 	p := (*C.sfUint8)(ptr)
     C.sfTexture_updateFromPixels(self.Cref, p, 
 		C.uint(w), C.uint(h), C.uint(x), C.uint(y))
 }
-
             
 // \brief Update a texture from an image
 // \param texture Texture to update

@@ -144,9 +144,9 @@ func foo(x interface{}) interface{} {
 	return x
 }
 
-func (self Window) PollEvent() interface{} {
+func (self Window) PollEvent() (interface{}, bool) {
 	// ok if got event.	
-	e := newEvent()
+	e := NewEvent()
 	ok := C.sfWindow_pollEvent(self.Cref, e.Cref) == 1
 	if ok {
 		// look at the first byte, it's the event type
@@ -157,24 +157,25 @@ func (self Window) PollEvent() interface{} {
 		case EvtLostFocus:
 		case EvtGainedFocus:			
 		case EvtTextEntered:
-			return e.ToTextEvent()
+			return e.ToTextEvent(), true
 		case EvtKeyPressed, EvtKeyReleased:
-			return e.ToKeyEvent()				
+			return e.ToKeyEvent(), true		
 		case EvtMouseWheelMoved:
-			return e.ToMouseWheelEvent()			
+			return e.ToMouseWheelEvent(), true
 		case EvtMouseButtonPressed, EvtMouseButtonReleased:
-			return e.ToMouseButtonEvent()			
+			return e.ToMouseButtonEvent(), true		
 		case EvtMouseMoved, EvtMouseEntered, EvtMouseLeft:
-			return e.ToMouseMoveEvent()			
+			return e.ToMouseMoveEvent(), true	
 		case EvtJoystickButtonPressed, EvtJoystickButtonReleased, EvtJoystickMoved:
-			return e.ToJoystickMoveEvent()
+			return e.ToJoystickMoveEvent(), true
 		case EvtJoystickConnected:
 		case EvtJoystickDisconnected:
-			return e.ToJoystickConnectEvent()
+			return e.ToJoystickConnectEvent(), true
 		case EvtNone:
-		}
+			return NullEvent(0), false
+		}		
 	}
-	return EvtNone
+	return NullEvent(0), false
 }
 
 // Wait for an event and return it

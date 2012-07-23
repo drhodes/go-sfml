@@ -5,6 +5,8 @@ package gfx
 // #include <SFML/Graphics/Rect.h>
 import "C"
 
+import "fmt"
+
 // sfFloatRect and sfIntRect are utility classes for
 // manipulating rectangles.
 // \brief Check if a point is inside a rectangle's area
@@ -28,6 +30,8 @@ func NewFloatRect(left, top, width, height float32) FloatRect {
 		C.float(width),
 		C.float(height),
 	}
+
+	//func SetFinalizer(x, f interface{})
 	return FloatRect{&fr}
 }
 
@@ -52,6 +56,16 @@ func (self FloatRect) Contains(x, y float32) bool {
 
 func (self IntRect) Contains(x, y int32) bool {
 	return C.sfIntRect_contains(self.Cref, C.int(x), C.int(y)) == 1
+}
+
+func (self IntRect) Show() string {
+	return fmt.Sprintf("<left: %d, top %d, width %d, height %d>", 
+		self.Cref.left, self.Cref.top, self.Cref.width, self.Cref.height)
+}
+
+func (self FloatRect) Show() string {
+	return fmt.Sprintf("<left: %f, top %f, width %f, height %f>", 
+		self.Cref.left, self.Cref.top, self.Cref.width, self.Cref.height)
 }
 
 // brief Check intersection between two rectangles
