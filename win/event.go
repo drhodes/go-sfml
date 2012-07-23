@@ -286,7 +286,7 @@ func (self KeyEvent) System() bool {
 // };
 type SizeEvent struct {
 	Type EventType	
-	Cref *C.struct_sfSizeEvent 
+	Cref *C.struct_sfSizeEvent
 }
 
 ////////////////////////////////////////////////////////////

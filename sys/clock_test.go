@@ -1,11 +1,11 @@
 package sys
 
 import (
-	"testing"
 	"log"
+	"testing"
 )
 
-func TestConstructors(t *testing.T) {		
+func TestConstructors(t *testing.T) {
 	clock := NewClock()
 	clock.Restart()
 }
@@ -46,7 +46,6 @@ func TestSeconds(t *testing.T) {
 
 func TestMilliseconds(t *testing.T) {
 }
-
 
 /*
 func BenchmarkCollidePoly(b *testing.B) {
