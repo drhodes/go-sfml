@@ -98,8 +98,9 @@ func (self RenderWindow) Close() {
 //
 // sfBool sfRenderWindow_isOpen(const sfRenderWindow* renderWindow);
 
-func (self RenderWindow) Isopen() bool {
-	return C.sfRenderWindow_isOpen(self.Cref) == C.sfBool(1)
+func (self RenderWindow) IsOpen() bool {
+	b := C.sfRenderWindow_isOpen(self.Cref)
+	return b == 1
 }
 
 // \brief Get the creation settings of a render window
@@ -117,7 +118,6 @@ func (self RenderWindow) Getsettings() win.ContextSettings {
 }
 */
 
-/*
 // \brief Get the event on top of events stack of a render window, if any, and pop it
 //
 // \param renderWindow Render window object
@@ -127,10 +127,40 @@ func (self RenderWindow) Getsettings() win.ContextSettings {
 //
 // sfBool sfRenderWindow_pollEvent(sfRenderWindow* renderWindow, sfEvent* event);
 
-func (self RenderWindow) Pollevent(event *Event) Bool { 
-    return C.sfRenderWindow_pollEvent(self.Cref, sf*event(event));
+func (self RenderWindow) Pollevent() interface{} {
+	// ok if got event.
+	e := newEvent()
+	ok := C.sfWindow_pollEvent(self.Cref, e.Cref) == 1
+	if ok {
+		// look at the first byte, it's the event type
+		et := EventType((*e.Cref)[0])
+		switch et {
+		case EvtClosed:
+		case EvtResized:
+		case EvtLostFocus:
+		case EvtGainedFocus:
+		case EvtTextEntered:
+			return e.ToTextEvent()
+		case EvtKeyPressed, EvtKeyReleased:
+			return e.ToKeyEvent()
+		case EvtMouseWheelMoved:
+			return e.ToMouseWheelEvent()
+		case EvtMouseButtonPressed, EvtMouseButtonReleased:
+			return e.ToMouseButtonEvent()
+		case EvtMouseMoved, EvtMouseEntered, EvtMouseLeft:
+			return e.ToMouseMoveEvent()
+		case EvtJoystickButtonPressed, EvtJoystickButtonReleased, EvtJoystickMoved:
+			return e.ToJoystickMoveEvent()
+		case EvtJoystickConnected:
+		case EvtJoystickDisconnected:
+			return e.ToJoystickConnectEvent()
+		case EvtNone:
+		}
+	}
+	return EvtNone
 }
-            
+
+/*
 // \brief Wait for an event and return it
 //
 // \param renderWindow Render window object
@@ -284,7 +314,8 @@ func (self RenderWindow) Setactive(active Bool) Bool {
 func (self RenderWindow) Display() void { 
     return C.sfRenderWindow_display(self.Cref);
 }
-            
+*/
+
 // \brief Limit the framerate to a maximum fixed frequency for a render window
 //
 // \param renderWindow Render window object
@@ -292,10 +323,12 @@ func (self RenderWindow) Display() void {
 //
 // void sfRenderWindow_setFramerateLimit(sfRenderWindow* renderWindow, unsigned int limit);
 
-func (self RenderWindow) Setframeratelimit(limit int ) void { 
-    return C.sfRenderWindow_setFramerateLimit(self.Cref, sf(int));
+func (self RenderWindow) Setframeratelimit(limit uint) {
+	return C.sfRenderWindow_setFramerateLimit(self.Cref, C.uint(limit)t));
 }
-            
+
+/*
+
 // \brief Change the joystick threshold, ie. the value below which no move event will be generated
 //
 // \param renderWindow Render window object
