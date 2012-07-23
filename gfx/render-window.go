@@ -301,10 +301,16 @@ func (self RenderWindow) Setkeyrepeatenabled(enabled Bool) void {
 //
 // sfBool sfRenderWindow_setActive(sfRenderWindow* renderWindow, sfBool active);
 
-func (self RenderWindow) Setactive(active Bool) Bool { 
-    return C.sfRenderWindow_setActive(self.Cref, sfBool(active));
+*/
+
+func (self RenderWindow) SetActive(active bool) bool {
+	if active {
+		return C.sfRenderWindow_setActive(self.Cref, C.sfBool(1)) == 1
+	}
+	return C.sfRenderWindow_setActive(self.Cref, C.sfBool(0))
 }
-            
+
+/*
 // \brief Display a render window on screen
 //
 // \param renderWindow Render window object
