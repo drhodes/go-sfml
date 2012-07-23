@@ -17,7 +17,7 @@ type ContextSettings struct {
 	// MinorVersion      uint //< Minor number of the context version to create
 }
 
-func NewContextSettings(depthbits, stencilbits, antialiasinglevel, 
+func NewContextSettings(depthbits, stencilbits, antialiasinglevel,
 	majVersion, minVersion uint) ContextSettings {
 	
 	ref := C.sfContextSettings{

@@ -61,49 +61,47 @@ func NewRenderWindowDefault(mode win.VideoMode, title string, style uint32) Rend
 // \param settings Creation settings (pass NULL to use default values)
 //
 // sfRenderWindow* sfRenderWindow_createFromHandle(sfWindowHandle handle, const sfContextSettings* settings);
-// func RenderWindowFromhandle(handle WindowHandle, settings ContextSettings) RenderWindow { 
-// 	mptr := unsafe.Pointer(&mode)
-// 	mp := (*C.sfVideoMode)(unsafe.Pointer(&handle
-	
+/*
+func RenderWindowFromhandle(handle win.WindowHandle, settings win.ContextSettings) RenderWindow {
+	mp := (*C.sfVideoMode)(unsafe.Pointer(&handle))
 
-//     return RenderWindow { 
-// 		C.sfRenderWindow_createFromHandle(handle.Cref, settings.Cref),
-// 	}
-// }
+	return RenderWindow {
+		C.sfRenderWindow_createFromHandle(handle.Cref, settings.Cref),
+	}
+}
+*/
 
 
-/*            
-            
 // \brief Destroy an existing render window
 //
 // \param renderWindow Render window to destroy
 //
 // void sfRenderWindow_destroy(sfRenderWindow* renderWindow);
 
-func (self RenderWindow) Destroy() void { 
-    return C.sfRenderWindow_destroy(self.Cref);
+func (self RenderWindow) Destroy() {
+	C.sfRenderWindow_destroy(self.Cref)
 }
-            
+
 // \brief Close a render window (but doesn't destroy the internal data)
 //
 // \param renderWindow Render window to close
 //
 // void sfRenderWindow_close(sfRenderWindow* renderWindow);
 
-func (self RenderWindow) Close() void { 
-    return C.sfRenderWindow_close(self.Cref);
+func (self RenderWindow) Close() {
+	C.sfRenderWindow_close(self.Cref)
 }
-            
+
 // \brief Tell whether or not a render window is opened
 //
 // \param renderWindow Render window object
 //
 // sfBool sfRenderWindow_isOpen(const sfRenderWindow* renderWindow);
 
-func (self RenderWindow) Isopen() Bool { 
-    return C.sfRenderWindow_isOpen(self.Cref);
+func (self RenderWindow) Isopen() bool {
+	return C.sfRenderWindow_isOpen(self.Cref) == C.sfBool(1)
 }
-            
+
 // \brief Get the creation settings of a render window
 //
 // \param renderWindow Render window object
@@ -112,10 +110,14 @@ func (self RenderWindow) Isopen() Bool {
 //
 // sfContextSettings sfRenderWindow_getSettings(const sfRenderWindow* renderWindow);
 
-func (self RenderWindow) Getsettings() ContextSettings { 
-    return C.sfRenderWindow_getSettings(self.Cref);
+/*
+func (self RenderWindow) Getsettings() win.ContextSettings {
+	ref := C.sfRenderWindow_getSettings(self.Cref)
+	return win.ContextSettings{&ref}
 }
-            
+*/
+
+/*
 // \brief Get the event on top of events stack of a render window, if any, and pop it
 //
 // \param renderWindow Render window object
@@ -397,11 +399,13 @@ func (self RenderWindow) Convertcoords(point Vector2i, targetView *View ) Vector
 // \param states       Render states to use for drawing (NULL to use the default states)
 //
 // void sfRenderWindow_drawSprite(sfRenderWindow* renderWindow, const sfSprite* object, const sfRenderStates* states);
+*/
 
-func (self RenderWindow) Drawsprite(object *Sprite , states *RenderStates ) void { 
-    return C.sfRenderWindow_drawSprite(self.Cref, sf(*Sprite), sf(*RenderStates));
+func (self RenderWindow) DrawSprite(object *Sprite) {
+	C.sfRenderWindow_drawSprite(self.Cref, object.Cref, nil)
 }
-            
+
+/*
 // void sfRenderWindow_drawText(sfRenderWindow* renderWindow, const sfText* object, const sfRenderStates* states);
 
 func (self RenderWindow) Drawtext(object *Text , states *RenderStates ) void { 
