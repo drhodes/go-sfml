@@ -5,7 +5,7 @@ package win
 //#include <SFML/Window/Mouse.h>
 //#include <SFML/System/Vector2.h>
 import "C"
-import "sfml/sys"
+import "github.com/drhodes/go-sfml/sys"
 
 type MouseButton uint
 
