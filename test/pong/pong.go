@@ -12,7 +12,13 @@ const HEIGHT=600
 func main() {
 	vm := win.NewVideoMode(WIDTH, HEIGHT, 24)
 	w := gfx.NewRenderWindowDefault(vm, "Pong");
+
 	w.SetMouseCursorVisible(false)
+
+	background, err := NewBackground()
+	if err != nil {
+		log.Fatal(E(err, `Couldn't create a ball in main`))
+	}
 
 	ball, err := NewBall()
 	if err != nil {
@@ -37,7 +43,7 @@ func main() {
 		}		
 
 		w.Drain()
-		w.Clear(gfx.FromRGB(uint8(ball.y/10), 45, 45))
+		w.Clear(gfx.FromRGB(uint8(ball.y/7), uint8(ball.y/7), 45))
 
 		hitfloor := ball.update(paddle) 
 		if hitfloor {
@@ -45,8 +51,9 @@ func main() {
 		}
 
 
-		w.DrawSpriteDefault(ball.sprite)
+		w.DrawSpriteDefault(background.sprite)
 		w.DrawSpriteDefault(paddle.sprite)
+		w.DrawSpriteDefault(ball.sprite)
 		w.Display()		
 	}
 }

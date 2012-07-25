@@ -22,6 +22,7 @@ import (
 	"unsafe"
 	. "sfml/win"
 	"sfml/win"
+	//"sfml/sys"
 	//"log"
 )
 
@@ -200,16 +201,15 @@ func (self RenderWindow) Setposition(position Vector2i) void {
 func (self RenderWindow) Getsize() Vector2u { 
     return C.sfRenderWindow_getSize(self.Cref);
 }
-            
+  */         
 // Change the size of the rendering region of a render window
 // \param renderWindow Render window object
 // \param size         New size, in pixels
 // void sfRenderWindow_setSize(sfRenderWindow* renderWindow, sfVector2u size);
-
-func (self RenderWindow) Setsize(size Vector2u) void { 
-    return C.sfRenderWindow_setSize(self.Cref, sfVector2u(size));
-}
-            
+// func (self RenderWindow) Setsize(x, y uint) { 		
+//     C.sfRenderWindow_setSize(self.Cref, .Vector2u(x,y).Cref)
+// }
+/*            
 // Change the title of a render window
 // \param renderWindow Render window object
 // \param title        New title

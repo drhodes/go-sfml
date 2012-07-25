@@ -2,13 +2,19 @@ package main
 
 import (	
 	"sfml/win"
-	//"log"
+	"log"
 )
 
 func KeyHandler(ke win.KeyEvent) {
 	switch ke.Type {
 	case win.EvtKeyPressed:
-		//log.Println("Key Pressed: ", ke)
+		if win.IsKeyPressed(win.KeyEscape) {
+			log.Fatal("Quit.")
+		}
+		if win.IsKeyPressed(win.KeyQ) {
+			log.Fatal("Quit.")
+		}
+
 	case win.EvtKeyReleased:
 		//log.Println("Key Released: ", ke)
 	}
