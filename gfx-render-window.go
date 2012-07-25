@@ -180,23 +180,24 @@ func (self RenderWindow) Getposition() Vector2i {
 func (self RenderWindow) Setposition(position Vector2i) void { 
     return C.sfRenderWindow_setPosition(self.Cref, sfVector2i(position));
 }
-            
+  */                    
 // Get the size of the rendering region of a render window
 // \param renderWindow Render window object
 // \return Size in pixels
 // sfVector2u sfRenderWindow_getSize(const sfRenderWindow* renderWindow);
-
-func (self RenderWindow) Getsize() Vector2u { 
-    return C.sfRenderWindow_getSize(self.Cref);
+func (self RenderWindow) GetSize() (x, y uint) { 
+    v := C.sfRenderWindow_getSize(self.Cref);
+	return uint(v.x), uint(v.y)
 }
-  */         
+
 // Change the size of the rendering region of a render window
 // \param renderWindow Render window object
 // \param size         New size, in pixels
 // void sfRenderWindow_setSize(sfRenderWindow* renderWindow, sfVector2u size);
-// func (self RenderWindow) Setsize(x, y uint) { 		
-//     C.sfRenderWindow_setSize(self.Cref, .Vector2u(x,y).Cref)
-// }
+func (self RenderWindow) SetSize(x, y uint) { 		
+    C.sfRenderWindow_setSize(self.Cref, NewVector2u(x,y).Cref)
+}
+
 /*            
 // Change the title of a render window
 // \param renderWindow Render window object

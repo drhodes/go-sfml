@@ -12,8 +12,6 @@ import "C"
 
 import (
 	"unsafe"
-	//"fmt"
-	//"sfml/sys"
 	"errors"
 	//"log"
 )
@@ -43,7 +41,6 @@ type WindowHandle struct {
 type CWindow *C.sfWindow
 
 type Window struct {
-	//Cref *C.sfWindow
 	Cref CWindow
 }
 
