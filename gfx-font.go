@@ -1,4 +1,4 @@
-package gfx
+package sfml
 
 // #cgo LDFLAGS:-lcsfml-graphics
 // #include <SFML/Graphics/Export.h>
@@ -40,7 +40,7 @@ func (self Font) NewFromFile(fname string) Font {
 func (self Font) Copy() Font { 
     return Font{C.sfFont_copy(self.Cref)}
 }
-           
+          
 
 // \brief Destroy an existing font
 // \param font Font to delete

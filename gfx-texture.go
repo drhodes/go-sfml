@@ -1,4 +1,4 @@
-package gfx
+package sfml
 
 // #cgo LDFLAGS:-lcsfml-graphics
 // #include <SFML/Graphics/Export.h>
@@ -14,7 +14,7 @@ import "C"
 import (
 	"errors"
 	"unsafe"
-	. "sfml/win"
+	// . "sfml/win"
 )
 
 type Texture struct {

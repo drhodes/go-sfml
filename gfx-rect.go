@@ -1,4 +1,4 @@
-package gfx
+package sfml
 
 // #cgo LDFLAGS:-lcsfml-graphics
 // #include <SFML/Graphics/Export.h>

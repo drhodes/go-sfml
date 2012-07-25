@@ -1,0 +1,10 @@
+mv context.go win-context.go
+mv context_settings.go win-context_settings.go
+mv context_test.go win-context_test.go
+mv event.go win-event.go
+mv joystick.go win-joystick.go
+mv keyboard.go win-keyboard.go
+mv mouse.go win-mouse.go
+mv video-mode.go win-video-mode.go
+mv video-mode_test.go win-video-mode_test.go
+mv window.go win-window.go

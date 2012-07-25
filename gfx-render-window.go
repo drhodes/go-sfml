@@ -1,4 +1,4 @@
-package gfx
+package sfml
 
 // #cgo LDFLAGS:-lcsfml-graphics
 // #include <SFML/Graphics/Export.h>
@@ -20,8 +20,8 @@ import "C"
 
 import (
 	"unsafe"
-	. "sfml/win"
-	"sfml/win"
+	// . "sfml/win"
+	// "sfml/win"
 	//"sfml/sys"
 	//"log"
 )
@@ -39,28 +39,16 @@ type RenderWindow struct {
 //
 // sfRenderWindow* sfRenderWindow_create(sfVideoMode mode, const char* title, sfUint32 style, const sfContextSettings* settings);
 func NewRenderWindow(mode VideoMode, title string, style uint32, settings ContextSettings) RenderWindow {
-	mptr := unsafe.Pointer(mode.Cref)
-	mp := (*C.sfVideoMode)(mptr)
-
-	sptr := unsafe.Pointer(settings.Cref)
-	sp := (*C.sfContextSettings)(sptr)
-
 	ctitle := C.CString(title)
-	//defer C.free(unsafe.Pointer(&ctitle))
-
-	ref := C.sfRenderWindow_create(*mp, ctitle, C.sfUint32(style), sp)
+	//defer C.free
+	ref := C.sfRenderWindow_create(*mode.Cref, ctitle, C.sfUint32(style), settings.Cref)
 	return RenderWindow{ref}
 }
 
 func NewRenderWindowDefault(mode VideoMode, title string) RenderWindow {
-	style := win.StyleDefaultStyle
-	mptr := unsafe.Pointer(mode.Cref)
-	mp := (*C.sfVideoMode)(mptr)
-
+	style := StyleDefaultStyle
 	ctitle := C.CString(title)
-	//defer C.free(unsafe.Pointer(&ctitle))
-
-	ref := C.sfRenderWindow_create(*mp, ctitle, C.sfUint32(style), nil)
+	ref := C.sfRenderWindow_create(*mode.Cref, ctitle, C.sfUint32(style), nil)
 	return RenderWindow{ref}
 }
 

@@ -1,4 +1,4 @@
-package win
+package sfml
 
 //#include <SFML/Window/Export.h>
 //#include <SFML/Window/Joystick.h>

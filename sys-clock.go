@@ -1,4 +1,4 @@
-package sys
+package sfml
 
 // #cgo LDFLAGS:-lcsfml-system
 // #include <SFML/System.h>

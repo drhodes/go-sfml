@@ -1,8 +1,8 @@
 package main
 
 import (	
-	"sfml/gfx"
-	"sfml/win"
+	//////"sfml/gfx"
+	//"sfml/win"
 	"log"
 )
 

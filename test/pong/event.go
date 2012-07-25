@@ -1,7 +1,7 @@
 package main
 
 import (	
-	"sfml/win"
+	//"sfml/win"
 	"log"
 )
 

@@ -1,4 +1,4 @@
-package win
+package sfml
 
 // #cgo LDFLAGS:-lcsfml-window
 // #include <SFML/Window/Keyboard.h>

@@ -1,4 +1,4 @@
-package gfx
+package sfml
 
 // #include <SFML/Graphics/Shape.h>
 // #include <SFML/Graphics/Export.h>

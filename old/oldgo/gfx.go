@@ -1,4 +1,4 @@
-package gfx
+package sfml
 
 /*
 #include "color_patch.c"
