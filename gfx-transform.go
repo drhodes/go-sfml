@@ -18,8 +18,8 @@ type Transform struct {
 // This function creates an identity transform.
 // \return A new sfTransform object
 // sfTransform* sfTransform_create(void);
-func IdentityTransform() Transform { 
-    return Transform{C.sfTransform_create()}
+func IdentityTransform() Transform {
+	return Transform{C.sfTransform_create()}
 }
 
 // \brief Create a new transform from a matrix
@@ -72,31 +72,31 @@ func (self Transform) Destroy() {
 // \param transform Transform object
 // \return Pointer to a 4x4 matrix
 // const float* sfTransform_getMatrix(const sfTransform* transform);
-func (self Transform) GetMatrix() [16]float32 { 
+func (self Transform) GetMatrix() [16]float32 {
 	//size := 2
 	carr := C.sfTransform_getMatrix(self.Cref)
 	arr := [16]float32{}
 
 	p := unsafe.Pointer(carr)
 	ptr := uintptr(p)
-	
-	for i:=0; i<16; i++ {
-		arr[i] = float32(*(*C.float)(p))		
+
+	for i := 0; i < 16; i++ {
+		arr[i] = float32(*(*C.float)(p))
 		ptr += 4
-		p = unsafe.Pointer(ptr)		
+		p = unsafe.Pointer(ptr)
 	}
 	return arr
 }
-            
+
 // \brief Return the inverse of a transform
 // If the inverse cannot be computed, a new identity transform
 // is returned.
 // \param transform Transform object
 // \param result Returned inverse matrix
 // void sfTransform_getInverse(const sfTransform* transform, sfTransform* result);
-func (self Transform) GetInverse() Transform { 	
+func (self Transform) GetInverse() Transform {
 	t := Transform{}
-    C.sfTransform_getInverse(self.Cref, t.Cref)
+	C.sfTransform_getInverse(self.Cref, t.Cref)
 	return t
 }
 
@@ -121,8 +121,8 @@ func (self Transform) TransformPoint(x, y float32) (float32, float32) {
 // \param rectangle Rectangle to transform
 // \return Transformed rectangle
 // sfFloatRect sfTransform_transformRect(const sfTransform* transform, sfFloatRect rectangle);
-func (self Transform) TransformRect(rect FloatRect) FloatRect { 
-    ref := C.sfTransform_transformRect(self.Cref, *rect.Cref)	
+func (self Transform) TransformRect(rect FloatRect) FloatRect {
+	ref := C.sfTransform_transformRect(self.Cref, *rect.Cref)
 	return FloatRect{&ref}
 }
 
@@ -166,19 +166,19 @@ func (self Transform) Rotate(angle float32) {
 // \param centerX   X coordinate of the center of rotation
 // \param centerY   Y coordinate of the center of rotation
 // void sfTransform_rotateWithCenter(sfTransform* transform, float angle, float centerX, float centerY);
-func (self Transform) RotateWithCenter(angle, centerX, centerY float32) { 
-    C.sfTransform_rotateWithCenter(self.Cref, C.float(angle), C.float(centerX), C.float(centerY))
+func (self Transform) RotateWithCenter(angle, centerX, centerY float32) {
+	C.sfTransform_rotateWithCenter(self.Cref, C.float(angle), C.float(centerX), C.float(centerY))
 }
-            
+
 // \brief Combine the current transform with a scaling
 // \param transform Transform object
 // \param scaleX    Scaling factor on the X axis
 // \param scaleY    Scaling factor on the Y axis
 // void sfTransform_scale(sfTransform* transform, float scaleX, float scaleY);
-func (self Transform) Scale(scaleX, scaleY float32) { 
-    C.sfTransform_scale(self.Cref, C.float(scaleX), C.float(scaleY))
+func (self Transform) Scale(scaleX, scaleY float32) {
+	C.sfTransform_scale(self.Cref, C.float(scaleX), C.float(scaleY))
 }
-            
+
 // \brief Combine the current transform with a scaling
 // The center of scaling is provided for convenience as a second
 // argument, so that you can build scaling around arbitrary points
@@ -190,6 +190,6 @@ func (self Transform) Scale(scaleX, scaleY float32) {
 // \param centerX   X coordinate of the center of scaling
 // \param centerY   Y coordinate of the center of scaling
 // void sfTransform_scaleWithCenter(sfTransform* transform, float scaleX, float scaleY, float centerX, float centerY);
-func (self Transform) ScaleWithCenter(scaleX, scaleY, centerX, centerY float32) { 
-    C.sfTransform_scaleWithCenter(self.Cref, C.float(scaleX), C.float(scaleY), C.float(centerX), C.float(centerY))
+func (self Transform) ScaleWithCenter(scaleX, scaleY, centerX, centerY float32) {
+	C.sfTransform_scaleWithCenter(self.Cref, C.float(scaleX), C.float(scaleY), C.float(centerX), C.float(centerY))
 }
