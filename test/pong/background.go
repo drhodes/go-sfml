@@ -1,18 +1,16 @@
 package main
 
 import (
-	//"sfml/gfx"
-	//"sfml/win"
-	//"log"
+	"github.com/drhodes/go-sfml"
 )
 
 type Background struct {
-	x, y float32
-	sprite *gfx.Sprite
+	x, y   float32
+	sprite *sfml.Sprite
 }
 
 func NewBackground() (*Background, error) {
-	spr, err := gfx.NewSprite()
+	spr, err := sfml.NewSprite()
 	if err != nil {
 		return nil, E(err, "Couldn't make a background")
 	}
@@ -20,11 +18,11 @@ func NewBackground() (*Background, error) {
 	b := Background{0, 0, spr}
 
 	fname := "./assets/background.png"
-	tex, err := gfx.TextureFromFile(fname, gfx.NewIntRect(0,0,800,600))
+	tex, err := sfml.TextureFromFile(fname, sfml.NewIntRect(0, 0, 800, 600))
 	if err != nil {
-		return nil, E(err, "Couldn't open image: " + fname)
+		return nil, E(err, "Couldn't open image: "+fname)
 	}
 
-	b.sprite.SetTexture(*tex, false)	
+	b.sprite.SetTexture(*tex, false)
 	return &b, nil
 }

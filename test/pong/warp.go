@@ -5,4 +5,4 @@ import (
 	//"log"
 )
 
-func ExtractRegion(s *Sprite){}
+//func ExtractRegion(s *Sprite){}

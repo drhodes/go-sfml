@@ -1,36 +1,34 @@
 package main
 
 import (
-	"sfml/gfx"
-	//"sfml/win"
-	//"log"
+	"github.com/drhodes/go-sfml"
 )
 
 type Paddle struct {
-	x, y float32
-	sprite *gfx.Sprite
+	x, y   float32
+	sprite *sfml.Sprite
 }
 
 func NewPaddle() (*Paddle, error) {
-	spr, err := gfx.NewSprite()
+	spr, err := sfml.NewSprite()
 	if err != nil {
 		return nil, E(err, "Couldn't allocate a paddle")
 	}
-	
-	b := Paddle{HEIGHT-16, WIDTH/2, spr}
+
+	b := Paddle{HEIGHT - 16, WIDTH / 2, spr}
 
 	fname := "./assets/paddle.png"
-	tex, err := gfx.TextureFromFile(fname, gfx.NewIntRect(0,0,96,16))
+	tex, err := sfml.TextureFromFile(fname, sfml.NewIntRect(0, 0, 96, 16))
 	if err != nil {
-		return nil, E(err, "Couldn't open image: " + fname)
+		return nil, E(err, "Couldn't open image: "+fname)
 	}
 
-	b.sprite.SetTexture(*tex, false)	
+	b.sprite.SetTexture(*tex, false)
 	return &b, nil
 }
 
 func (self *Paddle) update(x float32) {
-	self.x = x*2
+	self.x = x * 2
 	if self.x < WIDTH {
 		self.sprite.SetPosition(self.x, HEIGHT-32)
 	}
@@ -44,7 +42,7 @@ func (self *Paddle) collides(b *Ball) bool {
 }
 
 // find an impulse depending on where the ball hits the paddle 
-func (self *Paddle) ImpulseX (b *Ball) float32 {
+func (self *Paddle) ImpulseX(b *Ball) float32 {
 	// -2 <-----|-----> 2
 	padleft := self.x
 	padwidth := self.sprite.GetGlobalBounds().Width()

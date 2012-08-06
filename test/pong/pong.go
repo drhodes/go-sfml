@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/drhodes/go-sfml"
 	"log"
 )
@@ -10,8 +9,8 @@ const WIDTH = 800
 const HEIGHT = 600
 
 func main() {
-	vm := win.NewVideoMode(WIDTH, HEIGHT, 24)
-	w := gfx.NewRenderWindowDefault(vm, "Pong")
+	vm := sfml.NewVideoMode(WIDTH, HEIGHT, 24)
+	w := sfml.NewRenderWindowDefault(vm, "Pong")
 
 	w.SetMouseCursorVisible(false)
 
@@ -36,18 +35,18 @@ func main() {
 	for w.IsOpen() {
 		e, _ := w.PollEvent()
 		switch e.(type) {
-		case win.KeyEvent:
-			KeyHandler(e.(win.KeyEvent))
-		case win.MouseMoveEvent:
-			MouseHandle(e.(win.MouseMoveEvent), paddle)
+		case sfml.KeyEvent:
+			KeyHandler(e.(sfml.KeyEvent))
+		case sfml.MouseMoveEvent:
+			MouseHandle(e.(sfml.MouseMoveEvent), paddle)
 		}
 
 		w.Drain()
-		w.Clear(gfx.FromRGB(uint8(ball.y/7), uint8(ball.y/7), 45))
+		w.Clear(sfml.FromRGB(uint8(ball.y/7), uint8(ball.y/7), 45))
 
 		hitfloor := ball.update(paddle)
 		if hitfloor {
-			w.Clear(gfx.FromRGB(200, 200, 200))
+			w.Clear(sfml.FromRGB(200, 200, 200))
 		}
 
 		w.DrawSpriteDefault(background.sprite)
