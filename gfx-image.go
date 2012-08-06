@@ -12,9 +12,9 @@ package sfml
 import "C"
 
 import (
-	"unsafe"
 	"errors"
-	)
+	"unsafe"
+)
 
 type Image struct {
 	Cref *C.sfImage
@@ -37,9 +37,9 @@ func NewImage(width, height uint) Image {
 // return A new sfImage object
 // sfImage* sfImage_createFromColor(unsigned int width, unsigned int height, sfColor color);
 func ImageFromColor(width, height uint, color Color) Image {
-    return Image{C.sfImage_createFromColor(C.uint(width), C.uint(height), color.Cref)};
+	return Image{C.sfImage_createFromColor(C.uint(width), C.uint(height), color.Cref)}
 }
-            
+
 // Create an image from an array of pixels
 // The \a pixel array is assumed to contain 32-bits RGBA pixels,
 // and have the given \a width and \a height. If not, this is
@@ -65,15 +65,14 @@ func (self Image) ImageFromPixels(width, height uint, pixels []uint8) Image {
 // \param filename Path of the image file to load
 // \return A new sfImage object, or NULL if it failed
 // sfImage* sfImage_createFromFile(const char* filename);
-func ImageFromFile(fname string) (Image, error) { 
-    cimg := C.sfImage_createFromFile(C.CString(fname))
+func ImageFromFile(fname string) (Image, error) {
+	cimg := C.sfImage_createFromFile(C.CString(fname))
 	if cimg == nil {
 		return Image{nil}, errors.New("Error loading image")
 	}
 	return Image{cimg}, nil
 }
-            
-            
+
 //  Copy an existing image
 // \param image Image to copy
 // \return Copied object
@@ -90,7 +89,7 @@ func ImageFromFile(fname string) (Image, error) {
 // func (self Image) Destroy() void { 
 //     return C.sfImage_destroy();
 // }
-            
+
 //  Save an image to a file on disk
 // The format of the image is automatically deduced from
 // the extension. The supported image formats are bmp, png,
@@ -109,8 +108,9 @@ func ImageFromFile(fname string) (Image, error) {
 // \param image Image object
 // \return Size in pixels
 // sfVector2u sfImage_getSize(const sfImage* image);
-func (self Image) Getsize() C.sfVector2u { 
-    return C.sfImage_getSize(self.Cref);
+func (self Image) GetSize() (uint, uint) { 
+	vec := C.sfImage_getSize(self.Cref)
+	return uint(vec.x), uint(vec.y)
 }
 
 // TODO: Not working
@@ -125,7 +125,7 @@ func (self Image) Getsize() C.sfVector2u {
 // func (self Image) Createmaskfromcolor(col Color, alpha uint8) { 
 //     return C.sfImage_createMaskFromColor(col.Cref, C.sfUint8(alpha));
 // }
-            
+
 //  Copy pixels from an image onto another
 // This function does a slow pixel copy and should not be
 // used intensively. It can be used to prepare a complex
@@ -163,7 +163,7 @@ func (self Image) Getsize() C.sfVector2u {
 func (self Image) Setpixel(x int , y int , color Color) void { 
     return C.sfImage_setPixel();
 }
-            
+
 //  Get the color of a pixel in an image
 // This function doesn't check the validity of the pixel
 // coordinates, using out-of-range values will result in
@@ -192,24 +192,23 @@ func (self Image) Getpixel(x int , y int ) Color {
 func (self *Uint8) *Uint8(Image_getPixelsPtr)  { 
     return C.sf*Uint8();
 }
-            
+
 */
-            
+
 //  Flip an image horizontally (left <-> right)
 // \param image Image object
 // void sfImage_flipHorizontally(sfImage* image);
-func (self Image) FlipHorizontally() { 
-    C.sfImage_flipHorizontally(self.Cref)
+func (self Image) FlipHorizontally() {
+	C.sfImage_flipHorizontally(self.Cref)
 }
-            
+
 //  Flip an image vertically (top <-> bottom)
 // \param image Image object
 // void sfImage_flipVertically(sfImage* image);
 
-func (self Image) FlipVertically() { 
-    C.sfImage_flipVertically(self.Cref)
+func (self Image) FlipVertically() {
+	C.sfImage_flipVertically(self.Cref)
 }
-
 
 // may or may not implement these
 
@@ -237,5 +236,3 @@ func (self Image) FlipVertically() {
 // func (self Image) Createfromstream() *Image { 
 //     return C.sfImage_createFromStream();
 // }
-
-
