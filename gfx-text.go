@@ -18,25 +18,25 @@ type Text struct {
 // Create a new text
 // \return A new sfText object, or NULL if it failed
 // sfText* sfText_create(void);
-func (self Text) NewText() Text { 
-    return Text{C.sfText_create()}
+func (self Text) NewText() Text {
+	return Text{C.sfText_create()}
 }
-            
+
 // Copy an existing text
 // \param text Text to copy
 // \return Copied object
 // sfText* sfText_copy(sfText* text);
-func (self Text) Copy() Text { 
-    return Text{C.sfText_copy(self.Cref)}
+func (self Text) Copy() Text {
+	return Text{C.sfText_copy(self.Cref)}
 }
-            
+
 // Destroy an existing text
 // \param text Text to delete
 // void sfText_destroy(sfText* text);
-func (self Text) Destroy() { 
-    C.sfText_destroy(self.Cref);
+func (self Text) Destroy() {
+	C.sfText_destroy(self.Cref)
 }
-            
+
 // Set the position of a text
 // This function completely overwrites the previous position.
 // See sfText_move to apply an offset based on the previous position instead.
@@ -56,10 +56,10 @@ func (self Text) SetPosition(x, y float32) {
 // \param text  Text object
 // \param angle New rotation, in degrees
 // void sfText_setRotation(sfText* text, float angle);
-func (self Text) SetRotation(angle float32) { 
-	C.sfText_setRotation(self.Cref, C.float(angle));
+func (self Text) SetRotation(angle float32) {
+	C.sfText_setRotation(self.Cref, C.float(angle))
 }
-           
+
 // Set the scale factors of a text
 // This function completely overwrites the previous scale.
 // See sfText_scale to add a factor based on the previous scale instead.
@@ -85,45 +85,45 @@ func (self Text) SetScale(x, y float32) {
 // void sfText_setOrigin(sfText* text, sfVector2f origin);
 func (self Text) SetOrigin(x, y float32) {
 	v := C.sfVector2f{C.float(x), C.float(y)}
-	C.sfText_setOrigin(self.Cref, v);
+	C.sfText_setOrigin(self.Cref, v)
 }
 
 // Get the position of a text
 // \param text Text object
 // \return Current position
 // sfVector2f sfText_getPosition(const sfText* text);
-func (self Text) GetPosition(x, y float32) (float32, float32) { 
-    v := C.sfText_getPosition(self.Cref);
+func (self Text) GetPosition(x, y float32) (float32, float32) {
+	v := C.sfText_getPosition(self.Cref)
 	return float32(v.x), float32(v.y)
 }
-                        
+
 // Get the orientation of a text
 // The rotation is always in the range [0, 360].
 // \param text Text object
 // \return Current rotation, in degrees
 // float sfText_getRotation(const sfText* text);
-func (self Text) GetRotation() float32 { 
-    return float32(C.sfText_getRotation(self.Cref))
+func (self Text) GetRotation() float32 {
+	return float32(C.sfText_getRotation(self.Cref))
 }
-            
+
 // Get the current scale of a text
 // \param text Text object
 // \return Current scale factors
 // sfVector2f sfText_getScale(const sfText* text);
-func (self Text) GetScale() (x, y float32) { 
-    v := C.sfText_getScale(self.Cref)
+func (self Text) GetScale() (x, y float32) {
+	v := C.sfText_getScale(self.Cref)
 	return float32(v.x), float32(v.y)
 }
-            
+
 // Get the local origin of a text
 // \param text Text object
 // \return Current origin
 // sfVector2f sfText_getOrigin(const sfText* text);
-func (self Text) GetOrigin() (x, y float32) { 
-    v := C.sfText_getOrigin(self.Cref)
+func (self Text) GetOrigin() (x, y float32) {
+	v := C.sfText_getOrigin(self.Cref)
 	return float32(v.x), float32(v.y)
 }
-            
+
 // Move a text by a given offset
 // This function adds to the current position of the object,
 // unlike sfText_setPosition which overwrites it.
@@ -141,11 +141,10 @@ func (self Text) Move(x, y float32) {
 // \param text  Text object
 // \param angle Angle of rotation, in degrees
 // void sfText_rotate(sfText* text, float angle);
-func (self Text) Rotate(angle float32) { 
-	C.sfText_rotate(self.Cref, C.float(angle));
+func (self Text) Rotate(angle float32) {
+	C.sfText_rotate(self.Cref, C.float(angle))
 }
 
-            
 // Scale a text
 // This function multiplies the current scale of the object,
 // unlike sfText_setScale which overwrites it.
@@ -172,16 +171,16 @@ func (self Text) Scale(x, y float32) {
 // func (self *Transform) *Transform(Text_getInverseTransform)  { 
 //     return C.sf*Transform(self.Cref, sfVector2f(factors));
 // }
-            
+
 // Set the string of a text (from an ANSI string)
 // A text's string is empty by default.
 // \param text   Text object
 // \param string New string
 // void sfText_setString(sfText* text, const char* string);
-func (self Text) SetString(s string) {	
+func (self Text) SetString(s string) {
 	C.sfText_setString(self.Cref, C.CString(s))
 }
-            
+
 // Set the string of a text (from a unicode string)
 // \param text   Text object
 // \param string New string
@@ -210,7 +209,7 @@ func (self Text) SetString(s string) {
 func (self Text) Setfont(font *Font ) { 
  C.sfText_setFont(self.Cref, sf(*Font));
 }
-            
+
 // Set the character size of a text
 // The default size is 30.
 // \param text Text object
@@ -230,7 +229,7 @@ func (self Text) Setcharactersize(size int ) {
 func (self Text) Setstyle(style Uint32) { 
  C.sfText_setStyle(self.Cref, sfUint32(style));
 }
-            
+
 // Set the global color of a text
 // By default, the text's color is opaque white.
 // \param text  Text object
@@ -247,7 +246,7 @@ func (self Text) Setcolor(color Color) {
 func (self *char) *char(Text_getString)  { 
     return C.sf*char(self.Cref, sfColor(color));
 }
-            
+
 // Get the string of a text (returns a unicode string)
 // \param text Text object
 // \return String as UTF-32
@@ -263,7 +262,7 @@ func (self *Uint32) *Uint32(Text_getUnicodeString)  {
 func (self *Font) *Font(Text_getFont)  { 
     return C.sf*Font(self.Cref, sfColor(color));
 }
-            
+
 // Get the size of the characters of a text
 // \param text Text object
 // \return Size of the characters
@@ -279,7 +278,7 @@ func (self int) int(Text_getCharacterSize)  {
 func (self Text) Getstyle() Uint32 { 
     return C.sfText_getStyle(self.Cref);
 }
-            
+
 // Get the global color of a text
 // \param text Text object
 // \return Global color of the text
@@ -302,7 +301,7 @@ func (self Text) Getcolor() Color {
 func (self Text) Findcharacterpos(index size_t) Vector2f { 
     return C.sfText_findCharacterPos(self.Cref, sfSize_t(index));
 }
-            
+
 // Get the local bounding rectangle of a text
 // The returned rectangle is in local coordinates, which means
 // that it ignores the transformations (translation, rotation,

@@ -191,8 +191,8 @@ func (self RenderWindow) GetSize() (x, y uint) {
 // \param renderWindow Render window object
 // \param size         New size, in pixels
 // void sfRenderWindow_setSize(sfRenderWindow* renderWindow, sfVector2u size);
-func (self RenderWindow) SetSize(x, y uint) { 		
-    C.sfRenderWindow_setSize(self.Cref, NewVector2u(x,y).Cref)
+func (self RenderWindow) SetSize(x, y uint) {
+	C.sfRenderWindow_setSize(self.Cref, NewVector2u(x, y).Cref)
 }
 
 /*            
@@ -321,7 +321,7 @@ func (self RenderWindow) Clear(color Color) {
 func (self RenderWindow) Setview(view *View ) void { 
     return C.sfRenderWindow_setView(self.Cref, sf(*View));
 }
-            
+
 // Get the current active view of a render window
 // \param renderWindow Render window object
 // \return Current active view

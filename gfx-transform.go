@@ -36,31 +36,30 @@ func IdentityTransform() Transform {
 // sfTransform* sfTransform_createFromMatrix(	float a00, float a01, float a02, 
 // float a10, float a11, float a12,
 // float a20, float a21, float a22);
-func NewFromMatrix(a00, a01, a02, a10, a11, a12, a20, a21, a22 float32) Transform {	
-    return Transform {
+func NewFromMatrix(a00, a01, a02, a10, a11, a12, a20, a21, a22 float32) Transform {
+	return Transform{
 		C.sfTransform_createFromMatrix(
-			C.float(a00), C.float(a01), C.float(a02), 
+			C.float(a00), C.float(a01), C.float(a02),
 			C.float(a10), C.float(a11), C.float(a12),
 			C.float(a20), C.float(a21), C.float(a22),
 		)}
 }
-            
+
 // \brief Copy an existing transform
 // \param transform Transform to copy
 // \return Copied object
 // sfTransform* sfTransform_copy(sfTransform* transform);
-func (self Transform) Copy() Transform { 
-    return Transform{C.sfTransform_copy(self.Cref)}
+func (self Transform) Copy() Transform {
+	return Transform{C.sfTransform_copy(self.Cref)}
 }
 
 // \brief Destroy an existing transform
 // \param transform Transform to delete
 // void sfTransform_destroy(sfTransform* transform);
-func (self Transform) Destroy() { 
-    C.sfTransform_destroy(self.Cref);
+func (self Transform) Destroy() {
+	C.sfTransform_destroy(self.Cref)
 }
 
-            
 // \brief Return the 4x4 matrix of a transform
 // This function returns a pointer to an array of 16 floats
 // containing the transform elements as a 4x4 matrix, which
@@ -133,29 +132,27 @@ func (self Transform) TransformRect(rect FloatRect) FloatRect {
 // \param transform Transform object
 // \param right     Transform to combine to \a transform
 // void sfTransform_combine(sfTransform* transform, const sfTransform* other);
-func (self Transform) Combine(other Transform) { 	
-    C.sfTransform_combine(self.Cref, other.Cref)
+func (self Transform) Combine(other Transform) {
+	C.sfTransform_combine(self.Cref, other.Cref)
 }
 
-            
 // \brief Combine a transform with a translation
 // \param transform Transform object
 // \param x         Offset to apply on X axis
 // \param y         Offset to apply on Y axis
 // void sfTransform_translate(sfTransform* transform, float x, float y);
-func (self Transform) Translate(x, y float32) { 
-    C.sfTransform_translate(self.Cref, C.float(x), C.float(y))
+func (self Transform) Translate(x, y float32) {
+	C.sfTransform_translate(self.Cref, C.float(x), C.float(y))
 }
 
-            
 // \brief Combine the current transform with a rotation
 // \param transform Transform object
 // \param angle     Rotation angle, in degrees
 // void sfTransform_rotate(sfTransform* transform, float angle);
-func (self Transform) Rotate(angle float32) { 
-    C.sfTransform_rotate(self.Cref, C.float(angle))
+func (self Transform) Rotate(angle float32) {
+	C.sfTransform_rotate(self.Cref, C.float(angle))
 }
-            
+
 // \brief Combine the current transform with a rotation
 // The center of rotation is provided for convenience as a second
 // argument, so that you can build rotations around arbitrary points

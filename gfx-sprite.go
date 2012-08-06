@@ -136,7 +136,7 @@ func (self Sprite) GetOrigin() (float32, float32) {
 // void sfSprite_move(sfSprite* sprite, sfVector2f offset);
 func (self Sprite) Move(x, y float32) {
 	offset := C.sfVector2f{C.float(x), C.float(y)}
-	C.sfSprite_move(self.Cref, offset);
+	C.sfSprite_move(self.Cref, offset)
 }
 
 // Rotate a sprite
@@ -191,7 +191,7 @@ func (self Sprite) GetInverseTransform() Transform {
 // \param resetRect Should the texture rect be reset to the size of the new texture?
 // void sfSprite_setTexture(sfSprite* sprite, const sfTexture* texture, sfBool resetRect);
 func (self Sprite) SetTexture(tex Texture, resetRect bool) {
-	C.sfSprite_setTexture(self.Cref, tex.Cref, Bool(resetRect));
+	C.sfSprite_setTexture(self.Cref, tex.Cref, Bool(resetRect))
 }
 
 // Set the sub-rectangle of the texture that a sprite will display

@@ -24,18 +24,16 @@ func NewCircle() CircleShape {
 // \param shape Shape to copy
 // \return Copied object
 // sfCircleShape* sfCircleShape_copy(sfCircleShape* shape);
-func (self CircleShape) Copy() CircleShape { 
-    return CircleShape{C.sfCircleShape_copy(self.Cref)}
+func (self CircleShape) Copy() CircleShape {
+	return CircleShape{C.sfCircleShape_copy(self.Cref)}
 }
-            
+
 // Destroy an existing circle Shape
 // \param Shape Shape to delete
 // void sfCircleShape_destroy(sfCircleShape* shape);
-func (self CircleShape) Destroy() { 
-    C.sfCircleShape_destroy(self.Cref);
+func (self CircleShape) Destroy() {
+	C.sfCircleShape_destroy(self.Cref)
 }
-
-
 
 // Set the position of a circle shape
 // This function completely overwrites the previous position.
@@ -56,10 +54,9 @@ func (self CircleShape) SetPosition(x, y float32) {
 // \param shape Shape object
 // \param angle New rotation, in degrees
 // void sfCircleShape_setRotation(sfCircleShape* shape, float angle);
-func (self CircleShape) SetRotation(angle float32) { 
-    C.sfCircleShape_setRotation(self.Cref, C.float(angle))
+func (self CircleShape) SetRotation(angle float32) {
+	C.sfCircleShape_setRotation(self.Cref, C.float(angle))
 }
-
 
 // Set the scale factors of a circle shape
 // This function completely overwrites the previous scale.
@@ -83,17 +80,17 @@ func (self CircleShape) SetScale(x, y float32) {
 // \param shape  Shape object
 // \param origin New origin
 // void sfCircleShape_setOrigin(sfCircleShape* shape, sfVector2f origin);
-func (self CircleShape) SetOrigin(x, y float32) { 
-	v := C.sfVector2f{ C.float(x), C.float(y)}
-    C.sfCircleShape_setOrigin(self.Cref, v)
+func (self CircleShape) SetOrigin(x, y float32) {
+	v := C.sfVector2f{C.float(x), C.float(y)}
+	C.sfCircleShape_setOrigin(self.Cref, v)
 }
 
 // Get the position of a circle shape
 // \param shape Shape object
 // \return Current position
 // sfVector2f sfCircleShape_getPosition(const sfCircleShape* shape);
-func (self CircleShape) GetPosition() (float32, float32) { 
-    v := C.sfCircleShape_getPosition(self.Cref)
+func (self CircleShape) GetPosition() (float32, float32) {
+	v := C.sfCircleShape_getPosition(self.Cref)
 	return float32(v.x), float32(v.y)
 }
 
@@ -115,7 +112,6 @@ func (self CircleShape) GetRotation() float32 {
 // 	return float32(v.x), float32(v.y)
 // }
 
-            
 // Get the local origin of a circle shape
 // \param shape Shape object
 // \return Current origin
@@ -159,7 +155,7 @@ func (self CircleShape) Rotate(angle float) void {
 func (self CircleShape) Scale(factors Vector2f) void { 
     return C.sfCircleShape_scale(self.Cref, sfVector2f(factors));
 }
-            
+
 // Get the combined transform of a circle shape
 // \param shape Shape object
 // \return Transform combining the position/rotation/scale/origin of the object
@@ -209,7 +205,7 @@ func (self CircleShape) Settexture(texture *Texture , resetRect Bool) void {
 func (self CircleShape) Settexturerect(rect IntRect) void { 
     return C.sfCircleShape_setTextureRect(self.Cref, sfIntrect(rect));
 }
-            
+
 // Set the fill color of a circle shape
 // This color is modulated (multiplied) with the shape's
 // texture if any. It can be used to colorize the shape,
@@ -259,7 +255,7 @@ func (self CircleShape) Setoutlinethickness(thickness float) void {
 func (self *Texture) *Texture(CircleShape_getTexture)  { 
     return C.sf*Texture(self.Cref, sfFloat(thickness));
 }
-            
+
 // Get the sub-rectangle of the texture displayed by a circle shape
 // \param shape Shape object
 // \return Texture rectangle of the shape
@@ -295,7 +291,7 @@ func (self CircleShape) Getoutlinecolor() Color {
 func (self CircleShape) Getoutlinethickness() float { 
     return C.sfCircleShape_getOutlineThickness(self.Cref);
 }
-            
+
 // Get the total number of points of a circle shape
 // \param shape Shape object
 // \return Number of points of the shape
@@ -333,7 +329,7 @@ func (self CircleShape) Setradius(radius float) void {
 func (self CircleShape) Getradius() float { 
     return C.sfCircleShape_getRadius(self.Cref);
 }
-            
+
 // Set the number of points of a circle
 // \param shape Shape object
 // \param count New number of points of the circle

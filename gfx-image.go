@@ -26,10 +26,10 @@ type Image struct {
 // height Height of the image
 // return A new Image object
 // sfImage* sfImage_create(unsigned int width, unsigned int height);
-func NewImage(width, height uint) Image { 
-    return Image{C.sfImage_create(C.uint(width), C.uint(height))}
+func NewImage(width, height uint) Image {
+	return Image{C.sfImage_create(C.uint(width), C.uint(height))}
 }
-          
+
 // Create an image and fill it with a unique color
 // width  Width of the image
 // height Height of the image
@@ -81,7 +81,7 @@ func ImageFromFile(fname string) (Image, error) {
 // func (self Image) Copy() *Image { 
 //     return C.sfImage_copy();
 // }
-            
+
 //  Destroy an existing image
 // \param image Image to delete
 // void sfImage_destroy(sfImage* image);
@@ -149,7 +149,7 @@ func (self Image) GetSize() (uint, uint) {
 // }
 
 /*            
-            
+
 //  Change the color of a pixel in an image
 // This function doesn't check the validity of the pixel
 // coordinates, using out-of-range values will result in
@@ -224,7 +224,7 @@ func (self Image) FlipVertically() {
 // func (self Image) Createfrommemory(size size_t) *Image { 
 //     return C.sfImage_createFromMemory();
 // }
-            
+
 //  Create an image from a custom stream
 // The supported image formats are bmp, png, tga, jpg, gif,
 // psd, hdr and pic. Some format options are not supported,

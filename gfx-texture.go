@@ -26,7 +26,7 @@ type Texture struct {
 // \return A new sfTexture object, or NULL if it failed
 // sfTexture* sfTexture_create(unsigned int width, unsigned int height);
 func NewTexture(w, h int) Texture {
-    return Texture{C.sfTexture_create(C.uint(w), C.uint(h))}
+	return Texture{C.sfTexture_create(C.uint(w), C.uint(h))}
 }
 
 // \brief Create a new texture from a file
@@ -76,8 +76,8 @@ func TextureFromImageRect(img Image, area IntRect) (*Texture, error) {
 	return &Texture{tex}, nil
 }
 
-func TextureFromImageWhole(img Image) (*Texture, error) { 
-    tex := C.sfTexture_createFromImage(img.Cref, nil);
+func TextureFromImageWhole(img Image) (*Texture, error) {
+	tex := C.sfTexture_createFromImage(img.Cref, nil)
 	if tex == nil {
 		return nil, errors.New("Couldn't create texture from image")
 	}
@@ -104,7 +104,7 @@ func (self Texture) Destroy() {
 // \return Size in pixels
 // sfVector2u sfTexture_getSize(const sfTexture* texture);
 func (self Texture) GetSize() (x, y uint) {
-	v := C.sfTexture_getSize(self.Cref);
+	v := C.sfTexture_getSize(self.Cref)
 	return uint(v.x), uint(v.y)
 }
 
@@ -162,7 +162,7 @@ func (self Texture) UpdateFromWindow(w Window, x, y uint) {
 // }
 
 /*                           
-            
+
 // \brief Activate a texture for rendering
 // \param texture Texture to bind
 // void sfTexture_bind(const sfTexture* texture);
