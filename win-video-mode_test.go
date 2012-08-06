@@ -1,11 +1,11 @@
 package sfml
 
 import (
-	"testing"
 	"log"
+	"testing"
 )
 
-func TestMode(t *testing.T) {		
+func TestMode(t *testing.T) {
 	mode := GetDesktopMode()
 	log.Println("Width", mode.Width())
 	log.Println("Height", mode.Height())
@@ -13,7 +13,7 @@ func TestMode(t *testing.T) {
 	log.Println("Mode Valid", mode.IsValid())
 }
 
-func TestGetModes(t *testing.T) {		
+func TestGetModes(t *testing.T) {
 	modes := GetFullscreenModes()
 	for _, m := range modes {
 		if !m.IsValid() {

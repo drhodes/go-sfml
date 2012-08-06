@@ -161,13 +161,13 @@ func (self Window) PollEvent() (interface{}, bool) {
 		case EvtTextEntered:
 			return e.ToTextEvent(), true
 		case EvtKeyPressed, EvtKeyReleased:
-			return e.ToKeyEvent(), true		
+			return e.ToKeyEvent(), true
 		case EvtMouseWheelMoved:
 			return e.ToMouseWheelEvent(), true
 		case EvtMouseButtonPressed, EvtMouseButtonReleased:
-			return e.ToMouseButtonEvent(), true		
+			return e.ToMouseButtonEvent(), true
 		case EvtMouseMoved, EvtMouseEntered, EvtMouseLeft:
-			return e.ToMouseMoveEvent(), true	
+			return e.ToMouseMoveEvent(), true
 		case EvtJoystickButtonPressed, EvtJoystickButtonReleased, EvtJoystickMoved:
 			return e.ToJoystickMoveEvent(), true
 		case EvtJoystickConnected:
@@ -216,7 +216,7 @@ func (self Window) GetPosition() (x, y int) {
 // TODO evalutate which is better [ multiple return | vector type ]
 func (self Window) SetPosition(x, y int) {
 	v := C.sfVector2i{C.int(x), C.int(y)}
-	C.sfWindow_setPosition(self.Cref, v);
+	C.sfWindow_setPosition(self.Cref, v)
 }
 
 // Get the size of the rendering region of a window
@@ -244,7 +244,7 @@ func (self Window) Getsize() (x, y uint) {
 // \param title  New title
 // void sfWindow_setTitle(sfWindow* window, const char* title);
 func (self Window) SetTitle(title string) {
-	C.sfWindow_setTitle(self.Cref, C.CString(title));
+	C.sfWindow_setTitle(self.Cref, C.CString(title))
 }
 
 // Change a window's icon

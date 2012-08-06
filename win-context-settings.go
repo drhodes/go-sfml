@@ -19,7 +19,7 @@ type ContextSettings struct {
 
 func NewContextSettings(depthbits, stencilbits, antialiasinglevel,
 	majVersion, minVersion uint) ContextSettings {
-	
+
 	ref := C.sfContextSettings{
 		C.uint(depthbits),
 		C.uint(stencilbits),
