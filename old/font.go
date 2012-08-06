@@ -1,4 +1,4 @@
-package gfx
+package sfml
 
 //#include <SFML/Graphics/Font.h>
 import "C"

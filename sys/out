@@ -1,0 +1,5 @@
+mv clock.go sys-clock.go
+mv clock_test.go sys-clock_test.go
+mv debug.go sys-debug.go
+mv time.go sys-time.go
+mv vector2.go sys-vector2.go

@@ -1,0 +1,13 @@
+mv circle-shape.go gfx-circle-shape.go
+mv color.go gfx-color.go
+mv color_test.go gfx-color_test.go
+mv font.go gfx-font.go
+mv image.go gfx-image.go
+mv image_test.go gfx-image_test.go
+mv rect.go gfx-rect.go
+mv render-window.go gfx-render-window.go
+mv sprite.go gfx-sprite.go
+mv text.go gfx-text.go
+mv texture.go gfx-texture.go
+mv transform.go gfx-transform.go
+mv transform_test.go gfx-transform_test.go

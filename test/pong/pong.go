@@ -1,65 +1,58 @@
 package main
 
 import (
-	"github.com/drhodes/go-sfml/gfx"
-	"github.com/drhodes/go-sfml/win"
 	"fmt"
+	"github.com/drhodes/go-sfml"
 	"log"
 )
 
-func Debug(x interface{}){	fmt.Printf("%#+v\n", x) }
-
-func AwesomeKeyHandler(ke win.KeyEvent) {
-	switch ke.Type {
-	case win.EvtKeyPressed:
-		log.Println("Key Pressed: ", ke)
-	case win.EvtKeyReleased:
-		log.Println("Key Released: ", ke)
-	}
-}
-
-// type Ball struct {
-// 	curpos 
-// 	spr 
-// }
-
+const WIDTH = 800
+const HEIGHT = 600
 
 func main() {
-	vm := win.NewVideoMode(512,512,24)
+	vm := win.NewVideoMode(WIDTH, HEIGHT, 24)
+	w := gfx.NewRenderWindowDefault(vm, "Pong")
 
-	w, err := win.NewWindow(
-		vm,
-		"PONG",
-		win.StyleDefaultStyle,
-		win.ContextSettings{},
-	)
+	w.SetMouseCursorVisible(false)
+
+	background, err := NewBackground()
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal(E(err, `Couldn't create a ball in main`))
 	}
 
-	img, err := gfx.ImageFromFile("./gopher.png")
+	ball, err := NewBall()
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal(E(err, `Couldn't create a ball in main`))
 	}
-	log.Println(img.Getsize())
-	w.SetFramerateLimit(60);
 
-    for w.IsOpen() {
-		//t = c.GetElapsedTime()
+	paddle, err := NewPaddle()
+	if err != nil {
+		log.Fatal(E(err, `Couldn't create a paddle in main`))
+	}
 
-		e := w.PollEvent()
+	w.SetFrameRateLimit(60)
+	w.SetVerticalSyncEnabled(true)
+
+	for w.IsOpen() {
+		e, _ := w.PollEvent()
 		switch e.(type) {
 		case win.KeyEvent:
-			AwesomeKeyHandler(e.(win.KeyEvent))
+			KeyHandler(e.(win.KeyEvent))
 		case win.MouseMoveEvent:
-			me := e.(win.MouseMoveEvent)
-			log.Printf("MouseMove <%d, %d>\n", me.X(), me.Y())
-		case nil:
-			log.Println("LOOOOOOOOOL")
+			MouseHandle(e.(win.MouseMoveEvent), paddle)
 		}
+
+		w.Drain()
+		w.Clear(gfx.FromRGB(uint8(ball.y/7), uint8(ball.y/7), 45))
+
+		hitfloor := ball.update(paddle)
+		if hitfloor {
+			w.Clear(gfx.FromRGB(200, 200, 200))
+		}
+
+		w.DrawSpriteDefault(background.sprite)
+		w.DrawSpriteDefault(paddle.sprite)
+		w.DrawSpriteDefault(ball.sprite)
+		w.Display()
 	}
-	//log.Println(t.AsSeconds())
 }
-
-
-

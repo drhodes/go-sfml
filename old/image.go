@@ -1,4 +1,4 @@
-package gfx
+package sfml
 
 //#include <SFML/Graphics/Color.h>
 //#include <SFML/Graphics/Rect.h>

@@ -1,18 +1,12 @@
 Derek A. Rhodes / physci@gmail.com
 $ git clone git@github.com:drhodes/go-sfml.git
 
-** currently reimplementing with cgo **
 BUILD CURRENTLY BROKEN, updating to SFML RC 2.0 with go1
 (relative stability, yay!)
 
 Go bindings for:
 Simple and Fast Multimedia Library
 http://www.sfml-dev.org/
-
-I am in no way affiliated with SFML.
-
-These bindings are experimental, the API is subject to change and has
-only been tested on linux. (Ubuntu 10.4 lucid x86)  
 
 _____________________________________________________________________________
 DEPENDENCIES:
@@ -59,10 +53,10 @@ INSTALLING:
 _____________________________________________________________________________
 GIVE IT A WHIRL:
 
-Now try out the example in the test directory,
 
-test $ gomake
-test $ ./win-example
+There is a small game of pong
 
-You should see a rotating, scaling gopher.
+cd ./test/pong
+pong $ go build
+pong $ ./pong
 
