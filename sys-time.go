@@ -6,7 +6,6 @@ import "C"
 
 import "fmt"
 
-
 type Time struct {
 	Cref C.sfTime
 }
