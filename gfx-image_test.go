@@ -11,7 +11,7 @@ func TestImage(t *testing.T) {
 	}
 	w, h := img.GetSize()
 	if w != 153 || h != 55 {
-		t.Fatal("Size reported by GetSize is wrong")
+		t.Fatal("GetSize don't return the good size (expected 153x55, got %dx%d)", w, h)
 	}
 }
 
