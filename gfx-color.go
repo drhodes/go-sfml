@@ -8,6 +8,7 @@ package sfml
 // #include <SFML/Graphics/Export.h>
 import "C"
 
+import "fmt"
 
 // Utility class for manpulating RGBA colors
 type Color struct {
@@ -27,7 +28,7 @@ func FromRGB(red uint8, green uint8, blue uint8) Color {
 		C.sfUint8(red),
 		C.sfUint8(green),
 		C.sfUint8(blue),
-		)};
+	)}
 }
 
 // Construct a color from its 4 RGBA components
@@ -44,9 +45,9 @@ func FromRGBA(red uint8, green uint8, blue uint8, alpha uint8) Color {
 	return Color{C.sfColor_fromRGBA(
 		C.sfUint8(red),
 		C.sfUint8(green),
-		C.sfUint8(blue),	
-		C.sfUint8(alpha),		
-		)};
+		C.sfUint8(blue),
+		C.sfUint8(alpha),
+	)}
 }
 
 // Add two colors
@@ -72,4 +73,34 @@ func (self Color) Add(color2 Color) Color {
 
 func (self Color) Modulate(color2 Color) Color {
 	return Color{C.sfColor_modulate(self.Cref, color2.Cref)}
+}
+
+// Return the red component of a color
+func (self Color) Red() uint8 {
+	return uint8(self.Cref.r)
+}
+
+// Return the green component of a color
+func (self Color) Green() uint8 {
+	return uint8(self.Cref.g)
+}
+
+// Return the blue component of a color
+func (self Color) Blue() uint8 {
+	return uint8(self.Cref.b)
+}
+
+// Return the alpha component of a color
+func (self Color) Alpha() uint8 {
+	return uint8(self.Cref.a)
+}
+
+// Return the components of a color
+func (self Color) Components() (uint8, uint8, uint8, uint8) {
+	return self.Red(), self.Green(), self.Blue(), self.Alpha()
+}
+
+// Return a string describing the color
+func (self Color) String() string {
+	return fmt.Sprintf("Color{r=%d, g=%d, b=%d, a=%d}", self.Red(), self.Green(), self.Blue(), self.Alpha())
 }
