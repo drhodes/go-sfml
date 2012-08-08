@@ -30,7 +30,7 @@ type Glyph struct {
 // \param filename Path of the font file to load
 // \return A new sfFont object, or NULL if it failed
 // sfFont* sfFont_createFromFile(const char* filename);
-func (self Font) FontFromFile(fname string) Font {
+func FontFromFile(fname string) Font {
 	s := C.CString(fname)
 	defer C.free(unsafe.Pointer(s))
 	font := C.sfFont_createFromFile(s)
