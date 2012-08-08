@@ -37,7 +37,7 @@ func NewTexture(w, h int) Texture {
 func TextureFromFile(fname string, area IntRect) (Texture, error) {
 	tex := C.sfTexture_createFromFile(C.CString(fname), area.Cref);
 	if tex == nil {
-		return nil, errors.New("Couldn't create texture from file: " + fname)
+		return Texture{nil}, errors.New("Couldn't create texture from file: " + fname)
 	}
 	return Texture{tex}, nil
 }
@@ -71,7 +71,7 @@ func TextureFromFile(fname string, area IntRect) (Texture, error) {
 func TextureFromImageRect(img Image, area IntRect) (Texture, error) {
 	tex := C.sfTexture_createFromImage(img.Cref, area.Cref)
 	if tex == nil {
-		return nil, errors.New("Couldn't create texture from image")
+		return Texture{nil}, errors.New("Couldn't create texture from image")
 	}
 	return Texture{tex}, nil
 }
@@ -79,7 +79,7 @@ func TextureFromImageRect(img Image, area IntRect) (Texture, error) {
 func TextureFromImageWhole(img Image) (Texture, error) {
 	tex := C.sfTexture_createFromImage(img.Cref, nil)
 	if tex == nil {
-		return nil, errors.New("Couldn't create texture from image")
+		return Texture{nil}, errors.New("Couldn't create texture from image")
 	}
 	return Texture{tex}, nil
 }
