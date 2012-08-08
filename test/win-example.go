@@ -22,6 +22,19 @@ func main() {
 	}
 	sprite.SetTexture(texture, false)
 
+	font, err := sfml.FontFromFile("Inconsolata.otf")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	text, err := sfml.NewText()
+	if err != nil {
+		log.Fatal(err)
+	}
+	text.SetString("Hello Go-SFML")
+	text.SetFont(font)
+	text.SetCharacterSize(50)
+
 	for window.IsOpen() {
 		e, _ := window.PollEvent()
 		switch e.(type) {
@@ -33,6 +46,7 @@ func main() {
 		}
 		window.Clear(black)
 		window.DrawSpriteDefault(sprite)
+		window.DrawTextDefault(text)
 		window.Display()
 	}
 }
