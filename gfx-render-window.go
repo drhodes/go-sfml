@@ -281,7 +281,7 @@ func (self RenderWindow) Display() {
 // \param renderWindow Render window object
 // \param limit        Framerate limit, in frames per seconds (use 0 to disable limit)
 //  void sfRenderWindow_setFramerateLimit(sfRenderWindow* renderWindow, unsigned int limit);
-func (self RenderWindow) SetFrameRateLimit(limit uint) {
+func (self RenderWindow) SetFramerateLimit(limit uint) {
 	C.sfRenderWindow_setFramerateLimit(self.Cref, C.uint(limit))
 }
 

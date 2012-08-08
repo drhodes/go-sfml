@@ -29,7 +29,7 @@ func main() {
 		log.Fatal(E(err, `Couldn't create a paddle in main`))
 	}
 
-	w.SetFrameRateLimit(60)
+	w.SetFramerateLimit(60)
 	w.SetVerticalSyncEnabled(true)
 
 	for w.IsOpen() {

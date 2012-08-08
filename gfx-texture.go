@@ -34,12 +34,12 @@ func NewTexture(w, h int) Texture {
 // \param area     Area of the source image to load (NULL to load the entire image)
 // \return A new sfTexture object, or NULL if it failed
 // sfTexture* sfTexture_createFromFile(const char* filename, const sfIntRect* area);
-func TextureFromFile(fname string, area IntRect) (*Texture, error) {
+func TextureFromFile(fname string, area IntRect) (Texture, error) {
 	tex := C.sfTexture_createFromFile(C.CString(fname), area.Cref);
 	if tex == nil {
 		return nil, errors.New("Couldn't create texture from file: " + fname)
 	}
-	return &Texture{tex}, nil
+	return Texture{tex}, nil
 }
 
 // TODO:  Is this possible to do in go?
@@ -68,20 +68,20 @@ func TextureFromFile(fname string, area IntRect) (*Texture, error) {
 // \param area  Area of the source image to load (NULL to load the entire image)
 // \return A new sfTexture object, or NULL if it failed
 // sfTexture* sfTexture_createFromImage(const sfImage* image, const sfIntRect* area);
-func TextureFromImageRect(img Image, area IntRect) (*Texture, error) {
+func TextureFromImageRect(img Image, area IntRect) (Texture, error) {
 	tex := C.sfTexture_createFromImage(img.Cref, area.Cref)
 	if tex == nil {
 		return nil, errors.New("Couldn't create texture from image")
 	}
-	return &Texture{tex}, nil
+	return Texture{tex}, nil
 }
 
-func TextureFromImageWhole(img Image) (*Texture, error) {
+func TextureFromImageWhole(img Image) (Texture, error) {
 	tex := C.sfTexture_createFromImage(img.Cref, nil)
 	if tex == nil {
 		return nil, errors.New("Couldn't create texture from image")
 	}
-	return &Texture{tex}, nil
+	return Texture{tex}, nil
 }
 
 // \brief Copy an existing texture
