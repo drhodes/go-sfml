@@ -6,6 +6,8 @@ package sfml
 // #include <SFML/Window/Types.h>
 import "C"
 
+import "errors"
+
 type Context struct {
 	Cref *C.sfContext
 }
@@ -14,8 +16,12 @@ type Context struct {
 // This function activates the new context.
 // \return New sfContext object
 // sfContext* sfContext_create(void);
-func NewContext() Context {
-	return Context{C.sfContext_create()}
+func NewContext() (Context, error) {
+	ctx := C.sfContext_create()
+	if ctx == nil {
+		return Context{nil}, errors.New("Couldn't make a new context")
+	}
+	return Context{ctx}, nil
 }
 
 //  Destroy a context
