@@ -6,7 +6,7 @@ import (
 
 type Paddle struct {
 	x, y   float32
-	sprite *sfml.Sprite
+	sprite sfml.Sprite
 }
 
 func NewPaddle() (*Paddle, error) {
@@ -23,7 +23,7 @@ func NewPaddle() (*Paddle, error) {
 		return nil, E(err, "Couldn't open image: "+fname)
 	}
 
-	b.sprite.SetTexture(*tex, false)
+	b.sprite.SetTexture(tex, false)
 	return &b, nil
 }
 

@@ -6,7 +6,7 @@ import (
 
 type Background struct {
 	x, y   float32
-	sprite *sfml.Sprite
+	sprite sfml.Sprite
 }
 
 func NewBackground() (*Background, error) {
@@ -23,6 +23,6 @@ func NewBackground() (*Background, error) {
 		return nil, E(err, "Couldn't open image: "+fname)
 	}
 
-	b.sprite.SetTexture(*tex, false)
+	b.sprite.SetTexture(tex, false)
 	return &b, nil
 }

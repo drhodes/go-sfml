@@ -8,7 +8,7 @@ type Ball struct {
 	speedx float32
 	speedy float32
 	x, y   float32
-	sprite *sfml.Sprite
+	sprite sfml.Sprite
 }
 
 func NewBall() (*Ball, error) {
@@ -25,7 +25,7 @@ func NewBall() (*Ball, error) {
 		return nil, E(err, "Couldn't open image: "+fname)
 	}
 
-	b.sprite.SetTexture(*tex, false)
+	b.sprite.SetTexture(tex, false)
 	b.sprite.Scale(.5, .5)
 	return &b, nil
 }
