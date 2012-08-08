@@ -10,7 +10,10 @@ package sfml
 // #include <stdlib.h>
 import "C"
 
-import "unsafe"
+import (
+	"unsafe"
+	"errors"
+)
 
 type Font struct {
 	Cref *C.sfFont
@@ -30,7 +33,11 @@ type Glyph struct {
 func (self Font) FontFromFile(fname string) Font {
 	s := C.CString(fname)
 	defer C.free(unsafe.Pointer(s))
-	return Font{C.sfFont_createFromFile(s)}
+	font := C.sfFont_createFromFile(s)
+	if font == nil {
+		return Font{nil}, errors.New("Couldn't create font from file: " + fname)
+	}
+	return Font{font}, nil
 }
 
 // \brief Copy an existing font

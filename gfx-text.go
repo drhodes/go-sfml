@@ -20,7 +20,7 @@ type Text struct {
 // Create a new text
 // \return A new sfText object, or NULL if it failed
 // sfText* sfText_create(void);
-func (self Text) NewText() (Text, error) {
+func NewText() (Text, error) {
 	txt := C.sfText_create()
 	if txt == nil {
 		return Text{nil}, errors.New("Couldn't make a text")
