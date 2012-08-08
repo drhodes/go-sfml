@@ -367,7 +367,7 @@ func (self RenderWindow) Convertcoords(point Vector2i, targetView *View ) Vector
 // func (self RenderWindow) DrawSprite(object *Sprite , states *RenderStates ) { 
 //     return C.sfRenderWindow_drawSprite(self.Cref, sf(*Sprite), sf(*RenderStates));
 // }
-func (self RenderWindow) DrawSpriteDefault(obj *Sprite) {
+func (self RenderWindow) DrawSpriteDefault(obj Sprite) {
 	C.sfRenderWindow_drawSprite(self.Cref, obj.Cref, nil)
 }
 
