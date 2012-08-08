@@ -10,7 +10,10 @@ package sfml
 // #include <stddef.h>
 import "C"
 
-import "errors"
+import (
+	"unsafe"
+	"errors"
+)
 
 type Text struct {
 	Cref *C.sfText
@@ -165,17 +168,17 @@ func (self Text) Scale(x, y float32) {
 // \param text Text object
 // \return Transform combining the position/rotation/scale/origin of the object
 // const sfTransform* sfText_getTransform(const sfText* text);
-// func (self Text) GetTransform() Transform { 
-//     return Transform{*C.sfTransform{self.Cref}}
-// }
+func (self Text) Transform() Transform {
+	return Transform{C.sfText_getTransform(self.Cref)}
+}
 
 // Get the inverse of the combined transform of a text
 // \param text Text object
 // \return Inverse of the combined transformations applied to the object
 // const sfTransform* sfText_getInverseTransform(const sfText* text);
-// func (self *Transform) *Transform(Text_getInverseTransform)  { 
-//     return C.sf*Transform(self.Cref, sfVector2f(factors));
-// }
+func (self Text) InverseTransform() Transform {
+	return Transform{C.sfText_getInverseTransform(self.Cref)}
+}
 
 // Set the string of a text (from an ANSI string)
 // A text's string is empty by default.
@@ -186,15 +189,17 @@ func (self Text) SetString(s string) {
 	C.sfText_setString(self.Cref, C.CString(s))
 }
 
+/*
+// TODO: unicode string related functions don't work
 // Set the string of a text (from a unicode string)
 // \param text   Text object
 // \param string New string
 // void sfText_setUnicodeString(sfText* text, const sfUint32* string);
-
-// func (self Text) SetUnicodeString(s string) {
-// 	bs := []byte(s)
-// 	C.sfText_setUnicodeString(self.Cref, (*C.sfUint32)(&bs[0]));
-// }
+func (self Text) SetUnicodeString(s string) {
+	bs := []byte(s)
+	C.sfText_setUnicodeString(self.Cref, (*C.sfUint32)(unsafe.Pointer(&bs[0])))
+}
+*/
 
 // Set the font of a text
 // The \a font argument refers to a texture that must
@@ -228,7 +233,7 @@ func (self Text) SetCharacterSize(size int) {
 // \param text  Text object
 // \param style New style
 // void sfText_setStyle(sfText* text, sfUint32 style);
-func (self Text) Setstyle(style uint32) {
+func (self Text) SetStyle(style uint32) {
 	C.sfText_setStyle(self.Cref, C.sfUint32(style))
 }
 
@@ -250,45 +255,45 @@ func (self Text) String() string {
 }
 
 /*
-
 // Get the string of a text (returns a unicode string)
 // \param text Text object
 // \return String as UTF-32
 // const sfUint32* sfText_getUnicodeString(const sfText* text);
-func (self *Uint32) *Uint32(Text_getUnicodeString)  { 
+func (self *Uint32) *Uint32(Text_getUnicodeString) {
     return C.sf*Uint32(self.Cref, sfColor(color));
 }
+*/
 
 // Get the font used by a text
 // \param text Text object
 // \return Pointer to the font
 // const sfFont* sfText_getFont(const sfText* text);
-func (self *Font) *Font(Text_getFont)  { 
-    return C.sf*Font(self.Cref, sfColor(color));
+func (self Text) Font() Font {
+	return Font{C.sfText_getFont(self.Cref)}
 }
 
 // Get the size of the characters of a text
 // \param text Text object
 // \return Size of the characters
 // unsigned int sfText_getCharacterSize(const sfText* text);
-func (self int) int(Text_getCharacterSize)  { 
-    return C.sfint(self.Cref, sfColor(color));
+func (self Text) CharacterSize() uint {
+	return uint(C.sfText_getCharacterSize(self.Cref))
 }
 
 // Get the style of a text
 // \param text Text object
 // \return Current string style (see sfTextStyle enum)
 // sfUint32 sfText_getStyle(const sfText* text);
-func (self Text) Getstyle() Uint32 { 
-    return C.sfText_getStyle(self.Cref);
+func (self Text) Style() uint {
+	return uint(C.sfText_getStyle(self.Cref))
 }
 
 // Get the global color of a text
 // \param text Text object
 // \return Global color of the text
 // sfColor sfText_getColor(const sfText* text);
-func (self Text) Getcolor() Color { 
-    return C.sfText_getColor(self.Cref);
+func (self Text) Color() Color {
+	return Color{C.sfText_getColor(self.Cref)}
 }
 
 // Return the position of the \a index-th character in a text
@@ -302,8 +307,8 @@ func (self Text) Getcolor() Color {
 // \param index Index of the character
 // \return Position of the character
 // sfVector2f sfText_findCharacterPos(const sfText* text, size_t index);
-func (self Text) Findcharacterpos(index size_t) Vector2f { 
-    return C.sfText_findCharacterPos(self.Cref, sfSize_t(index));
+func (self Text) FindCharacterPos(index uint) Vector2f {
+	return Vector2f{C.sfText_findCharacterPos(self.Cref, C.size_t(index))}
 }
 
 // Get the local bounding rectangle of a text
@@ -315,8 +320,9 @@ func (self Text) Findcharacterpos(index size_t) Vector2f {
 // \param text Text object
 // \return Local bounding rectangle of the entity
 // sfFloatRect sfText_getLocalBounds(const sfText* text);
-func (self Text) Getlocalbounds() FloatRect { 
-    return C.sfText_getLocalBounds(self.Cref);
+func (self Text) LocalBounds() FloatRect {
+	r := C.sfText_getLocalBounds(self.Cref)
+	return FloatRect{&r}
 }
 
 // Get the global bounding rectangle of a text
@@ -328,8 +334,7 @@ func (self Text) Getlocalbounds() FloatRect {
 // \param text Text object
 // \return Global bounding rectangle of the entity
 // sfFloatRect sfText_getGlobalBounds(const sfText* text);
-func (self Text) Getglobalbounds() FloatRect { 
-    return C.sfText_getGlobalBounds(self.Cref);
+func (self Text) GlobalBounds() FloatRect {
+	r := C.sfText_getGlobalBounds(self.Cref)
+	return FloatRect{&r}
 }
-            
-*/
