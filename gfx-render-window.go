@@ -376,7 +376,7 @@ func (self RenderWindow) DrawSpriteDefault(obj Sprite) {
 //     return C.sfRenderWindow_drawText(self.Cref, sf(*Text), sf(*RenderStates));
 // }
 func (self RenderWindow) DrawTextDefault(obj Text) {
-	return C.sfRenderWindow_drawText(self.Cref, obj.Cref, nil)
+	C.sfRenderWindow_drawText(self.Cref, obj.Cref, nil)
 }
 
 /*            
