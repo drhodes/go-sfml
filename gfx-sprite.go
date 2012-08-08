@@ -19,12 +19,12 @@ type Sprite struct {
 // Create a new sprite
 // \return A new sfSprite object, or NULL if it failed
 // sfSprite* sfSprite_create(void);
-func NewSprite() (*Sprite, error) {
+func NewSprite() (Sprite, error) {
 	spr := C.sfSprite_create()
 	if spr == nil {
-		return nil, errors.New("Couldn't make a sprite")
+		return Sprite{nil}, errors.New("Couldn't make a sprite")
 	}
-	return &Sprite{spr}, nil
+	return Sprite{spr}, nil
 }
 
 // Copy an existing sprite
