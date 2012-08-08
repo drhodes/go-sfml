@@ -9,6 +9,7 @@ package sfml
 // #include <SFML/System/InputStream.h>
 // #include <SFML/System/Vector2.h>
 // #include <stddef.h>
+// #include <stdlib.h>
 import "C"
 
 import (
@@ -77,18 +78,16 @@ func ImageFromFile(fname string) (Image, error) {
 // \param image Image to copy
 // \return Copied object
 // sfImage* sfImage_copy(sfImage* image);
-
-// func (self Image) Copy() *Image { 
-//     return C.sfImage_copy();
-// }
+func (self Image) Copy() Image {
+	return Image{C.sfImage_copy(self.Cref)}
+}
 
 //  Destroy an existing image
 // \param image Image to delete
 // void sfImage_destroy(sfImage* image);
-
-// func (self Image) Destroy() void { 
-//     return C.sfImage_destroy();
-// }
+func (self Image) Destroy() { 
+	C.sfImage_destroy(self.Cref)
+}
 
 //  Save an image to a file on disk
 // The format of the image is automatically deduced from
@@ -99,16 +98,17 @@ func ImageFromFile(fname string) (Image, error) {
 // \param filename Path of the file to save
 // \return sfTrue if saving was successful
 // sfBool sfImage_saveToFile(const sfImage* image, const char* filename);
-
-// func (self Image) Savetofile(filename *char ) Bool { 
-//     return C.sfImage_saveToFile();
-// }
+func (self Image) Savetofile(filename string) bool {
+	s := C.CString(filename)
+	defer C.free(unsafe.Pointer(s))
+	return int(C.sfImage_saveToFile(self.Cref, s)) == 0
+}
 
 // Return the size of an image
 // \param image Image object
 // \return Size in pixels
 // sfVector2u sfImage_getSize(const sfImage* image);
-func (self Image) GetSize() (uint, uint) { 
+func (self Image) Size() (uint, uint) { 
 	vec := C.sfImage_getSize(self.Cref)
 	return uint(vec.x), uint(vec.y)
 }
@@ -122,9 +122,9 @@ func (self Image) GetSize() (uint, uint) {
 // \param color Color to make transparent
 // \param alpha Alpha value to assign to transparent pixels
 // void sfImage_createMaskFromColor(sfColor color, sfUint8 alpha);
-// func (self Image) Createmaskfromcolor(col Color, alpha uint8) { 
-//     return C.sfImage_createMaskFromColor(col.Cref, C.sfUint8(alpha));
-// }
+//func (self Image) CreateMaskFromColor(col Color, alpha uint8) {
+//	C.sfImage_createMaskFromColor(col.Cref, C.sfUint8(alpha))
+//}
 
 //  Copy pixels from an image onto another
 // This function does a slow pixel copy and should not be
@@ -142,13 +142,9 @@ func (self Image) GetSize() (uint, uint) {
 // \param sourceRect Sub-rectangle of the source image to copy
 // \param applyAlpha Should the copy take in account the source transparency?
 // void sfImage_copyImage(sfImage* image, const sfImage* source, unsigned int destX, unsigned int destY, sfIntRect sourceRect, sfBool applyAlpha);
-
-// func (self Image) Copyimage(source *Image, destX, destY int, 
-// 	sourceRect IntRect, applyAlpha bool) { 
-//     return C.sfImage_copyImage();
-// }
-
-/*            
+func (self Image) Copyimage(source Image, destX, destY int, sourceRect IntRect, applyAlpha bool) {
+	C.sfImage_copyImage(self.Cref, source.Cref, C.uint(destX), C.uint(destY), *sourceRect.Cref, Bool(applyAlpha))
+}
 
 //  Change the color of a pixel in an image
 // This function doesn't check the validity of the pixel
@@ -159,9 +155,8 @@ func (self Image) GetSize() (uint, uint) {
 // \param y     Y coordinate of pixel to change
 // \param color New color of the pixel
 // void sfImage_setPixel(sfImage* image, unsigned int x, unsigned int y, sfColor color);
-
-func (self Image) Setpixel(x int , y int , color Color) void { 
-    return C.sfImage_setPixel();
+func (self Image) SetPixel(x, y uint, color Color) {
+	C.sfImage_setPixel(self.Cref, C.uint(x), C.uint(y), color.Cref)
 }
 
 //  Get the color of a pixel in an image
@@ -173,11 +168,11 @@ func (self Image) Setpixel(x int , y int , color Color) void {
 // \param y     Y coordinate of pixel to get
 // \return Color of the pixel at coordinates (x, y)
 // sfColor sfImage_getPixel(const sfImage* image, unsigned int x, unsigned int y);
-
-func (self Image) Getpixel(x int , y int ) Color { 
-    return C.sfImage_getPixel();
+func (self Image) Pixel(x, y uint) Color {
+	return Color{C.sfImage_getPixel(self.Cref, C.uint(x), C.uint(y))}
 }
-            
+
+/*            
 //  Get a read-only pointer to the array of pixels of an image
 // The returned value points to an array of RGBA pixels made of
 // 8 bits integers components. The size of the array is
@@ -188,7 +183,6 @@ func (self Image) Getpixel(x int , y int ) Color {
 // \param image Image object
 // \return Read-only pointer to the array of pixels
 // const sfUint8* sfImage_getPixelsPtr(const sfImage* image);
-
 func (self *Uint8) *Uint8(Image_getPixelsPtr)  { 
     return C.sf*Uint8();
 }

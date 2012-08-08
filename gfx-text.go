@@ -10,10 +10,7 @@ package sfml
 // #include <stddef.h>
 import "C"
 
-import (
-	"unsafe"
-	"errors"
-)
+import"errors"
 
 type Text struct {
 	Cref *C.sfText
@@ -100,7 +97,7 @@ func (self Text) SetOrigin(x, y float32) {
 // \param text Text object
 // \return Current position
 // sfVector2f sfText_getPosition(const sfText* text);
-func (self Text) GetPosition(x, y float32) (float32, float32) {
+func (self Text) Position(x, y float32) (float32, float32) {
 	v := C.sfText_getPosition(self.Cref)
 	return float32(v.x), float32(v.y)
 }
@@ -110,7 +107,7 @@ func (self Text) GetPosition(x, y float32) (float32, float32) {
 // \param text Text object
 // \return Current rotation, in degrees
 // float sfText_getRotation(const sfText* text);
-func (self Text) GetRotation() float32 {
+func (self Text) Rotation() float32 {
 	return float32(C.sfText_getRotation(self.Cref))
 }
 
@@ -127,7 +124,7 @@ func (self Text) GetScale() (x, y float32) {
 // \param text Text object
 // \return Current origin
 // sfVector2f sfText_getOrigin(const sfText* text);
-func (self Text) GetOrigin() (x, y float32) {
+func (self Text) Origin() (x, y float32) {
 	v := C.sfText_getOrigin(self.Cref)
 	return float32(v.x), float32(v.y)
 }

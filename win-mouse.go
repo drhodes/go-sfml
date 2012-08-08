@@ -32,7 +32,7 @@ func (self MouseButton) IsButtonPressed() bool {
 // \param relativeTo Reference window
 // \return Position of the mouse cursor, relative to the given window
 // sfVector2i sfMouse_getPosition(const sfWindow* relativeTo);
-func (self MouseButton) GetPosition(win Window) Vector2i {
+func (self MouseButton) Position(win Window) Vector2i {
 	cv2 := C.sfMouse_getPosition(win.Cref)
 	x := int(cv2.x)
 	y := int(cv2.y)

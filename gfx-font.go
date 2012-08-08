@@ -62,7 +62,7 @@ func (self Font) Destroy() {
 // \param bold          Retrieve the bold version or the regular one?
 // \return The corresponding glyph
 // sfGlyph sfFont_getGlyph(sfFont* font, sfUint32 codePoint, unsigned int characterSize, sfBool bold);
-func (self Font) GetGlyph(codePoint, characterSize uint32, bold bool) Glyph {
+func (self Font) Glyph(codePoint, characterSize uint32, bold bool) Glyph {
 	g := C.sfFont_getGlyph(
 		self.Cref,
 		C.sfUint32(codePoint),
@@ -79,7 +79,7 @@ func (self Font) GetGlyph(codePoint, characterSize uint32, bold bool) Glyph {
 // \param characterSize Character size, in pixels
 // \return Kerning offset, in pixels
 // int sfFont_getKerning(sfFont* font, sfUint32 first, sfUint32 second, unsigned int characterSize);
-func (self Font) GetKerning(first, second uint32, characterSize uint) int {
+func (self Font) Kerning(first, second uint32, characterSize uint) int {
 	k := C.sfFont_getKerning(self.Cref, C.sfUint32(first),
 		C.sfUint32(second), C.uint(characterSize))
 	return int(k)
@@ -91,7 +91,7 @@ func (self Font) GetKerning(first, second uint32, characterSize uint) int {
 // \param characterSize Character size, in pixels
 // \return Line spacing, in pixels
 //int sfFont_getLineSpacing(sfFont* font, unsigned int characterSize);
-func (self Font) GetLineSpacing(characterSize int) int {
+func (self Font) LineSpacing(characterSize int) int {
 	return int(C.sfFont_getLineSpacing(self.Cref, C.uint(characterSize)))
 }
 
@@ -100,14 +100,14 @@ func (self Font) GetLineSpacing(characterSize int) int {
 // \param characterSize Character size, in pixels
 // \return Read-only pointer to the texture
 // const sfTexture* sfFont_getTexture(sfFont* font, unsigned int characterSize);
-func (self Font) GetTexture(characterSize uint) Texture {
+func (self Font) Texture(characterSize uint) Texture {
 	return Texture{C.sfFont_getTexture(self.Cref, C.uint(characterSize))}
 }
 
 // \brief Get the built-in default font (Arial)
 // \return Pointer to the default font
 // const sfFont* sfFont_getDefaultFont(void);
-func (self Font) GetDefaultFont() Font {
+func (self Font) DefaultFont() Font {
 	return Font{C.sfFont_getDefaultFont()}
 }
 

@@ -25,7 +25,7 @@ func (self Joystick) Isconnected() bool {
 // \param joystick Index of the joystick
 // \return Number of buttons supported by the joystick
 // unsigned int sfJoystick_getButtonCount(unsigned int joystick);
-func (self Joystick) GetButtonCount() uint {
+func (self Joystick) ButtonCount() uint {
 	return uint(C.uint(self))
 }
 
@@ -58,7 +58,7 @@ func (self Joystick) IsButtonPressed(button uint) bool {
 // \param axis     Axis to check
 // \return Current position of the axis, in range [-100 .. 100]
 // float sfJoystick_getAxisPosition(unsigned int joystick, sfJoystickAxis axis);
-func (self Joystick) GetAxisPosition(axis JoystickAxis) float32 {
+func (self Joystick) AxisPosition(axis JoystickAxis) float32 {
 	return float32(
 		C.sfJoystick_getAxisPosition(C.uint(self), *axis.Cref))
 }

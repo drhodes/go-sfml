@@ -36,7 +36,7 @@ type RenderWindow struct {
 // sfRenderWindow* sfRenderWindow_create(sfVideoMode mode, const char* title, sfUint32 style, const sfContextSettings* settings);
 func NewRenderWindow(mode VideoMode, title string, style uint32, settings ContextSettings) RenderWindow {
 	ctitle := C.CString(title)
-	//defer C.free
+	defer C.free(unsafe.Pointer(ctitle))
 	ref := C.sfRenderWindow_create(*mode.Cref, ctitle, C.sfUint32(style), settings.Cref)
 	return RenderWindow{ref}
 }

@@ -103,7 +103,7 @@ func (self Texture) Destroy() {
 // \param texture Texture to read
 // \return Size in pixels
 // sfVector2u sfTexture_getSize(const sfTexture* texture);
-func (self Texture) GetSize() (x, y uint) {
+func (self Texture) Size() (x, y uint) {
 	v := C.sfTexture_getSize(self.Cref)
 	return uint(v.x), uint(v.y)
 }

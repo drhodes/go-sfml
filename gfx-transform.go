@@ -71,7 +71,7 @@ func (self Transform) Destroy() {
 // \param transform Transform object
 // \return Pointer to a 4x4 matrix
 // const float* sfTransform_getMatrix(const sfTransform* transform);
-func (self Transform) GetMatrix() [16]float32 {
+func (self Transform) Matrix() [16]float32 {
 	//size := 2
 	carr := C.sfTransform_getMatrix(self.Cref)
 	arr := [16]float32{}
@@ -93,7 +93,7 @@ func (self Transform) GetMatrix() [16]float32 {
 // \param transform Transform object
 // \param result Returned inverse matrix
 // void sfTransform_getInverse(const sfTransform* transform, sfTransform* result);
-func (self Transform) GetInverse() Transform {
+func (self Transform) Inverse() Transform {
 	t := Transform{}
 	C.sfTransform_getInverse(self.Cref, t.Cref)
 	return t
@@ -104,9 +104,9 @@ func (self Transform) GetInverse() Transform {
 // \param point     Point to transform
 // \return Transformed point
 // sfVector2f sfTransform_transformPoint(const sfTransform* transform, sfVector2f point);
-func (self Transform) TransformPoint(x, y float32) (float32, float32) { 
+func (self Transform) TransformPoint(x, y float32) (float32, float32) {
 	pt := C.sfVector2f{C.float(x), C.float(y)}
-    vr := C.sfTransform_transformPoint(self.Cref, pt)
+	vr := C.sfTransform_transformPoint(self.Cref, pt)
 	return float32(vr.x), float32(vr.y)
 }
 

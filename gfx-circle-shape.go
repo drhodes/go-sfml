@@ -42,11 +42,11 @@ func (self CircleShape) Destroy() {
 // \param shape    Shape object
 // \param position New position
 // void sfCircleShape_setPosition(sfCircleShape* shape, sfVector2f position);
-func (self CircleShape) SetPosition(x, y float32) { 
-	v := C.sfVector2f{ C.float(x), C.float(y)}
-    C.sfCircleShape_setPosition(self.Cref, v)
+func (self CircleShape) SetPosition(x, y float32) {
+	v := C.sfVector2f{C.float(x), C.float(y)}
+	C.sfCircleShape_setPosition(self.Cref, v)
 }
-            
+
 // Set the orientation of a circle shape
 // This function completely overwrites the previous rotation.
 // See sfCircleShape_rotate to add an angle based on the previous rotation instead.
@@ -65,11 +65,11 @@ func (self CircleShape) SetRotation(angle float32) {
 // \param shape Shape object
 // \param scale New scale factors
 // void sfCircleShape_setScale(sfCircleShape* shape, sfVector2f scale);
-func (self CircleShape) SetScale(x, y float32) { 
-	v := C.sfVector2f{ C.float(x), C.float(y)}
-    C.sfCircleShape_setScale(self.Cref, v)
+func (self CircleShape) SetScale(x, y float32) {
+	v := C.sfVector2f{C.float(x), C.float(y)}
+	C.sfCircleShape_setScale(self.Cref, v)
 }
-            
+
 // Set the local origin of a circle shape
 // The origin of an object defines the center point for
 // all transformations (position, scale, rotation).
@@ -89,7 +89,7 @@ func (self CircleShape) SetOrigin(x, y float32) {
 // \param shape Shape object
 // \return Current position
 // sfVector2f sfCircleShape_getPosition(const sfCircleShape* shape);
-func (self CircleShape) GetPosition() (float32, float32) {
+func (self CircleShape) Position() (float32, float32) {
 	v := C.sfCircleShape_getPosition(self.Cref)
 	return float32(v.x), float32(v.y)
 }
@@ -99,29 +99,27 @@ func (self CircleShape) GetPosition() (float32, float32) {
 // \param shape Shape object
 // \return Current rotation, in degrees
 // float sfCircleShape_getRotation(const sfCircleShape* shape);
-func (self CircleShape) GetRotation() float32 { 
-    return float32(C.sfCircleShape_getRotation(self.Cref))
+func (self CircleShape) Rotation() float32 {
+	return float32(C.sfCircleShape_getRotation(self.Cref))
 }
 
 // Get the current scale of a circle shape
 // \param shape Shape object
 // \return Current scale factors
 // sfVector2f sfCircleShape_GetScale(const sfCircleShape* shape);
-// func (self CircleShape) GetScale() (x, y float32) { 
-//     v := C.sfCircleShape_GetScale(self.Cref)
-// 	return float32(v.x), float32(v.y)
-// }
+func (self CircleShape) GetScale() (x, y float32) {
+	v := C.sfCircleShape_getScale(self.Cref)
+	return float32(v.x), float32(v.y)
+}
 
 // Get the local origin of a circle shape
 // \param shape Shape object
 // \return Current origin
 // sfVector2f sfCircleShape_GetOrigin(const sfCircleShape* shape);
-
-// func (self CircleShape) Getorigin() (float32, float32) { 
-//     v := C.sfCircleShape_GetOrigin(self.Cref);
-// 	return float32(v.x), float32(v.y)
-// }
-/*            
+func (self CircleShape) Origin() (float32, float32) {
+	v := C.sfCircleShape_getOrigin(self.Cref)
+	return float32(v.x), float32(v.y)
+}
 
 // Move a circle shape by a given offset
 // This function adds to the current position of the object,
@@ -129,20 +127,19 @@ func (self CircleShape) GetRotation() float32 {
 // \param shape  Shape object
 // \param offset Offset
 // void sfCircleShape_move(sfCircleShape* shape, sfVector2f offset);
-
-func (self CircleShape) Move(offset Vector2f) void { 
-    return C.sfCircleShape_move(self.Cref, sfVector2f(offset));
+func (self CircleShape) Move(x, y float32) {
+	offset := C.sfVector2f{C.float(x), C.float(y)}
+	C.sfCircleShape_move(self.Cref, offset)
 }
-            
+
 // Rotate a circle shape
 // This function adds to the current rotation of the object,
 // unlike sfCircleShape_setRotation which overwrites it.
 // \param shape Shape object
 // \param angle Angle of rotation, in degrees
 // void sfCircleShape_rotate(sfCircleShape* shape, float angle);
-
-func (self CircleShape) Rotate(angle float) void { 
-    return C.sfCircleShape_rotate(self.Cref, sfFloat(angle));
+func (self CircleShape) Rotate(angle float32) {
+	C.sfCircleShape_rotate(self.Cref, C.float(angle))
 }
 
 // Scale a circle shape
@@ -151,29 +148,27 @@ func (self CircleShape) Rotate(angle float) void {
 // \param shape   Shape object
 // \param factors Scale factors
 // void sfCircleShape_scale(sfCircleShape* shape, sfVector2f factors);
-
-func (self CircleShape) Scale(factors Vector2f) void { 
-    return C.sfCircleShape_scale(self.Cref, sfVector2f(factors));
+func (self CircleShape) Scale(x, y float32) {
+	v := C.sfVector2f{C.float(x), C.float(y)}
+	C.sfCircleShape_scale(self.Cref, v)
 }
 
 // Get the combined transform of a circle shape
 // \param shape Shape object
 // \return Transform combining the position/rotation/scale/origin of the object
 // const sfTransform* sfCircleShape_getTransform(const sfCircleShape* shape);
-
-func (self *Transform) *Transform(CircleShape_getTransform)  { 
-    return C.sf*Transform(self.Cref, sfVector2f(factors));
+func (self CircleShape) Transform() Transform {
+	return Transform{C.sfCircleShape_getTransform(self.Cref)}
 }
 
 // Get the inverse of the combined transform of a circle shape
 // \param shape Shape object
 // \return Inverse of the combined transformations applied to the object
 // const sfTransform* sfCircleShape_getInverseTransform(const sfCircleShape* shape);
-
-func (self *Transform) *Transform(CircleShape_getInverseTransform)  { 
-    return C.sf*Transform(self.Cref, sfVector2f(factors));
+func (self CircleShape) InverseTransform() Transform {
+	return Transform{C.sfCircleShape_getInverseTransform(self.Cref)}
 }
-            
+
 // Change the source texture of a circle shape
 // The \a texture argument refers to a texture that must
 // exist as long as the shape uses it. Indeed, the shape
@@ -189,9 +184,8 @@ func (self *Transform) *Transform(CircleShape_getInverseTransform)  {
 // \param texture   New texture
 // \param resetRect Should the texture rect be reset to the size of the new texture?
 // void sfCircleShape_setTexture(sfCircleShape* shape, const sfTexture* texture, sfBool resetRect);
-
-func (self CircleShape) Settexture(texture *Texture , resetRect Bool) void { 
-    return C.sfCircleShape_setTexture(self.Cref, sf(*Texture), sfBool(resetRect));
+func (self CircleShape) SetTexture(tex Texture, resetRect bool) {
+	C.sfCircleShape_setTexture(self.Cref, tex.Cref, Bool(resetRect))
 }
 
 // Set the sub-rectangle of the texture that a circle shape will display
@@ -201,9 +195,8 @@ func (self CircleShape) Settexture(texture *Texture , resetRect Bool) void {
 // \param shape Shape object
 // \param rect  Rectangle defining the region of the texture to display
 // void sfCircleShape_setTextureRect(sfCircleShape* shape, sfIntRect rect);
-
-func (self CircleShape) Settexturerect(rect IntRect) void { 
-    return C.sfCircleShape_setTextureRect(self.Cref, sfIntrect(rect));
+func (self CircleShape) SetTextureRect(rect IntRect) {
+	C.sfCircleShape_setTextureRect(self.Cref, *rect.Cref)
 }
 
 // Set the fill color of a circle shape
@@ -216,9 +209,8 @@ func (self CircleShape) Settexturerect(rect IntRect) void {
 // \param shape Shape object
 // \param color New color of the shape
 // void sfCircleShape_setFillColor(sfCircleShape* shape, sfColor color);
-
-func (self CircleShape) Setfillcolor(color Color) void { 
-    return C.sfCircleShape_setFillColor(self.Cref, sfColor(color));
+func (self CircleShape) SetFillColor(color Color) {
+	C.sfCircleShape_setFillColor(self.Cref, color.Cref)
 }
 
 // Set the outline color of a circle shape
@@ -227,11 +219,10 @@ func (self CircleShape) Setfillcolor(color Color) void {
 // \param shape Shape object
 // \param color New outline color of the shape
 // void sfCircleShape_setOutlineColor(sfCircleShape* shape, sfColor color);
-
-func (self CircleShape) Setoutlinecolor(color Color) void { 
-    return C.sfCircleShape_setOutlineColor(self.Cref, sfColor(color));
+func (self CircleShape) SetOutlineColor(color Color) {
+	C.sfCircleShape_setOutlineColor(self.Cref, color.Cref)
 }
-            
+
 // Set the thickness of a circle shape's outline
 // This number cannot be negative. Using zero disables
 // the outline.
@@ -239,9 +230,8 @@ func (self CircleShape) Setoutlinecolor(color Color) void {
 // \param shape     Shape object
 // \param thickness New outline thickness
 // void sfCircleShape_setOutlineThickness(sfCircleShape* shape, float thickness);
-
-func (self CircleShape) Setoutlinethickness(thickness float) void { 
-    return C.sfCircleShape_setOutlineThickness(self.Cref, sfFloat(thickness));
+func (self CircleShape) SetOutlineThickness(thickness float32) {
+	C.sfCircleShape_setOutlineThickness(self.Cref, C.float(thickness))
 }
 
 // Get the source texture of a circle shape
@@ -251,54 +241,49 @@ func (self CircleShape) Setoutlinethickness(thickness float) void {
 // \param shape Shape object
 // \return Pointer to the shape's texture
 // const sfTexture* sfCircleShape_getTexture(const sfCircleShape* shape);
-
-func (self *Texture) *Texture(CircleShape_getTexture)  { 
-    return C.sf*Texture(self.Cref, sfFloat(thickness));
+func (self CircleShape) Texture() Texture {
+	return Texture{C.sfCircleShape_getTexture(self.Cref)}
 }
 
 // Get the sub-rectangle of the texture displayed by a circle shape
 // \param shape Shape object
 // \return Texture rectangle of the shape
 // sfIntRect sfCircleShape_getTextureRect(const sfCircleShape* shape);
-
-func (self CircleShape) Gettexturerect() IntRect { 
-    return C.sfCircleShape_getTextureRect(self.Cref);
+func (self CircleShape) TextureRect() IntRect {
+	r := C.sfCircleShape_getTextureRect(self.Cref)
+	return IntRect{&r}
 }
 
 // Get the fill color of a circle shape
 // \param shape Shape object
 // \return Fill color of the shape
 // sfColor sfCircleShape_getFillColor(const sfCircleShape* shape);
-
-func (self CircleShape) Getfillcolor() Color { 
-    return C.sfCircleShape_getFillColor(self.Cref);
+func (self CircleShape) FillColor() Color {
+	return Color{C.sfCircleShape_getFillColor(self.Cref)}
 }
-            
+
 // Get the outline color of a circle shape
 // \param shape Shape object
 // \return Outline color of the shape
 // sfColor sfCircleShape_getOutlineColor(const sfCircleShape* shape);
-
-func (self CircleShape) Getoutlinecolor() Color { 
-    return C.sfCircleShape_getOutlineColor(self.Cref);
+func (self CircleShape) OutlineColor() Color {
+	return Color{C.sfCircleShape_getOutlineColor(self.Cref)}
 }
 
 // Get the outline thickness of a circle shape
 // \param shape Shape object
 // \return Outline thickness of the shape
 // float sfCircleShape_getOutlineThickness(const sfCircleShape* shape);
-
-func (self CircleShape) Getoutlinethickness() float { 
-    return C.sfCircleShape_getOutlineThickness(self.Cref);
+func (self CircleShape) OutlinkThickness() float32 {
+	return float32(C.sfCircleShape_getOutlineThickness(self.Cref))
 }
 
 // Get the total number of points of a circle shape
 // \param shape Shape object
 // \return Number of points of the shape
 // unsigned int sfCircleShape_getPointCount(const sfCircleShape* shape);
-
-func (self int) int(CircleShape_getPointCount)  { 
-    return C.sfint(self.Cref);
+func (self CircleShape) PointCount() int {
+	return int(C.sfCircleShape_getPointCount(self.Cref))
 }
 
 // Get a point of a circle shape
@@ -307,36 +292,33 @@ func (self int) int(CircleShape_getPointCount)  {
 // \param index Index of the point to get, in range [0 .. getPointCount() - 1]
 // \return Index-th point of the shape
 // sfVector2f sfCircleShape_getPoint(const sfCircleShape* shape, unsigned int index);
-
-func (self CircleShape) Getpoint(index int ) Vector2f { 
-    return C.sfCircleShape_getPoint(self.Cref, sf(int));
+func (self CircleShape) Point(index uint) (float32, float32) {
+	v := Vector2f{C.sfCircleShape_getPoint(self.Cref, C.uint(index))}
+	return float32(v.X()), float32(v.Y())
 }
-            
+
 // Set the radius of a circle
 // \param shape  Shape object
 // \param radius New radius of the circle
 // void sfCircleShape_setRadius(sfCircleShape* shape, float radius);
-
-func (self CircleShape) Setradius(radius float) void { 
-    return C.sfCircleShape_setRadius(self.Cref, sfFloat(radius));
+func (self CircleShape) SetRadius(radius float32) {
+	C.sfCircleShape_setRadius(self.Cref, C.float(radius))
 }
 
 // Get the radius of a circle
 // \param shape Shape object
 // \return Radius of the circle
 // float sfCircleShape_getRadius(const sfCircleShape* shape);
-
-func (self CircleShape) Getradius() float { 
-    return C.sfCircleShape_getRadius(self.Cref);
+func (self CircleShape) Radius() float32 {
+	return float32(C.sfCircleShape_getRadius(self.Cref))
 }
 
 // Set the number of points of a circle
 // \param shape Shape object
 // \param count New number of points of the circle
 // void sfCircleShape_setPointCount(sfCircleShape* shape, unsigned int count);
-
-func (self CircleShape) Setpointcount(count int ) void { 
-    return C.sfCircleShape_setPointCount(self.Cref, sf(int));
+func (self CircleShape) SetPointCount(count uint) {
+	C.sfCircleShape_setPointCount(self.Cref, C.uint(count))
 }
 
 // Get the local bounding rectangle of a circle shape
@@ -348,11 +330,11 @@ func (self CircleShape) Setpointcount(count int ) void {
 // \param shape Shape object
 // \return Local bounding rectangle of the entity
 // sfFloatRect sfCircleShape_getLocalBounds(const sfCircleShape* shape);
-
-func (self CircleShape) Getlocalbounds() FloatRect { 
-    return C.sfCircleShape_getLocalBounds(self.Cref);
+func (self CircleShape) LocalBounds() FloatRect {
+	r := C.sfCircleShape_getLocalBounds(self.Cref)
+	return FloatRect{&r}
 }
-            
+
 // Get the global bounding rectangle of a circle shape
 // The returned rectangle is in global coordinates, which means
 // that it takes in account the transformations (translation,
@@ -362,9 +344,7 @@ func (self CircleShape) Getlocalbounds() FloatRect {
 // \param shape Shape object
 // \return Global bounding rectangle of the entity
 // sfFloatRect sfCircleShape_getGlobalBounds(const sfCircleShape* shape);
-
-func (self CircleShape) Getglobalbounds() FloatRect { 
-    return C.sfCircleShape_getGlobalBounds(self.Cref);
+func (self CircleShape) GlobalBounds() FloatRect {
+	r := C.sfCircleShape_getGlobalBounds(self.Cref)
+	return FloatRect{&r}
 }
-            
-*/

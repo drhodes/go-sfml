@@ -68,9 +68,7 @@ func (self Color) Add(color2 Color) Color {
 //
 // \return Component-wise multiplication of the two colors
 //
-
 // sfColor sfColor_modulate(sfColor color1, sfColor color2);
-
 func (self Color) Modulate(color2 Color) Color {
 	return Color{C.sfColor_modulate(self.Cref, color2.Cref)}
 }

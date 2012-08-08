@@ -8,6 +8,7 @@ package sfml
 // #include <SFML/Window/WindowHandle.h>
 // #include <SFML/Window/Types.h>
 // #include <SFML/System/Vector2.h>
+// #include <stdlib.h>
 import "C"
 
 import (
@@ -62,7 +63,7 @@ type Window struct {
 // sfUint32 style, const sfContextSettings* settings);
 func NewWindow(mode VideoMode, title string, style int32, settings ContextSettings) (Window, error) {
 	t := C.CString(title)
-	//defer C.free(unsafe.Pointer(s))
+	defer C.free(unsafe.Pointer(t))
 	if mode.Nil() {
 		return Window{nil}, errors.New("NewWindow can't take mode with nil Cref")
 	}
@@ -126,7 +127,7 @@ func (self Window) IsOpen() bool {
 // \param window Window object
 // \return Structure containing the OpenGL context settings
 // sfContextSettings sfWindow_getSettings(const sfWindow* window);
-func (self Window) GetSettings() ContextSettings {
+func (self Window) Settings() ContextSettings {
 	sets := C.sfWindow_getSettings(self.Cref)
 	return ContextSettings{&sets}
 }
@@ -196,7 +197,7 @@ func (self Window) PollEvent() (interface{}, bool) {
 // \return (x, y)
 // sfVector2i sfWindow_getPosition(const sfWindow* window);
 // TODO evalutate which is better [ multiple return | vector type ]
-func (self Window) GetPosition() (x, y int) {
+func (self Window) Position() (x, y int) {
 	pos := C.sfWindow_getPosition(self.Cref)
 	return int(pos.x), int(pos.y)
 }
@@ -220,7 +221,7 @@ func (self Window) SetPosition(x, y int) {
 // \param window Window object
 // \return Size in pixels
 // sfVector2u sfWindow_getSize(const sfWindow* window);
-func (self Window) GetSize() (x, y uint) {
+func (self Window) Size() (x, y uint) {
 	pos := C.sfWindow_getSize(self.Cref)
 	return uint(pos.x), uint(pos.y)
 }

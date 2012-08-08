@@ -30,7 +30,7 @@ func NewBall() (*Ball, error) {
 	return &b, nil
 }
 func (self *Ball) Width() float32 {
-	return self.sprite.GetLocalBounds().Width()
+	return self.sprite.LocalBounds().Width()
 }
 
 // return false if ball hits floor

@@ -35,8 +35,8 @@ func (self *Paddle) update(x float32) {
 }
 
 func (self *Paddle) collides(b *Ball) bool {
-	prect := self.sprite.GetGlobalBounds()
-	brect := b.sprite.GetGlobalBounds()
+	prect := self.sprite.GlobalBounds()
+	brect := b.sprite.GlobalBounds()
 	_, hit := prect.Intersects(brect)
 	return hit
 }
@@ -45,7 +45,7 @@ func (self *Paddle) collides(b *Ball) bool {
 func (self *Paddle) ImpulseX(b *Ball) float32 {
 	// -2 <-----|-----> 2
 	padleft := self.x
-	padwidth := self.sprite.GetGlobalBounds().Width()
+	padwidth := self.sprite.GlobalBounds().Width()
 	padcenter := padleft + padwidth/2
 	ballcenter := b.x
 

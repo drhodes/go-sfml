@@ -50,7 +50,7 @@ VideoMode:
 
 // Get the current desktop video mode
 // sfVideoMode sfVideoMode_getDesktopMode(void)
-func GetDesktopMode() VideoMode {
+func DesktopMode() VideoMode {
 	temp := C.sfVideoMode_getDesktopMode()
 	return VideoMode{&temp}
 }
@@ -65,7 +65,7 @@ func GetDesktopMode() VideoMode {
 // the first element will always give the best mode (higher
 // width, height and bits-per-pixel).
 // const sfVideoMode* sfVideoMode_getFullscreenModes(size_t* Count)
-func GetFullscreenModes() []VideoMode {
+func FullscreenModes() []VideoMode {
 	// get the size_of a sfVideoMode
 	size := unsafe.Sizeof(*VideoMode{}.Cref)
 
