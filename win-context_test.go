@@ -5,7 +5,10 @@ import (
 )
 
 func TestContextConstructor(t *testing.T) {
-	ctx := NewContext()
+	ctx, err := NewContext()
+	if err != nil {
+		t.Fatal(err)
+	}
 	ctx.SetActive(true)
 	ctx.Destroy()
 }
