@@ -107,7 +107,7 @@ func (self CircleShape) Rotation() float32 {
 // \param shape Shape object
 // \return Current scale factors
 // sfVector2f sfCircleShape_GetScale(const sfCircleShape* shape);
-func (self CircleShape) GetScale() (x, y float32) {
+func (self CircleShape) GetScale() (float32, float32) {
 	v := C.sfCircleShape_getScale(self.Cref)
 	return float32(v.x), float32(v.y)
 }
