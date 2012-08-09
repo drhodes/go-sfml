@@ -255,10 +255,7 @@ func (self RenderWindow) SetKeyRepeatEnabled(enabled bool) {
 // \return True if operation was successful, false otherwise
 // sfBool sfRenderWindow_setActive(sfRenderWindow* renderWindow, sfBool active);
 func (self RenderWindow) SetActive(active bool) bool {
-	if active {
-		return C.sfRenderWindow_setActive(self.Cref, C.sfBool(1)) == 1
-	}
-	return C.sfRenderWindow_setActive(self.Cref, C.sfBool(0)) == 1
+	return C.sfRenderWindow_setActive(self.Cref, Bool(active)) == 1
 }
 
 // Display a render window on screen
@@ -430,7 +427,7 @@ func (self RenderWindow) Drawprimitives(vertices *Vertex , vertexCount int , typ
 // function if you do so.
 // \param renderWindow render window object
 // void sfRenderWindow_pushGLStates(sfRenderWindow* renderWindow);
-func (self RenderWindow) PushgGLStates() {
+func (self RenderWindow) PushGLStates() {
 	C.sfRenderWindow_pushGLStates(self.Cref)
 }
 

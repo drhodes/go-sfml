@@ -142,7 +142,7 @@ func (self Image) Size() (uint, uint) {
 // \param sourceRect Sub-rectangle of the source image to copy
 // \param applyAlpha Should the copy take in account the source transparency?
 // void sfImage_copyImage(sfImage* image, const sfImage* source, unsigned int destX, unsigned int destY, sfIntRect sourceRect, sfBool applyAlpha);
-func (self Image) Copyimage(source Image, destX, destY int, sourceRect IntRect, applyAlpha bool) {
+func (self Image) CopyImage(source Image, destX, destY int, sourceRect IntRect, applyAlpha bool) {
 	C.sfImage_copyImage(self.Cref, source.Cref, C.uint(destX), C.uint(destY), *sourceRect.Cref, Bool(applyAlpha))
 }
 
