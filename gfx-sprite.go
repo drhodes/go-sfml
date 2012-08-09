@@ -224,7 +224,7 @@ func (self Sprite) SetColor(color Color) {
 // \param sprite Sprite object
 // \return Pointer to the sprite's texture
 // const sfTexture* sfSprite_getTexture(const sfSprite* sprite);
-func (self *Texture) Texture() Texture {
+func (self Sprite) Texture() Texture {
 	return Texture{C.sfSprite_getTexture(self.Cref)}
 }
 
