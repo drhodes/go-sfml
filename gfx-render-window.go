@@ -86,12 +86,12 @@ func (self RenderWindow) IsOpen() bool {
 // \param renderWindow Render window object
 // \return Settings used to create the window
 // sfContextSettings sfRenderWindow_getSettings(const sfRenderWindow* renderWindow);
-// func (self RenderWindow) GetSettings() ContextSettings { 
-// 	ref := C.sfRenderWindow_getSettings(self.Cref)
-// 	rptr := unsafe.Pointer(&ref)
-// 	rp := (*C.sfContextSettings)(rptr)
-//     return ContextSettings{rp}
-// }
+func (self RenderWindow) Settings() ContextSettings {
+	ref := C.sfRenderWindow_getSettings(self.Cref)
+	rptr := unsafe.Pointer(&ref)
+	rp := (*C.sfContextSettings)(rptr)
+	return ContextSettings{rp}
+}
 
 // Get the event on top of events stack of a render window, if any, and pop it
 // \param renderWindow Render window object
@@ -158,14 +158,13 @@ func (self RenderWindow) WaitEvent(event Event) bool {
 	return C.sfRenderWindow_waitEvent(self.Cref, p) == 1
 }
 
-/*                                  
 // Get the position of a render window
 // \param renderWindow Render window object
 // \return Position in pixels
 // sfVector2i sfRenderWindow_getPosition(const sfRenderWindow* renderWindow);
-
-func (self RenderWindow) Getposition() Vector2i { 
-    return C.sfRenderWindow_getPosition(self.Cref);
+func (self RenderWindow) Position() (int, int) {
+	v := Vector2i{C.sfRenderWindow_getPosition(self.Cref)}
+	return v.X(), v.Y()
 }
 
 // Change the position of a render window on screen
@@ -173,16 +172,16 @@ func (self RenderWindow) Getposition() Vector2i {
 // \param renderWindow Render window object
 // \param position     New position, in pixels
 // void sfRenderWindow_setPosition(sfRenderWindow* renderWindow, sfVector2i position);
-
-func (self RenderWindow) Setposition(position Vector2i) void { 
-    return C.sfRenderWindow_setPosition(self.Cref, sfVector2i(position));
+func (self RenderWindow) SetPosition(x, y int) {
+	v := NewVector2i(x, y)
+	C.sfRenderWindow_setPosition(self.Cref, v.Cref)
 }
-*/
+
 // Get the size of the rendering region of a render window
 // \param renderWindow Render window object
 // \return Size in pixels
 // sfVector2u sfRenderWindow_getSize(const sfRenderWindow* renderWindow);
-func (self RenderWindow) GetSize() (x, y uint) {
+func (self RenderWindow) Size() (x, y uint) {
 	v := C.sfRenderWindow_getSize(self.Cref)
 	return uint(v.x), uint(v.y)
 }
@@ -195,51 +194,48 @@ func (self RenderWindow) SetSize(x, y uint) {
 	C.sfRenderWindow_setSize(self.Cref, NewVector2u(x, y).Cref)
 }
 
-/*            
 // Change the title of a render window
 // \param renderWindow Render window object
 // \param title        New title
 // void sfRenderWindow_setTitle(sfRenderWindow* renderWindow, const char* title);
-
-func (self RenderWindow) Settitle(title *char ) void { 
-    return C.sfRenderWindow_setTitle(self.Cref, sf(*char));
+func (self RenderWindow) SetTitle(title string) {
+	s := C.CString(title)
+	defer C.free(unsafe.Pointer(s))
+	C.sfRenderWindow_setTitle(self.Cref, s)
 }
 
+/*
 // Change a render window's icon
 // \param renderWindow Renderw indow object
 // \param width        Icon's width, in pixels
 // \param height       Icon's height, in pixels
 // \param pixels       Pointer to the pixels in memory, format must be RGBA 32 bits
 // void sfRenderWindow_setIcon(sfRenderWindow* renderWindow, unsigned int width, unsigned int height, const sfUint8* pixels);
-
 func (self RenderWindow) Seticon(width int , height int , pixels *Uint8 ) void { 
     return C.sfRenderWindow_setIcon(self.Cref, sf(int), sf(int), sf(*Uint8));
 }
+*/
 
 // Show or hide a render window
 // \param renderWindow Render window object
 // \param visible      sfTrue to show the window, sfFalse to hide it
 // void sfRenderWindow_setVisible(sfRenderWindow* renderWindow, sfBool visible);
-
-func (self RenderWindow) Setvisible(visible Bool) void { 
-    return C.sfRenderWindow_setVisible(self.Cref, sfBool(visible));
+func (self RenderWindow) SetVisible(visible bool) {
+	C.sfRenderWindow_setVisible(self.Cref, Bool(visible))
 }
 
 // Show or hide the mouse cursor on a render window
 // \param renderWindow Render window object
 // \param show         sfTrue to show, sfFalse to hide
 // void sfRenderWindow_setMouseCursorVisible(sfRenderWindow* renderWindow, sfBool show);
-*/
 func (self RenderWindow) SetMouseCursorVisible(show bool) {
 	C.sfRenderWindow_setMouseCursorVisible(self.Cref, Bool(show))
 }
 
-/*          
 // Enable / disable vertical synchronization on a render window
 // \param renderWindow Render window object
 // \param enabled      sfTrue to enable v-sync, sfFalse to deactivate
 // void sfRenderWindow_setVerticalSyncEnabled(sfRenderWindow* renderWindow, sfBool enabled);
-*/
 func (self RenderWindow) SetVerticalSyncEnabled(enabled bool) {
 	C.sfRenderWindow_setVerticalSyncEnabled(self.Cref, Bool(enabled))
 }
@@ -253,16 +249,11 @@ func (self RenderWindow) SetKeyRepeatEnabled(enabled bool) {
 	C.sfRenderWindow_setKeyRepeatEnabled(self.Cref, Bool(enabled))
 }
 
-/*          
-
 // Activate or deactivate a render window as the current target for rendering
 // \param renderWindow Render window object
 // \param active       sfTrue to activate, sfFalse to deactivate
 // \return True if operation was successful, false otherwise
 // sfBool sfRenderWindow_setActive(sfRenderWindow* renderWindow, sfBool active);
-
-*/
-
 func (self RenderWindow) SetActive(active bool) bool {
 	if active {
 		return C.sfRenderWindow_setActive(self.Cref, C.sfBool(1)) == 1
@@ -285,21 +276,19 @@ func (self RenderWindow) SetFramerateLimit(limit uint) {
 	C.sfRenderWindow_setFramerateLimit(self.Cref, C.uint(limit))
 }
 
-/*            
 // Change the joystick threshold, ie. the value below which no move event will be generated
 // \param renderWindow Render window object
 // \param threshold    New threshold, in range [0, 100]
 // void sfRenderWindow_setJoystickThreshold(sfRenderWindow* renderWindow, float threshold);
-
-func (self RenderWindow) Setjoystickthreshold(threshold float) void { 
-    return C.sfRenderWindow_setJoystickThreshold(self.Cref, sfFloat(threshold));
+func (self RenderWindow) SetJoystickThreshold(threshold float32) {
+	C.sfRenderWindow_setJoystickThreshold(self.Cref, C.float(threshold))
 }
 
+/*
 // Retrieve the OS-specific handle of a render window
 // \param renderWindow Render window object
 // \return Window handle
 // sfWindowHandle sfRenderWindow_getSystemHandle(const sfRenderWindow* renderWindow);
-
 func (self RenderWindow) Getsystemhandle() WindowHandle { 
     return C.sfRenderWindow_getSystemHandle(self.Cref);
 }
@@ -380,20 +369,19 @@ func (self RenderWindow) DrawTextDefault(obj Text) {
 }
 
 /*            
-
-
 // void sfRenderWindow_drawShape(sfRenderWindow* renderWindow, const sfShape* object, const sfRenderStates* states);
 
 func (self RenderWindow) Drawshape(object *Shape , states *RenderStates ) void { 
     return C.sfRenderWindow_drawShape(self.Cref, sf(*Shape), sf(*RenderStates));
 }
+*/
 
 // void sfRenderWindow_drawCircleShape(sfRenderWindow* renderWindow, const sfCircleShape* object, const sfRenderStates* states);
-
-func (self RenderWindow) Drawcircleshape(object *CircleShape , states *RenderStates ) void { 
-    return C.sfRenderWindow_drawCircleShape(self.Cref, sf(*CircleShape), sf(*RenderStates));
+func (self RenderWindow) DrawCircleShapeDefault(obj CircleShape) {
+	C.sfRenderWindow_drawCircleShape(self.Cref, obj.Cref, nil)
 }
 
+/*
 // void sfRenderWindow_drawConvexShape(sfRenderWindow* renderWindow, const sfConvexShape* object, const sfRenderStates* states);
 
 func (self RenderWindow) Drawconvexshape(object *ConvexShape , states *RenderStates ) void { 
@@ -423,6 +411,7 @@ func (self RenderWindow) Drawvertexarray(object *VertexArray , states *RenderSta
 func (self RenderWindow) Drawprimitives(vertices *Vertex , vertexCount int , type PrimitiveType, states *RenderStates ) void { 
     return C.sfRenderWindow_drawPrimitives(self.Cref, sf(*Vertex), sf(int), sfPrimitivetype(type), sf(*RenderStates));
 }
+*/
 
 // Save the current OpenGL render states and matrices
 // This function can be used when you mix SFML drawing
@@ -440,9 +429,8 @@ func (self RenderWindow) Drawprimitives(vertices *Vertex , vertexCount int , typ
 // function if you do so.
 // \param renderWindow render window object
 // void sfRenderWindow_pushGLStates(sfRenderWindow* renderWindow);
-
-func (self RenderWindow) Pushglstates() void { 
-    return C.sfRenderWindow_pushGLStates(self.Cref);
+func (self RenderWindow) PushgGLStates() {
+	C.sfRenderWindow_pushGLStates(self.Cref)
 }
 
 // Restore the previously saved OpenGL render states and matrices
@@ -450,9 +438,8 @@ func (self RenderWindow) Pushglstates() void {
 // description of these functions.
 // \param renderWindow render window object
 // void sfRenderWindow_popGLStates(sfRenderWindow* renderWindow);
-
-func (self RenderWindow) Popglstates() void { 
-    return C.sfRenderWindow_popGLStates(self.Cref);
+func (self RenderWindow) PopGLStates() {
+	C.sfRenderWindow_popGLStates(self.Cref)
 }
 
 // Reset the internal OpenGL states so that the target is ready for drawing
@@ -463,9 +450,8 @@ func (self RenderWindow) Popglstates() void {
 // calls will work as expected.
 // \param renderWindow render window object
 // void sfRenderWindow_resetGLStates(sfRenderWindow* renderWindow);
-
-func (self RenderWindow) Resetglstates() void { 
-    return C.sfRenderWindow_resetGLStates(self.Cref);
+func (self RenderWindow) ResetGLStates() {
+	C.sfRenderWindow_resetGLStates(self.Cref)
 }
 
 // Copy the current contents of a render window to an image
@@ -479,9 +465,6 @@ func (self RenderWindow) Resetglstates() void {
 // \param renderWindow Render window object
 // \return New image containing the captured contents
 // sfImage* sfRenderWindow_capture(const sfRenderWindow* renderWindow);
-
-func (self RenderWindow) Capture() *Image { 
-    return C.sfRenderWindow_capture(self.Cref);
+func (self RenderWindow) Capture() Image {
+	return Image{C.sfRenderWindow_capture(self.Cref)}
 }
-
-*/

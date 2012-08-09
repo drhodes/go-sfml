@@ -35,7 +35,7 @@ func NewTexture(w, h int) Texture {
 // \return A new sfTexture object, or NULL if it failed
 // sfTexture* sfTexture_createFromFile(const char* filename, const sfIntRect* area);
 func TextureFromFile(fname string, area IntRect) (Texture, error) {
-	tex := C.sfTexture_createFromFile(C.CString(fname), area.Cref);
+	tex := C.sfTexture_createFromFile(C.CString(fname), area.Cref)
 	if tex == nil {
 		return Texture{nil}, errors.New("Couldn't create texture from file: " + fname)
 	}
@@ -96,7 +96,7 @@ func (self Texture) Copy() Texture {
 // \param texture Texture to delete
 // void sfTexture_destroy(sfTexture* texture);
 func (self Texture) Destroy() {
-	C.sfTexture_destroy(self.Cref);
+	C.sfTexture_destroy(self.Cref)
 }
 
 // \brief Return the size of the texture
@@ -124,7 +124,7 @@ func (self Texture) CopyToImage() Image {
 // \param x       X offset in the texture where to copy the source pixels
 // \param y       Y offset in the texture where to copy the source pixels
 // void sfTexture_updateFromPixels(sfTexture* texture, const sfUint8* pixels, unsigned int width, unsigned int height, unsigned int x, unsigned int y);
-func (self Texture) UpdateFromPixels(pixels []uint8, w, h, x, y int ) { 
+func (self Texture) UpdateFromPixels(pixels []uint8, w, h, x, y int) {
 	ptr := unsafe.Pointer(&pixels[0])
 	p := (*C.sfUint8)(ptr)
 	C.sfTexture_updateFromPixels(self.Cref, p,
@@ -157,36 +157,31 @@ func (self Texture) UpdateFromWindow(w Window, x, y uint) {
 // \param x            X offset in the texture where to copy the source pixels
 // \param y            Y offset in the texture where to copy the source pixels
 // void sfTexture_updateFromRenderWindow(sfTexture* texture, const sfRenderWindow* renderWindow, unsigned int x, unsigned int y);
-// func (self Texture) UpdateFromRenderWindow(renderWindow *RenderWindow , x int , y int ) void { 
-//     return C.sfTexture_updateFromRenderWindow(self.Cref, sf(*RenderWindow), sf(int), sf(int));
-// }
-
-/*                           
+func (self Texture) UpdateFromRenderWindow(win RenderWindow, x, y uint) {
+	C.sfTexture_updateFromRenderWindow(self.Cref, win.Cref, C.uint(x), C.uint(y))
+}
 
 // \brief Activate a texture for rendering
 // \param texture Texture to bind
 // void sfTexture_bind(const sfTexture* texture);
-
-func (self Texture) Bind() void {
-	return C.sfTexture_bind(self.Cref);
+func (self Texture) Bind() {
+	C.sfTexture_bind(self.Cref)
 }
 
 // \brief Enable or disable the smooth filter on a texture
 // \param texture The texture object
 // \param smooth  sfTrue to enable smoothing, sfFalse to disable it
 // void sfTexture_setSmooth(sfTexture* texture, sfBool smooth);
-
-func (self Texture) Setsmooth(smooth Bool) void {
-	return C.sfTexture_setSmooth(self.Cref, sfBool(smooth));
+func (self Texture) SetSmooth(smooth bool) {
+	C.sfTexture_setSmooth(self.Cref, Bool(smooth))
 }
 
 // \brief Tell whether the smooth filter is enabled or not for a texture
 // \param texture The texture object
 // \return sfTrue if smoothing is enabled, sfFalse if it is disabled
 // sfBool sfTexture_isSmooth(const sfTexture* texture);
-
-func (self Texture) Issmooth() Bool {
-	return C.sfTexture_isSmooth(self.Cref);
+func (self Texture) IsSmooth() bool {
+	return C.sfTexture_isSmooth(self.Cref) == 1
 }
 
 // \brief Enable or disable repeating for a texture
@@ -206,26 +201,21 @@ func (self Texture) Issmooth() Bool {
 // \param texture  The texture object
 // \param repeated True to repeat the texture, false to disable repeating
 // void sfTexture_setRepeated(sfTexture* texture, sfBool repeated);
-
-func (self Texture) Setrepeated(repeated Bool) void {
-	return C.sfTexture_setRepeated(self.Cref, sfBool(repeated));
+func (self Texture) SetRepeated(repeated bool) {
+	C.sfTexture_setRepeated(self.Cref, Bool(repeated))
 }
 
 // \brief Tell whether a texture is repeated or not
 // \param texture The texture object
 // \return sfTrue if repeat mode is enabled, sfFalse if it is disabled
 // sfBool sfTexture_isRepeated(const sfTexture* texture);
-
-func (self Texture) Isrepeated() Bool {
-	return C.sfTexture_isRepeated(self.Cref);
+func (self Texture) IsRepeated() bool {
+	return C.sfTexture_isRepeated(self.Cref) == 1
 }
 
 // \brief Get the maximum texture size allowed
 // \return Maximum size allowed for textures, in pixels
 // unsigned int sfTexture_getMaximumSize();
-
-func (self int) int(Texture_getMaximumSize)  {
-	return C.sfint(self.Cref);
+func TextureMaximumSize() uint {
+	return uint(C.sfTexture_getMaximumSize())
 }
-
-*/

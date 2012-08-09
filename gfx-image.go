@@ -51,13 +51,13 @@ func ImageFromColor(width, height uint, color Color) Image {
 // \param pixels Array of pixels to copy to the image
 // \return A new sfImage object
 // sfImage* sfImage_createFromPixels(unsigned int width, unsigned int height, const sfUint8* pixels);
-func (self Image) ImageFromPixels(width, height uint, pixels []uint8) Image { 
+func (self Image) ImageFromPixels(width, height uint, pixels []uint8) Image {
 	ptr := unsafe.Pointer(&pixels[0])
 	p := (*C.sfUint8)(ptr)
-    cimg := C.sfImage_createFromPixels(C.uint(width), C.uint(height), p)
+	cimg := C.sfImage_createFromPixels(C.uint(width), C.uint(height), p)
 	return Image{cimg}
 }
-            
+
 // Create an image from a file on disk
 // The supported image formats are bmp, png, tga, jpg, gif,
 // psd, hdr and pic. Some format options are not supported,
@@ -85,7 +85,7 @@ func (self Image) Copy() Image {
 //  Destroy an existing image
 // \param image Image to delete
 // void sfImage_destroy(sfImage* image);
-func (self Image) Destroy() { 
+func (self Image) Destroy() {
 	C.sfImage_destroy(self.Cref)
 }
 
@@ -108,7 +108,7 @@ func (self Image) Savetofile(filename string) bool {
 // \param image Image object
 // \return Size in pixels
 // sfVector2u sfImage_getSize(const sfImage* image);
-func (self Image) Size() (uint, uint) { 
+func (self Image) Size() (uint, uint) {
 	vec := C.sfImage_getSize(self.Cref)
 	return uint(vec.x), uint(vec.y)
 }
