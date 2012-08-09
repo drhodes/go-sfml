@@ -387,13 +387,14 @@ func (self RenderWindow) DrawCircleShapeDefault(obj CircleShape) {
 func (self RenderWindow) Drawconvexshape(object *ConvexShape , states *RenderStates ) void { 
     return C.sfRenderWindow_drawConvexShape(self.Cref, sf(*ConvexShape), sf(*RenderStates));
 }
+*/
 
 // void sfRenderWindow_drawRectangleShape(sfRenderWindow* renderWindow, const sfRectangleShape* object, const sfRenderStates* states);
-
-func (self RenderWindow) Drawrectangleshape(object *RectangleShape , states *RenderStates ) void { 
-    return C.sfRenderWindow_drawRectangleShape(self.Cref, sf(*RectangleShape), sf(*RenderStates));
+func (self RenderWindow) DrawRectangleShapeDefault(obj RectangleShape) {
+	C.sfRenderWindow_drawRectangleShape(self.Cref, obj.Cref, nil)
 }
 
+/*
 // void sfRenderWindow_drawVertexArray(sfRenderWindow* renderWindow, const sfVertexArray* object, const sfRenderStates* states);
 
 func (self RenderWindow) Drawvertexarray(object *VertexArray , states *RenderStates ) void { 
