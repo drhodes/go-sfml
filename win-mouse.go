@@ -9,12 +9,12 @@ import "C"
 type MouseButton uint
 
 const (
-	sfMouseLeft        = iota // The left mouse button
-	sfMouseRight              // The right mouse button
-	sfMouseMiddle             // The middle (wheel) mouse button
-	sfMouseXButton1           // The first extra mouse button
-	sfMouseXButton2           // The second extra mouse button
-	sfMouseButtonCount        // Keep last -- the total number of mouse buttons 
+	MouseLeft        = iota // The left mouse button
+	MouseRight              // The right mouse button
+	MouseMiddle             // The middle (wheel) mouse button
+	MouseXButton1           // The first extra mouse button
+	MouseXButton2           // The second extra mouse button
+	MouseButtonCount        // Keep last -- the total number of mouse buttons
 )
 
 // Mouse buttons
