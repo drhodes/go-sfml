@@ -32,11 +32,9 @@ func (self MouseButton) IsButtonPressed() bool {
 // \param relativeTo Reference window
 // \return Position of the mouse cursor, relative to the given window
 // sfVector2i sfMouse_getPosition(const sfWindow* relativeTo);
-func (self MouseButton) Position(win Window) Vector2i {
-	cv2 := C.sfMouse_getPosition(win.Cref)
-	x := int(cv2.x)
-	y := int(cv2.y)
-	return NewVector2i(x, y)
+func MousePosition(win Window) (int, int) {
+	v := Vector2i{C.sfMouse_getPosition(win.Cref)}
+	return v.X(), v.Y()
 }
 
 // Set the current position of the mouse
@@ -45,11 +43,7 @@ func (self MouseButton) Position(win Window) Vector2i {
 // \param position   New position of the mouse
 // \param relativeTo Reference window
 // void sfMouse_setPosition(sfVector2i position, const sfWindow* relativeTo);
-func (self MouseButton) SetPosition(pos Vector2i, win Window) {
-	// TODO: this is really inefficient. figure out how to fix it
-	// later these constant factors are going to add up in 
-	// The issue is that 
-	x := pos.X()
-	y := pos.Y()
-	C.sfMouse_setPosition(C.sfVector2i{C.int(x), C.int(y)}, win.Cref)
+func SetMousePosition(x, y int, win Window) {
+	v := NewVector2i(x, y)
+	C.sfMouse_setPosition(v.Cref, win.Cref)
 }
