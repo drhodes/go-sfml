@@ -22,7 +22,7 @@ func main() {
 	}
 	sprite.SetTexture(texture, false)
 
-	font, err := sfml.FontFromFile("Inconsolata.otf")
+	font, err := sfml.FontFromFile("font.ttf")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -31,7 +31,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	text.SetString("Hello Go-SFML")
+	text.SetUnicodeString("Hello Go-SFML ☻")
 	text.SetFont(font)
 	text.SetCharacterSize(50)
 
@@ -50,4 +50,3 @@ func main() {
 		window.Display()
 	}
 }
-
