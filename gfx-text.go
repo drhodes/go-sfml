@@ -207,13 +207,15 @@ func (self Text) SetUnicodeString(s string) {
 	conversion */
 	bs := []byte(s)
 	n := utf8.RuneCount(bs)
-	runes := make([]rune, n)
+	runes := make([]rune, n+1)
 	var size int
+	i := 0
 	j := 0
-	for i := 0; i < n; i += 1 {
+	for ; i < n; i += 1 {
 		runes[i], size = utf8.DecodeRune(bs[j:])
 		j += size
 	}
+	runes[i] = 0 /* don't forget the null terminator */
 	C.sfText_setUnicodeString(self.Cref, (*C.sfUint32)(unsafe.Pointer(&runes[0])))
 }
 
