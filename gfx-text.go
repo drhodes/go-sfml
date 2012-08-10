@@ -27,6 +27,8 @@ import "C"
 import (
 	"errors"
 	"unsafe"
+	"unicode/utf8"
+	"fmt"
 )
 
 type Text struct {
@@ -203,17 +205,24 @@ func (self Text) SetString(s string) {
 	C.sfText_setString(self.Cref, C.CString(s))
 }
 
-// TODO: After setting an unicode string, the string returned by
-// text.UnicodeString seems to be the good one, but the string is not
-// correctly drawn on the screen
-
 // Set the string of a text (from a unicode string)
 // \param text   Text object
 // \param string New string
 // void sfText_setUnicodeString(sfText* text, const sfUint32* string);
 func (self Text) SetUnicodeString(s string) {
+	/* Go string are encoded in UTF-8, whereas SFML unicode
+	strings are encoded in UTF-32, so we have to make the
+	conversion */
 	bs := []byte(s)
-	C.sfText_setUnicodeString(self.Cref, (*C.sfUint32)(unsafe.Pointer(&bs[0])))
+	n := utf8.RuneCount(bs)
+	runes := make([]rune, n)
+	var size int
+	j := 0
+	for i := 0; i < n; i += 1 {
+		runes[i], size = utf8.DecodeRune(bs[j:])
+		j += size
+	}
+	C.sfText_setUnicodeString(self.Cref, (*C.sfUint32)(unsafe.Pointer(&runes[0])))
 }
 
 // Set the font of a text
