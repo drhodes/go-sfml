@@ -8,9 +8,26 @@ package sfml
 // #include <SFML/Graphics/Types.h>
 // #include <SFML/System/Vector2.h>
 // #include <stddef.h>
+// #include <stdio.h>
+// extern int _UnicodeStringSize(sfUint32 *s) {
+//   int i = 0;
+//   for (i = 0; ; i++) {
+//     if ((s[i] & 0xFF000000) == 0)
+//       return i*4 + 1;
+//     if ((s[i] & 0x00FF0000) == 0)
+//       return i*4 + 2;
+//     if ((s[i] & 0x0000FF00) == 0)
+//       return i*4 + 3;
+//     if ((s[i] & 0x000000FF) == 0)
+//       return i*4 + 4;
+//   }
+// }
 import "C"
 
-import"errors"
+import (
+	"errors"
+	"unsafe"
+)
 
 type Text struct {
 	Cref *C.sfText
@@ -186,8 +203,10 @@ func (self Text) SetString(s string) {
 	C.sfText_setString(self.Cref, C.CString(s))
 }
 
-/*
-// TODO: unicode string related functions don't work
+// TODO: After setting an unicode string, the string returned by
+// text.UnicodeString seems to be the good one, but the string is not
+// correctly drawn on the screen
+
 // Set the string of a text (from a unicode string)
 // \param text   Text object
 // \param string New string
@@ -196,7 +215,6 @@ func (self Text) SetUnicodeString(s string) {
 	bs := []byte(s)
 	C.sfText_setUnicodeString(self.Cref, (*C.sfUint32)(unsafe.Pointer(&bs[0])))
 }
-*/
 
 // Set the font of a text
 // The \a font argument refers to a texture that must
@@ -251,15 +269,16 @@ func (self Text) String() string {
 	return C.GoString(C.sfText_getString(self.Cref))
 }
 
-/*
 // Get the string of a text (returns a unicode string)
 // \param text Text object
 // \return String as UTF-32
 // const sfUint32* sfText_getUnicodeString(const sfText* text);
-func (self *Uint32) *Uint32(Text_getUnicodeString) {
-    return C.sf*Uint32(self.Cref, sfColor(color));
+func (self Text) UnicodeString() string {
+	s := C.sfText_getUnicodeString(self.Cref)
+	length := C._UnicodeStringSize(s)
+	b := C.GoBytes(unsafe.Pointer(s), length)
+	return string(b)
 }
-*/
 
 // Get the font used by a text
 // \param text Text object
