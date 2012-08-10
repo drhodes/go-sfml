@@ -466,3 +466,8 @@ func (self RenderWindow) ResetGLStates() {
 func (self RenderWindow) Capture() Image {
 	return Image{C.sfRenderWindow_capture(self.Cref)}
 }
+
+func (self RenderWindow) ToWindow() Window {
+	ref := unsafe.Pointer(self.Cref)
+	return Window{(CWindow) (ref)}
+}
