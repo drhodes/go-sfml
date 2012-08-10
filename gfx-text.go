@@ -11,16 +11,9 @@ package sfml
 // #include <stdio.h>
 // extern int _UnicodeStringSize(sfUint32 *s) {
 //   int i = 0;
-//   for (i = 0; ; i++) {
-//     if ((s[i] & 0xFF000000) == 0)
-//       return i*4 + 1;
-//     if ((s[i] & 0x00FF0000) == 0)
-//       return i*4 + 2;
-//     if ((s[i] & 0x0000FF00) == 0)
-//       return i*4 + 3;
-//     if ((s[i] & 0x000000FF) == 0)
-//       return i*4 + 4;
-//   }
+//   for (i = 0; s[i] != 0; i++)
+//     ;
+//   return i;
 // }
 import "C"
 
@@ -28,7 +21,6 @@ import (
 	"errors"
 	"unsafe"
 	"unicode/utf8"
-	"fmt"
 )
 
 type Text struct {
@@ -283,10 +275,17 @@ func (self Text) String() string {
 // \return String as UTF-32
 // const sfUint32* sfText_getUnicodeString(const sfText* text);
 func (self Text) UnicodeString() string {
+	/* We have to make the inverse conversion from UTF-32 to UTF-8 */
 	s := C.sfText_getUnicodeString(self.Cref)
 	length := C._UnicodeStringSize(s)
-	b := C.GoBytes(unsafe.Pointer(s), length)
-	return string(b)
+	b := C.GoBytes(unsafe.Pointer(s), length*4)
+	buf := make([]byte, length*4)
+	for i := 0; i < len(b); i += 4 {
+		n := uint(b[i]) + uint(b[i+1]) << 8 + uint(b[i+2]) << 16 + uint(b[i+3]) << 24
+		utf8.EncodeRune(buf[i:], rune(n))
+	}
+		
+	return string(buf)
 }
 
 // Get the font used by a text
