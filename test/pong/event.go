@@ -1,26 +1,25 @@
 package main
 
-import (	
-	//"sfml/win"
+import (
+	"github.com/drhodes/go-sfml"
 	"log"
 )
 
-func KeyHandler(ke win.KeyEvent) {
+func KeyHandler(ke sfml.KeyEvent) {
 	switch ke.Type {
-	case win.EvtKeyPressed:
-		if win.IsKeyPressed(win.KeyEscape) {
+	case sfml.EvtKeyPressed:
+		if sfml.IsKeyPressed(sfml.KeyEscape) {
 			log.Fatal("Quit.")
 		}
-		if win.IsKeyPressed(win.KeyQ) {
+		if sfml.IsKeyPressed(sfml.KeyQ) {
 			log.Fatal("Quit.")
 		}
 
-	case win.EvtKeyReleased:
+	case sfml.EvtKeyReleased:
 		//log.Println("Key Released: ", ke)
 	}
 }
 
-func MouseHandle(ke win.MouseMoveEvent, p *Paddle) {
+func MouseHandle(ke sfml.MouseMoveEvent, p *Paddle) {
 	p.update(float32(ke.X()))
 }
-

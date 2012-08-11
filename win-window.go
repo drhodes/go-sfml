@@ -8,12 +8,12 @@ package sfml
 // #include <SFML/Window/WindowHandle.h>
 // #include <SFML/Window/Types.h>
 // #include <SFML/System/Vector2.h>
+// #include <stdlib.h>
 import "C"
 
 import (
-	"unsafe"
 	"errors"
-	//"log"
+	"unsafe"
 )
 
 // Enumeration of window creation styles
@@ -61,18 +61,18 @@ type Window struct {
 // return A new Window.
 // sfWindow* sfWindow_create(sfVideoMode mode, const char* title,
 // sfUint32 style, const sfContextSettings* settings);
-func NewWindow(mode VideoMode, title string,
-	style int32, settings ContextSettings) (*Window, error) {
+func NewWindow(mode VideoMode, title string, style int32, settings ContextSettings) (Window, error) {
+	t := C.CString(title)
+	defer C.free(unsafe.Pointer(t))
 	if mode.Nil() {
-		return nil, errors.New("NewWindow cant take mode with nil Cref")
+		return Window{nil}, errors.New("NewWindow can't take mode with nil Cref")
 	}
 
-	return &Window{C.sfWindow_create(
-		*mode.Cref,
-		C.CString(title),
-		C.sfUint32(style),
-		settings.Cref,
-	)}, nil
+	win := C.sfWindow_create(*mode.Cref, t, C.sfUint32(style), settings.Cref)
+	if win == nil {
+		return Window{nil}, errors.New("Couldn't make a new window")
+	}
+	return Window{win}, nil
 }
 
 // Construct a window from an existing control
@@ -127,7 +127,7 @@ func (self Window) IsOpen() bool {
 // \param window Window object
 // \return Structure containing the OpenGL context settings
 // sfContextSettings sfWindow_getSettings(const sfWindow* window);
-func (self Window) GetSettings() ContextSettings {
+func (self Window) Settings() ContextSettings {
 	sets := C.sfWindow_getSettings(self.Cref)
 	return ContextSettings{&sets}
 }
@@ -142,10 +142,6 @@ func (self Window) GetSettings() ContextSettings {
 // in: event  Event to be returned
 // returns true if an event was returned, or false if the events stack was empty
 // sfBool sfWindow_pollEvent(sfWindow* window, sfEvent* event);
-func foo(x interface{}) interface{} {
-	return x
-}
-
 func (self Window) PollEvent() (interface{}, bool) {
 	// ok if got event.	
 	e := NewEvent()
@@ -154,20 +150,20 @@ func (self Window) PollEvent() (interface{}, bool) {
 		// look at the first byte, it's the event type
 		et := EventType((*e.Cref)[0])
 		switch et {
-		case EvtClosed:			
+		case EvtClosed:
 		case EvtResized:
 		case EvtLostFocus:
-		case EvtGainedFocus:			
+		case EvtGainedFocus:
 		case EvtTextEntered:
 			return e.ToTextEvent(), true
 		case EvtKeyPressed, EvtKeyReleased:
-			return e.ToKeyEvent(), true		
+			return e.ToKeyEvent(), true
 		case EvtMouseWheelMoved:
 			return e.ToMouseWheelEvent(), true
 		case EvtMouseButtonPressed, EvtMouseButtonReleased:
-			return e.ToMouseButtonEvent(), true		
+			return e.ToMouseButtonEvent(), true
 		case EvtMouseMoved, EvtMouseEntered, EvtMouseLeft:
-			return e.ToMouseMoveEvent(), true	
+			return e.ToMouseMoveEvent(), true
 		case EvtJoystickButtonPressed, EvtJoystickButtonReleased, EvtJoystickMoved:
 			return e.ToJoystickMoveEvent(), true
 		case EvtJoystickConnected:
@@ -175,7 +171,7 @@ func (self Window) PollEvent() (interface{}, bool) {
 			return e.ToJoystickConnectEvent(), true
 		case EvtNone:
 			return NullEvent(0), false
-		}		
+		}
 	}
 	return NullEvent(0), false
 }
@@ -201,7 +197,7 @@ func (self Window) PollEvent() (interface{}, bool) {
 // \return (x, y)
 // sfVector2i sfWindow_getPosition(const sfWindow* window);
 // TODO evalutate which is better [ multiple return | vector type ]
-func (self Window) GetPosition() (x, y int) {
+func (self Window) Position() (x, y int) {
 	pos := C.sfWindow_getPosition(self.Cref)
 	return int(pos.x), int(pos.y)
 }
@@ -216,7 +212,7 @@ func (self Window) GetPosition() (x, y int) {
 // TODO evalutate which is better [ multiple return | vector type ]
 func (self Window) SetPosition(x, y int) {
 	v := C.sfVector2i{C.int(x), C.int(y)}
-	C.sfWindow_setPosition(self.Cref, v);
+	C.sfWindow_setPosition(self.Cref, v)
 }
 
 // Get the size of the rendering region of a window
@@ -225,8 +221,8 @@ func (self Window) SetPosition(x, y int) {
 // \param window Window object
 // \return Size in pixels
 // sfVector2u sfWindow_getSize(const sfWindow* window);
-func (self Window) Getsize() (x, y uint) {
-	pos := C.sfWindow_getSize(self.Cref);
+func (self Window) Size() (x, y uint) {
+	pos := C.sfWindow_getSize(self.Cref)
 	return uint(pos.x), uint(pos.y)
 }
 
@@ -235,16 +231,17 @@ func (self Window) Getsize() (x, y uint) {
 // \param window Window object
 // \param size   New size, in pixels
 // void sfWindow_setSize(sfWindow* window, sfVector2u size);
-// func (self Window) SetSize(x, y uint) {	
-//  	C.sfWindow_setSize(self.Cref, size.Cref)
-// }
+func (self Window) SetSize(x, y uint) {
+	size := NewVector2u(x, y)
+	C.sfWindow_setSize(self.Cref, size.Cref)
+}
 
 // Change the title of a window
 // \param window Window object
 // \param title  New title
 // void sfWindow_setTitle(sfWindow* window, const char* title);
 func (self Window) SetTitle(title string) {
-	C.sfWindow_setTitle(self.Cref, C.CString(title));
+	C.sfWindow_setTitle(self.Cref, C.CString(title))
 }
 
 // Change a window's icon
@@ -255,10 +252,10 @@ func (self Window) SetTitle(title string) {
 // \param height Icon's height, in pixels
 // \param pixels Pointer to the array of pixels in memory
 // void sfWindow_setIcon(sfWindow* window, unsigned int width, unsigned int height, const sfUint8* pixels);
-func (self Window) Seticon(width, height int, pixels []uint8) {
+func (self Window) SetIcon(width, height int, pixels []uint8) {
 	ptr := unsafe.Pointer(&pixels[0])
 	p := (*C.sfUint8)(ptr)
-	C.sfWindow_setIcon(self.Cref, C.uint(width), C.uint(height), p);
+	C.sfWindow_setIcon(self.Cref, C.uint(width), C.uint(height), p)
 }
 
 // Show or hide a window
@@ -267,9 +264,9 @@ func (self Window) Seticon(width, height int, pixels []uint8) {
 // void sfWindow_setVisible(sfWindow* window, sfBool visible);
 func (self Window) SetVisible(visible bool) {
 	if visible {
-		C.sfWindow_setVisible(self.Cref, C.sfBool(1));
+		C.sfWindow_setVisible(self.Cref, C.sfBool(1))
 	} else {
-		C.sfWindow_setVisible(self.Cref, C.sfBool(0));
+		C.sfWindow_setVisible(self.Cref, C.sfBool(0))
 	}
 }
 
@@ -297,7 +294,7 @@ func (self Window) SetVerticalSyncEnabled(enabled bool) {
 	if enabled {
 		C.sfWindow_setVerticalSyncEnabled(self.Cref, C.sfBool(1))
 	} else {
-		C.sfWindow_setVerticalSyncEnabled(self.Cref, C.sfBool(1))
+		C.sfWindow_setVerticalSyncEnabled(self.Cref, C.sfBool(0))
 	}
 }
 
@@ -328,7 +325,7 @@ func (self Window) SetKeyRepeatEnabled(enabled bool) {
 // \param active sfTrue to activate, sfFalse to deactivate
 // \return sfTrue if operation was successful, sfFalse otherwise
 // sfBool sfWindow_setActive(sfWindow* window, sfBool active);
-func (self Window) Setactive(active bool) bool {
+func (self Window) SetActive(active bool) bool {
 	if active {
 		return C.sfWindow_setActive(self.Cref, C.sfBool(1)) == 1
 	}

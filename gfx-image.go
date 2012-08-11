@@ -9,12 +9,13 @@ package sfml
 // #include <SFML/System/InputStream.h>
 // #include <SFML/System/Vector2.h>
 // #include <stddef.h>
+// #include <stdlib.h>
 import "C"
 
 import (
-	"unsafe"
 	"errors"
-	)
+	"unsafe"
+)
 
 type Image struct {
 	Cref *C.sfImage
@@ -26,10 +27,10 @@ type Image struct {
 // height Height of the image
 // return A new Image object
 // sfImage* sfImage_create(unsigned int width, unsigned int height);
-func NewImage(width, height uint) Image { 
-    return Image{C.sfImage_create(C.uint(width), C.uint(height))}
+func NewImage(width, height uint) Image {
+	return Image{C.sfImage_create(C.uint(width), C.uint(height))}
 }
-          
+
 // Create an image and fill it with a unique color
 // width  Width of the image
 // height Height of the image
@@ -37,9 +38,9 @@ func NewImage(width, height uint) Image {
 // return A new sfImage object
 // sfImage* sfImage_createFromColor(unsigned int width, unsigned int height, sfColor color);
 func ImageFromColor(width, height uint, color Color) Image {
-    return Image{C.sfImage_createFromColor(C.uint(width), C.uint(height), color.Cref)};
+	return Image{C.sfImage_createFromColor(C.uint(width), C.uint(height), color.Cref)}
 }
-            
+
 // Create an image from an array of pixels
 // The \a pixel array is assumed to contain 32-bits RGBA pixels,
 // and have the given \a width and \a height. If not, this is
@@ -50,13 +51,13 @@ func ImageFromColor(width, height uint, color Color) Image {
 // \param pixels Array of pixels to copy to the image
 // \return A new sfImage object
 // sfImage* sfImage_createFromPixels(unsigned int width, unsigned int height, const sfUint8* pixels);
-func (self Image) ImageFromPixels(width, height uint, pixels []uint8) Image { 
+func (self Image) ImageFromPixels(width, height uint, pixels []uint8) Image {
 	ptr := unsafe.Pointer(&pixels[0])
 	p := (*C.sfUint8)(ptr)
-    cimg := C.sfImage_createFromPixels(C.uint(width), C.uint(height), p)
+	cimg := C.sfImage_createFromPixels(C.uint(width), C.uint(height), p)
 	return Image{cimg}
 }
-            
+
 // Create an image from a file on disk
 // The supported image formats are bmp, png, tga, jpg, gif,
 // psd, hdr and pic. Some format options are not supported,
@@ -65,32 +66,29 @@ func (self Image) ImageFromPixels(width, height uint, pixels []uint8) Image {
 // \param filename Path of the image file to load
 // \return A new sfImage object, or NULL if it failed
 // sfImage* sfImage_createFromFile(const char* filename);
-func ImageFromFile(fname string) (Image, error) { 
-    cimg := C.sfImage_createFromFile(C.CString(fname))
+func ImageFromFile(fname string) (Image, error) {
+	cimg := C.sfImage_createFromFile(C.CString(fname))
 	if cimg == nil {
 		return Image{nil}, errors.New("Error loading image")
 	}
 	return Image{cimg}, nil
 }
-            
-            
+
 //  Copy an existing image
 // \param image Image to copy
 // \return Copied object
 // sfImage* sfImage_copy(sfImage* image);
+func (self Image) Copy() Image {
+	return Image{C.sfImage_copy(self.Cref)}
+}
 
-// func (self Image) Copy() *Image { 
-//     return C.sfImage_copy();
-// }
-            
 //  Destroy an existing image
 // \param image Image to delete
 // void sfImage_destroy(sfImage* image);
+func (self Image) Destroy() {
+	C.sfImage_destroy(self.Cref)
+}
 
-// func (self Image) Destroy() void { 
-//     return C.sfImage_destroy();
-// }
-            
 //  Save an image to a file on disk
 // The format of the image is automatically deduced from
 // the extension. The supported image formats are bmp, png,
@@ -100,17 +98,19 @@ func ImageFromFile(fname string) (Image, error) {
 // \param filename Path of the file to save
 // \return sfTrue if saving was successful
 // sfBool sfImage_saveToFile(const sfImage* image, const char* filename);
-
-// func (self Image) Savetofile(filename *char ) Bool { 
-//     return C.sfImage_saveToFile();
-// }
+func (self Image) Savetofile(filename string) bool {
+	s := C.CString(filename)
+	defer C.free(unsafe.Pointer(s))
+	return int(C.sfImage_saveToFile(self.Cref, s)) == 0
+}
 
 // Return the size of an image
 // \param image Image object
 // \return Size in pixels
 // sfVector2u sfImage_getSize(const sfImage* image);
-func (self Image) Getsize() C.sfVector2u { 
-    return C.sfImage_getSize(self.Cref);
+func (self Image) Size() (uint, uint) {
+	vec := C.sfImage_getSize(self.Cref)
+	return uint(vec.x), uint(vec.y)
 }
 
 // TODO: Not working
@@ -122,10 +122,10 @@ func (self Image) Getsize() C.sfVector2u {
 // \param color Color to make transparent
 // \param alpha Alpha value to assign to transparent pixels
 // void sfImage_createMaskFromColor(sfColor color, sfUint8 alpha);
-// func (self Image) Createmaskfromcolor(col Color, alpha uint8) { 
-//     return C.sfImage_createMaskFromColor(col.Cref, C.sfUint8(alpha));
-// }
-            
+//func (self Image) CreateMaskFromColor(col Color, alpha uint8) {
+//	C.sfImage_createMaskFromColor(col.Cref, C.sfUint8(alpha))
+//}
+
 //  Copy pixels from an image onto another
 // This function does a slow pixel copy and should not be
 // used intensively. It can be used to prepare a complex
@@ -142,14 +142,10 @@ func (self Image) Getsize() C.sfVector2u {
 // \param sourceRect Sub-rectangle of the source image to copy
 // \param applyAlpha Should the copy take in account the source transparency?
 // void sfImage_copyImage(sfImage* image, const sfImage* source, unsigned int destX, unsigned int destY, sfIntRect sourceRect, sfBool applyAlpha);
+func (self Image) CopyImage(source Image, destX, destY int, sourceRect IntRect, applyAlpha bool) {
+	C.sfImage_copyImage(self.Cref, source.Cref, C.uint(destX), C.uint(destY), *sourceRect.Cref, Bool(applyAlpha))
+}
 
-// func (self Image) Copyimage(source *Image, destX, destY int, 
-// 	sourceRect IntRect, applyAlpha bool) { 
-//     return C.sfImage_copyImage();
-// }
-
-/*            
-            
 //  Change the color of a pixel in an image
 // This function doesn't check the validity of the pixel
 // coordinates, using out-of-range values will result in
@@ -159,11 +155,10 @@ func (self Image) Getsize() C.sfVector2u {
 // \param y     Y coordinate of pixel to change
 // \param color New color of the pixel
 // void sfImage_setPixel(sfImage* image, unsigned int x, unsigned int y, sfColor color);
-
-func (self Image) Setpixel(x int , y int , color Color) void { 
-    return C.sfImage_setPixel();
+func (self Image) SetPixel(x, y uint, color Color) {
+	C.sfImage_setPixel(self.Cref, C.uint(x), C.uint(y), color.Cref)
 }
-            
+
 //  Get the color of a pixel in an image
 // This function doesn't check the validity of the pixel
 // coordinates, using out-of-range values will result in
@@ -173,11 +168,11 @@ func (self Image) Setpixel(x int , y int , color Color) void {
 // \param y     Y coordinate of pixel to get
 // \return Color of the pixel at coordinates (x, y)
 // sfColor sfImage_getPixel(const sfImage* image, unsigned int x, unsigned int y);
-
-func (self Image) Getpixel(x int , y int ) Color { 
-    return C.sfImage_getPixel();
+func (self Image) Pixel(x, y uint) Color {
+	return Color{C.sfImage_getPixel(self.Cref, C.uint(x), C.uint(y))}
 }
-            
+
+/*            
 //  Get a read-only pointer to the array of pixels of an image
 // The returned value points to an array of RGBA pixels made of
 // 8 bits integers components. The size of the array is
@@ -188,28 +183,26 @@ func (self Image) Getpixel(x int , y int ) Color {
 // \param image Image object
 // \return Read-only pointer to the array of pixels
 // const sfUint8* sfImage_getPixelsPtr(const sfImage* image);
-
 func (self *Uint8) *Uint8(Image_getPixelsPtr)  { 
     return C.sf*Uint8();
 }
-            
+
 */
-            
+
 //  Flip an image horizontally (left <-> right)
 // \param image Image object
 // void sfImage_flipHorizontally(sfImage* image);
-func (self Image) FlipHorizontally() { 
-    C.sfImage_flipHorizontally(self.Cref)
+func (self Image) FlipHorizontally() {
+	C.sfImage_flipHorizontally(self.Cref)
 }
-            
+
 //  Flip an image vertically (top <-> bottom)
 // \param image Image object
 // void sfImage_flipVertically(sfImage* image);
 
-func (self Image) FlipVertically() { 
-    C.sfImage_flipVertically(self.Cref)
+func (self Image) FlipVertically() {
+	C.sfImage_flipVertically(self.Cref)
 }
-
 
 // may or may not implement these
 
@@ -225,7 +218,7 @@ func (self Image) FlipVertically() {
 // func (self Image) Createfrommemory(size size_t) *Image { 
 //     return C.sfImage_createFromMemory();
 // }
-            
+
 //  Create an image from a custom stream
 // The supported image formats are bmp, png, tga, jpg, gif,
 // psd, hdr and pic. Some format options are not supported,
@@ -237,5 +230,3 @@ func (self Image) FlipVertically() {
 // func (self Image) Createfromstream() *Image { 
 //     return C.sfImage_createFromStream();
 // }
-
-

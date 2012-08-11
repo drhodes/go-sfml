@@ -19,12 +19,12 @@ type Sprite struct {
 // Create a new sprite
 // \return A new sfSprite object, or NULL if it failed
 // sfSprite* sfSprite_create(void);
-func NewSprite() (*Sprite, error) {
+func NewSprite() (Sprite, error) {
 	spr := C.sfSprite_create()
 	if spr == nil {
-		return nil, errors.New("Couldn't make a sprite")
+		return Sprite{nil}, errors.New("Couldn't make a sprite")
 	}
-	return &Sprite{spr}, nil
+	return Sprite{spr}, nil
 }
 
 // Copy an existing sprite
@@ -96,7 +96,7 @@ func (self Sprite) SetOrigin(x, y float32) {
 // \param sprite Sprite object
 // \return Current position
 // sfVector2f sfSprite_getPosition(const sfSprite* sprite);
-func (self Sprite) GetPosition() (float32, float32) {
+func (self Sprite) Position() (float32, float32) {
 	v := C.sfSprite_getPosition(self.Cref)
 	return float32(v.x), float32(v.y)
 }
@@ -106,8 +106,8 @@ func (self Sprite) GetPosition() (float32, float32) {
 // \param sprite Sprite object
 // \return Current rotation, in degrees
 // float sfSprite_getRotation(const sfSprite* sprite);
-func (self Sprite) GetRotation() float32 {
-    return float32(C.sfSprite_getRotation(self.Cref));
+func (self Sprite) Rotation() float32 {
+	return float32(C.sfSprite_getRotation(self.Cref))
 }
 
 // Get the current scale of a sprite
@@ -115,7 +115,7 @@ func (self Sprite) GetRotation() float32 {
 // \return Current scale factors
 // sfVector2f sfSprite_getScale(const sfSprite* sprite);
 func (self Sprite) GetScale() (float32, float32) {
-	v := C.sfSprite_getScale(self.Cref);
+	v := C.sfSprite_getScale(self.Cref)
 	return float32(v.x), float32(v.y)
 }
 
@@ -123,8 +123,8 @@ func (self Sprite) GetScale() (float32, float32) {
 // \param sprite Sprite object
 // \return Current origin
 // sfVector2f sfSprite_getOrigin(const sfSprite* sprite);
-func (self Sprite) GetOrigin() (float32, float32) {
-	v := C.sfSprite_getOrigin(self.Cref);
+func (self Sprite) Origin() (float32, float32) {
+	v := C.sfSprite_getOrigin(self.Cref)
 	return float32(v.x), float32(v.y)
 }
 
@@ -136,7 +136,7 @@ func (self Sprite) GetOrigin() (float32, float32) {
 // void sfSprite_move(sfSprite* sprite, sfVector2f offset);
 func (self Sprite) Move(x, y float32) {
 	offset := C.sfVector2f{C.float(x), C.float(y)}
-	C.sfSprite_move(self.Cref, offset);
+	C.sfSprite_move(self.Cref, offset)
 }
 
 // Rotate a sprite
@@ -146,7 +146,7 @@ func (self Sprite) Move(x, y float32) {
 // \param angle  Angle of rotation, in degrees
 // void sfSprite_rotate(sfSprite* sprite, float angle);
 func (self Sprite) Rotate(angle float32) {
-	C.sfSprite_rotate(self.Cref, C.float(angle));
+	C.sfSprite_rotate(self.Cref, C.float(angle))
 }
 
 // Scale a sprite
@@ -156,7 +156,7 @@ func (self Sprite) Rotate(angle float32) {
 // \param factors Scale factors
 // void sfSprite_scale(sfSprite* sprite, sfVector2f factors);
 func (self Sprite) Scale(x, y float32) {
-	v := C.sfVector2f{C.float(x), C.float(y)}	
+	v := C.sfVector2f{C.float(x), C.float(y)}
 	C.sfSprite_scale(self.Cref, v)
 }
 
@@ -164,15 +164,15 @@ func (self Sprite) Scale(x, y float32) {
 // \param sprite Sprite object
 // \return Transform combining the position/rotation/scale/origin of the object
 // const sfTransform* sfSprite_getTransform(const sfSprite* sprite);
-func (self Sprite) GetTransform() Transform {	
-	return Transform{ C.sfSprite_getTransform(self.Cref) }
+func (self Sprite) Transform() Transform {
+	return Transform{C.sfSprite_getTransform(self.Cref)}
 }
 
 // Get the inverse of the combined transform of a sprite
 // \param sprite Sprite object
 // \return Inverse of the combined transformations applied to the object
 // const sfTransform* sfSprite_getInverseTransform(const sfSprite* sprite);
-func (self Sprite) GetInverseTransform() Transform {
+func (self Sprite) InverseTransform() Transform {
 	return Transform{C.sfSprite_getInverseTransform(self.Cref)}
 }
 
@@ -191,9 +191,8 @@ func (self Sprite) GetInverseTransform() Transform {
 // \param resetRect Should the texture rect be reset to the size of the new texture?
 // void sfSprite_setTexture(sfSprite* sprite, const sfTexture* texture, sfBool resetRect);
 func (self Sprite) SetTexture(tex Texture, resetRect bool) {
-	C.sfSprite_setTexture(self.Cref, tex.Cref, Bool(resetRect));
+	C.sfSprite_setTexture(self.Cref, tex.Cref, Bool(resetRect))
 }
-
 
 // Set the sub-rectangle of the texture that a sprite will display
 // The texture rect is useful when you don't want to display
@@ -225,26 +224,24 @@ func (self Sprite) SetColor(color Color) {
 // \param sprite Sprite object
 // \return Pointer to the sprite's texture
 // const sfTexture* sfSprite_getTexture(const sfSprite* sprite);
-func (self *Texture) GetTexture() Texture {
+func (self Sprite) Texture() Texture {
 	return Texture{C.sfSprite_getTexture(self.Cref)}
 }
-
 
 // Get the sub-rectangle of the texture displayed by a sprite
 // \param sprite Sprite object
 // \return Texture rectangle of the sprite
 // sfIntRect sfSprite_getTextureRect(const sfSprite* sprite);
-func (self Sprite) GetTextureRect() IntRect {
+func (self Sprite) TextureRect() IntRect {
 	ref := C.sfSprite_getTextureRect(self.Cref)
 	return IntRect{&ref}
 }
-
 
 // Get the global color of a sprite
 // \param sprite Sprite object
 // \return Global color of the sprite
 // sfColor sfSprite_getColor(const sfSprite* sprite);
-func (self Sprite) Getcolor() Color {
+func (self Sprite) Color() Color {
 	return Color{C.sfSprite_getColor(self.Cref)}
 }
 
@@ -257,7 +254,7 @@ func (self Sprite) Getcolor() Color {
 // \param sprite Sprite object
 // \return Local bounding rectangle of the entity
 // sfFloatRect sfSprite_getLocalBounds(const sfSprite* sprite);
-func (self Sprite) GetLocalBounds() FloatRect {
+func (self Sprite) LocalBounds() FloatRect {
 	ref := C.sfSprite_getLocalBounds(self.Cref)
 	return FloatRect{&ref}
 }
@@ -271,7 +268,7 @@ func (self Sprite) GetLocalBounds() FloatRect {
 // \param sprite Sprite object
 // \return Global bounding rectangle of the entity
 // sfFloatRect sfSprite_getGlobalBounds(const sfSprite* sprite);
-func (self Sprite) GetGlobalBounds() FloatRect {
+func (self Sprite) GlobalBounds() FloatRect {
 	ref := C.sfSprite_getGlobalBounds(self.Cref)
 	return FloatRect{&ref}
 }
@@ -279,6 +276,6 @@ func (self Sprite) GetGlobalBounds() FloatRect {
 func Bool(b bool) C.sfBool {
 	if b {
 		return C.sfBool(1)
-	} 
+	}
 	return C.sfBool(0)
 }

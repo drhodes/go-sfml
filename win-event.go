@@ -11,7 +11,7 @@ package sfml
  #include <SFML/Window/VideoMode.h>
  #include <SFML/Window/Window.h>
  #include <SFML/Window/WindowHandle.h>
- 
+
  struct sfKeyEvent*
  Event2KeyEvent(sfEvent* e) { return &e->key; }
  struct sfSizeEvent*
@@ -33,19 +33,12 @@ package sfml
  sfEventType*
  GetEventType(sfEvent* e) { return &e->type; }
 
- */
+*/
 import "C"
-
-import (
-	//"unsafe"
-	//"fmt"
-	//. "sfml/sys"
-	//"errors"
-)
 
 type CEvent *C.sfEvent
 type Event struct {
- 	Cref *C.sfEvent
+	Cref *C.sfEvent
 }
 
 func (self Event) ToSizeEvent() SizeEvent {
@@ -103,17 +96,15 @@ func (self Event) ToJoystickConnectEvent() JoystickConnectEvent {
 	}
 }
 
-
-
-
 func NewEvent() Event {
 	e := C.sfEvent{}
-	return Event{ &e }
+	return Event{&e}
 }
 
 //var EvChan = make(chan, interface{})
 
 type EventType uint
+
 const (
 	EvtClosed EventType = iota
 	EvtResized
@@ -152,16 +143,13 @@ type NullEvent uint
 //     sfBool      system;
 // };
 
-type KeyCode struct {	
-	Cref C.sfKeyCode
+type KeyEvent struct {
+	Type EventType
+	Cref *C.struct_sfKeyEvent
 }
 
-type KeyEvent struct {
-	Type EventType	
-	Cref *C.struct_sfKeyEvent 
-}
 func (self KeyEvent) Code() KeyCode {
-	return KeyCode{self.Cref.code}
+	return (KeyCode)(self.Cref.code)
 }
 func (self KeyEvent) Alt() bool {
 	return self.Cref.alt == 1
@@ -187,8 +175,16 @@ func (self KeyEvent) System() bool {
 //     unsigned int height;
 // };
 type SizeEvent struct {
-	Type EventType	
-	Cref *C.struct_sfSizeEvent 
+	Type EventType
+	Cref *C.struct_sfSizeEvent
+}
+
+func (self SizeEvent) Width() int {
+	return int(self.Cref.width)
+}
+
+func (self SizeEvent) Height() int {
+	return int(self.Cref.height)
 }
 
 ////////////////////////////////////////////////////////////
@@ -201,12 +197,9 @@ type SizeEvent struct {
 //     sfUint32    unicode;
 // };
 type TextEvent struct {
-	Type EventType	
-	Cref *C.struct_sfTextEvent 
+	Type EventType
+	Cref *C.struct_sfTextEvent
 }
-
-
-
 
 ////////////////////////////////////////////////////////////
 /// \brief Mouse move event parameters
@@ -219,17 +212,17 @@ type TextEvent struct {
 //     int         y;
 // };
 type MouseMoveEvent struct {
-	Type EventType	
-	Cref *C.struct_sfMouseMoveEvent 
+	Type EventType
+	Cref *C.struct_sfMouseMoveEvent
 }
 
 func (self MouseMoveEvent) X() int {
 	return int(self.Cref.x)
 }
+
 func (self MouseMoveEvent) Y() int {
 	return int(self.Cref.y)
 }
-
 
 ////////////////////////////////////////////////////////////
 /// \brief Mouse buttons events parameters
@@ -243,10 +236,21 @@ func (self MouseMoveEvent) Y() int {
 //     int           y;
 // };
 type MouseButtonEvent struct {
-	Type EventType	
-	Cref *C.struct_sfMouseButtonEvent 
+	Type EventType
+	Cref *C.struct_sfMouseButtonEvent
 }
 
+func (self MouseButtonEvent) Button() MouseButton {
+	return (MouseButton) (uint(self.Cref.button))
+}
+
+func (self MouseButtonEvent) X() int {
+	return int(self.Cref.x)
+}
+
+func (self MouseButtonEvent) Y() int {
+	return int(self.Cref.y)
+}
 
 ////////////////////////////////////////////////////////////
 /// \brief Mouse wheel events parameters
@@ -260,10 +264,21 @@ type MouseButtonEvent struct {
 //     int         y;
 // };
 type MouseWheelEvent struct {
-	Type EventType	
-	Cref *C.struct_sfMouseWheelEvent 
+	Type EventType
+	Cref *C.struct_sfMouseWheelEvent
 }
 
+func (self MouseWheelEvent) Delta() int {
+	return int(self.Cref.delta)
+}
+
+func (self MouseWheelEvent) X() int {
+	return int(self.Cref.x)
+}
+
+func (self MouseWheelEvent) Y() int {
+	return int(self.Cref.y)
+}
 
 ////////////////////////////////////////////////////////////
 /// \brief Joystick axis move event parameters
@@ -277,8 +292,21 @@ type MouseWheelEvent struct {
 //     float          position;
 // };
 type JoystickMoveEvent struct {
-	Type EventType	
-	Cref *C.struct_sfJoystickMoveEvent 
+	Type EventType
+	Cref *C.struct_sfJoystickMoveEvent
+}
+
+func (self JoystickMoveEvent) JoystickID() uint {
+	return uint(self.Cref.joystickId)
+}
+
+func (self JoystickMoveEvent) Axis() JoystickAxis {
+	axis := self.Cref.axis
+	return JoystickAxis{&axis}
+}
+
+func (self JoystickMoveEvent) Position() float32 {
+	return float32(self.Cref.position)
 }
 
 ////////////////////////////////////////////////////////////
@@ -292,8 +320,16 @@ type JoystickMoveEvent struct {
 //     unsigned int button;
 // };
 type JoystickButtonEvent struct {
-	Type EventType	
-	Cref *C.struct_sfJoystickButtonEvent 
+	Type EventType
+	Cref *C.struct_sfJoystickButtonEvent
+}
+
+func (self JoystickButtonEvent) JoystickID() uint {
+	return uint(self.Cref.joystickId)
+}
+
+func (self JoystickButtonEvent) Button() uint {
+	return uint(self.Cref.button)
 }
 
 ////////////////////////////////////////////////////////////
@@ -306,8 +342,12 @@ type JoystickButtonEvent struct {
 //     unsigned int joystickId;
 // };
 type JoystickConnectEvent struct {
-	Type EventType	
-	Cref *C.struct_sfJoystickConnectEvent 
+	Type EventType
+	Cref *C.struct_sfJoystickConnectEvent
+}
+
+func (self JoystickConnectEvent) JoystickID() uint {
+	return uint(self.Cref.joystickId)
 }
 
 ////////////////////////////////////////////////////////////

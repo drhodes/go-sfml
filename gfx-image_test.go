@@ -1,18 +1,23 @@
 package sfml
 
-
 import (
 	"testing"
-	"log"
 )
 
-//const verb = true
-
-func TestImage(t *testing.T) {		
-	img, err := ImageFromFile("./gopher.png")
+func TestImage(t *testing.T) {
+	img, err := ImageFromFile("test/gopher.png")
 	if err != nil {
-		t.Log(err)
-		t.Fail()
+		t.Fatal(err)
 	}
-	log.Println(img.Getsize())	
+	w, h := img.Size()
+	if w != 153 || h != 55 {
+		t.Fatal("Size don't return the good size (expected 153x55, got %dx%d)", w, h)
+	}
+}
+
+func TestNonExistentImage(t *testing.T) {
+	_, err := ImageFromFile("dont-exist.png")
+	if err == nil {
+		t.Fatal("Got no error when loading an image from a non existent file")
+	}
 }

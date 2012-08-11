@@ -17,9 +17,9 @@ type ContextSettings struct {
 	// MinorVersion      uint //< Minor number of the context version to create
 }
 
-func NewContextSettings(depthbits, stencilbits, antialiasinglevel, 
+func NewContextSettings(depthbits, stencilbits, antialiasinglevel,
 	majVersion, minVersion uint) ContextSettings {
-	
+
 	ref := C.sfContextSettings{
 		C.uint(depthbits),
 		C.uint(stencilbits),
@@ -35,18 +35,18 @@ func NewContextSettings(depthbits, stencilbits, antialiasinglevel,
 func (self ContextSettings) Nil() bool {
 	return self.Cref == nil
 }
-func (self ContextSettings) GetDepthBits() uint {
+func (self ContextSettings) DepthBits() uint {
 	return uint(self.Cref.depthBits)
 }
-func (self ContextSettings) GetStencilBits() uint {
+func (self ContextSettings) StencilBits() uint {
 	return uint(self.Cref.stencilBits)
 }
-func (self ContextSettings) GetAntialiasingLevel() uint {
+func (self ContextSettings) AntialiasingLevel() uint {
 	return uint(self.Cref.antialiasingLevel)
 }
-func (self ContextSettings) GetMajorVersion() uint {
+func (self ContextSettings) MajorVersion() uint {
 	return uint(self.Cref.majorVersion)
 }
-func (self ContextSettings) GetMinorVersion() uint {
+func (self ContextSettings) MinorVersion() uint {
 	return uint(self.Cref.minorVersion)
 }

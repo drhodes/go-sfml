@@ -18,8 +18,8 @@ type Transform struct {
 // This function creates an identity transform.
 // \return A new sfTransform object
 // sfTransform* sfTransform_create(void);
-func IdentityTransform() Transform { 
-    return Transform{C.sfTransform_create()}
+func IdentityTransform() Transform {
+	return Transform{C.sfTransform_create()}
 }
 
 // \brief Create a new transform from a matrix
@@ -36,31 +36,30 @@ func IdentityTransform() Transform {
 // sfTransform* sfTransform_createFromMatrix(	float a00, float a01, float a02, 
 // float a10, float a11, float a12,
 // float a20, float a21, float a22);
-func NewFromMatrix(a00, a01, a02, a10, a11, a12, a20, a21, a22 float32) Transform {	
-    return Transform {
+func NewFromMatrix(a00, a01, a02, a10, a11, a12, a20, a21, a22 float32) Transform {
+	return Transform{
 		C.sfTransform_createFromMatrix(
-			C.float(a00), C.float(a01), C.float(a02), 
+			C.float(a00), C.float(a01), C.float(a02),
 			C.float(a10), C.float(a11), C.float(a12),
 			C.float(a20), C.float(a21), C.float(a22),
 		)}
 }
-            
+
 // \brief Copy an existing transform
 // \param transform Transform to copy
 // \return Copied object
 // sfTransform* sfTransform_copy(sfTransform* transform);
-func (self Transform) Copy() Transform { 
-    return Transform{C.sfTransform_copy(self.Cref)}
+func (self Transform) Copy() Transform {
+	return Transform{C.sfTransform_copy(self.Cref)}
 }
 
 // \brief Destroy an existing transform
 // \param transform Transform to delete
 // void sfTransform_destroy(sfTransform* transform);
-func (self Transform) Destroy() { 
-    C.sfTransform_destroy(self.Cref);
+func (self Transform) Destroy() {
+	C.sfTransform_destroy(self.Cref)
 }
 
-            
 // \brief Return the 4x4 matrix of a transform
 // This function returns a pointer to an array of 16 floats
 // containing the transform elements as a 4x4 matrix, which
@@ -72,31 +71,31 @@ func (self Transform) Destroy() {
 // \param transform Transform object
 // \return Pointer to a 4x4 matrix
 // const float* sfTransform_getMatrix(const sfTransform* transform);
-func (self Transform) GetMatrix() [16]float32 { 
+func (self Transform) Matrix() [16]float32 {
 	//size := 2
 	carr := C.sfTransform_getMatrix(self.Cref)
 	arr := [16]float32{}
 
 	p := unsafe.Pointer(carr)
 	ptr := uintptr(p)
-	
-	for i:=0; i<16; i++ {
-		arr[i] = float32(*(*C.float)(p))		
+
+	for i := 0; i < 16; i++ {
+		arr[i] = float32(*(*C.float)(p))
 		ptr += 4
-		p = unsafe.Pointer(ptr)		
+		p = unsafe.Pointer(ptr)
 	}
 	return arr
 }
-            
+
 // \brief Return the inverse of a transform
 // If the inverse cannot be computed, a new identity transform
 // is returned.
 // \param transform Transform object
 // \param result Returned inverse matrix
 // void sfTransform_getInverse(const sfTransform* transform, sfTransform* result);
-func (self Transform) GetInverse() Transform { 	
+func (self Transform) Inverse() Transform {
 	t := Transform{}
-    C.sfTransform_getInverse(self.Cref, t.Cref)
+	C.sfTransform_getInverse(self.Cref, t.Cref)
 	return t
 }
 
@@ -105,9 +104,9 @@ func (self Transform) GetInverse() Transform {
 // \param point     Point to transform
 // \return Transformed point
 // sfVector2f sfTransform_transformPoint(const sfTransform* transform, sfVector2f point);
-func (self Transform) TransformPoint(x, y float32) (float32, float32) { 
+func (self Transform) TransformPoint(x, y float32) (float32, float32) {
 	pt := C.sfVector2f{C.float(x), C.float(y)}
-    vr := C.sfTransform_transformPoint(self.Cref, pt)
+	vr := C.sfTransform_transformPoint(self.Cref, pt)
 	return float32(vr.x), float32(vr.y)
 }
 
@@ -121,8 +120,8 @@ func (self Transform) TransformPoint(x, y float32) (float32, float32) {
 // \param rectangle Rectangle to transform
 // \return Transformed rectangle
 // sfFloatRect sfTransform_transformRect(const sfTransform* transform, sfFloatRect rectangle);
-func (self Transform) TransformRect(rect FloatRect) FloatRect { 
-    ref := C.sfTransform_transformRect(self.Cref, *rect.Cref)	
+func (self Transform) TransformRect(rect FloatRect) FloatRect {
+	ref := C.sfTransform_transformRect(self.Cref, *rect.Cref)
 	return FloatRect{&ref}
 }
 
@@ -133,29 +132,27 @@ func (self Transform) TransformRect(rect FloatRect) FloatRect {
 // \param transform Transform object
 // \param right     Transform to combine to \a transform
 // void sfTransform_combine(sfTransform* transform, const sfTransform* other);
-func (self Transform) Combine(other Transform) { 	
-    C.sfTransform_combine(self.Cref, other.Cref)
+func (self Transform) Combine(other Transform) {
+	C.sfTransform_combine(self.Cref, other.Cref)
 }
 
-            
 // \brief Combine a transform with a translation
 // \param transform Transform object
 // \param x         Offset to apply on X axis
 // \param y         Offset to apply on Y axis
 // void sfTransform_translate(sfTransform* transform, float x, float y);
-func (self Transform) Translate(x, y float32) { 
-    C.sfTransform_translate(self.Cref, C.float(x), C.float(y))
+func (self Transform) Translate(x, y float32) {
+	C.sfTransform_translate(self.Cref, C.float(x), C.float(y))
 }
 
-            
 // \brief Combine the current transform with a rotation
 // \param transform Transform object
 // \param angle     Rotation angle, in degrees
 // void sfTransform_rotate(sfTransform* transform, float angle);
-func (self Transform) Rotate(angle float32) { 
-    C.sfTransform_rotate(self.Cref, C.float(angle))
+func (self Transform) Rotate(angle float32) {
+	C.sfTransform_rotate(self.Cref, C.float(angle))
 }
-            
+
 // \brief Combine the current transform with a rotation
 // The center of rotation is provided for convenience as a second
 // argument, so that you can build rotations around arbitrary points
@@ -166,19 +163,19 @@ func (self Transform) Rotate(angle float32) {
 // \param centerX   X coordinate of the center of rotation
 // \param centerY   Y coordinate of the center of rotation
 // void sfTransform_rotateWithCenter(sfTransform* transform, float angle, float centerX, float centerY);
-func (self Transform) RotateWithCenter(angle, centerX, centerY float32) { 
-    C.sfTransform_rotateWithCenter(self.Cref, C.float(angle), C.float(centerX), C.float(centerY))
+func (self Transform) RotateWithCenter(angle, centerX, centerY float32) {
+	C.sfTransform_rotateWithCenter(self.Cref, C.float(angle), C.float(centerX), C.float(centerY))
 }
-            
+
 // \brief Combine the current transform with a scaling
 // \param transform Transform object
 // \param scaleX    Scaling factor on the X axis
 // \param scaleY    Scaling factor on the Y axis
 // void sfTransform_scale(sfTransform* transform, float scaleX, float scaleY);
-func (self Transform) Scale(scaleX, scaleY float32) { 
-    C.sfTransform_scale(self.Cref, C.float(scaleX), C.float(scaleY))
+func (self Transform) Scale(scaleX, scaleY float32) {
+	C.sfTransform_scale(self.Cref, C.float(scaleX), C.float(scaleY))
 }
-            
+
 // \brief Combine the current transform with a scaling
 // The center of scaling is provided for convenience as a second
 // argument, so that you can build scaling around arbitrary points
@@ -190,6 +187,6 @@ func (self Transform) Scale(scaleX, scaleY float32) {
 // \param centerX   X coordinate of the center of scaling
 // \param centerY   Y coordinate of the center of scaling
 // void sfTransform_scaleWithCenter(sfTransform* transform, float scaleX, float scaleY, float centerX, float centerY);
-func (self Transform) ScaleWithCenter(scaleX, scaleY, centerX, centerY float32) { 
-    C.sfTransform_scaleWithCenter(self.Cref, C.float(scaleX), C.float(scaleY), C.float(centerX), C.float(centerY))
+func (self Transform) ScaleWithCenter(scaleX, scaleY, centerX, centerY float32) {
+	C.sfTransform_scaleWithCenter(self.Cref, C.float(scaleX), C.float(scaleY), C.float(centerX), C.float(centerY))
 }

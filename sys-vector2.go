@@ -25,16 +25,24 @@ type (
 	Vector2u struct {
 		Cref C.sfVector2u
 	}
-	Vector2i struct{
+	Vector2i struct {
 		Cref C.sfVector2i
 	}
-	Vector2f struct{
+	Vector2f struct {
 		Cref C.sfVector2f
-	}	
+	}
 )
 
 func NewVector2u(x, y uint) Vector2u {
 	return Vector2u{C._NewVector2u(C.uint(x), C.uint(y))}
+}
+
+func (self Vector2u) X() uint {
+	return uint(self.Cref.x)
+}
+
+func (self Vector2u) Y() uint {
+	return uint(self.Cref.y)
 }
 
 func NewVector2i(x, y int) Vector2i {
@@ -47,9 +55,16 @@ func (self Vector2i) Y() int {
 	return int(self.Cref.y)
 }
 
-
 func NewVector2f(x, y float32) Vector2f {
 	return Vector2f{C._NewVector2f(C.float(x), C.float(y))}
+}
+
+func (self Vector2f) X() float64 {
+	return float64(self.Cref.x)
+}
+
+func (self Vector2f) Y() float64 {
+	return float64(self.Cref.y)
 }
 
 // internal
@@ -59,11 +74,10 @@ func CNewVector2u(x, y C.uint) Vector2u {
 
 // internal
 func CNewVector2i(x, y C.int) Vector2i {
-	return Vector2i{C._NewVector2i(x,y)}
+	return Vector2i{C._NewVector2i(x, y)}
 }
 
 // internal
 func CNewVector2f(x, y C.float) Vector2f {
-	return Vector2f{C._NewVector2f(x,y)}
+	return Vector2f{C._NewVector2f(x, y)}
 }
-

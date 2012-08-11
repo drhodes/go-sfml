@@ -2,19 +2,13 @@ package sfml
 
 import (
 	"testing"
-	//"log"
 )
 
-func TestContextConstructor(t *testing.T) {		
-	ctx := NewContext()
+func TestContextConstructor(t *testing.T) {
+	ctx, err := NewContext()
+	if err != nil {
+		t.Fatal(err)
+	}
 	ctx.SetActive(true)
 	ctx.Destroy()
 }
-
-// func BenchmarkNewContext(b *testing.B) {
-//     for i := 0; i < b.N; i++ {
-// 		NewContext().Destroy()
-// 	}
-// }
-
-

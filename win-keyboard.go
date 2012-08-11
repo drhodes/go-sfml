@@ -4,10 +4,10 @@ package sfml
 // #include <SFML/Window/Keyboard.h>
 import "C"
 
-type Keycode uint
+type KeyCode uint
 
 const (
-	KeyA         Keycode = iota // The A key
+	KeyA         KeyCode = iota // The A key
 	KeyB                        // The B key
 	KeyC                        // The C key
 	KeyD                        // The D key
@@ -116,6 +116,6 @@ const (
 // key Key to check
 // return true if the key is pressed, false otherwise
 // sfBool sfKeyboard_isKeyPressed(sfKeyCode key);
-func IsKeyPressed(key Keycode) bool {
+func IsKeyPressed(key KeyCode) bool {
 	return C.sfKeyboard_isKeyPressed(C.sfKeyCode(key)) == 1
 }

@@ -4,13 +4,10 @@ package sfml
 // #include <SFML/System.h>
 import "C"
 
-type Time struct{
+import "fmt"
+
+type Time struct {
 	Cref C.sfTime
-}
-
-
-func (self Time) Microseconds(amount int64) Time {
-	return Time{C.sfMicroseconds(C.sfInt64(amount))}
 }
 
 func (self Time) AsSeconds() float32 {
@@ -25,6 +22,10 @@ func (self Time) AsMicroseconds() int64 {
 	return int64(C.sfTime_asMicroseconds(self.Cref))
 }
 
+func (self Time) String() string {
+	return fmt.Sprintf("%d.%ds", self.AsSeconds(), self.AsMilliseconds())
+}
+
 func Seconds(amount float32) Time {
 	return Time{C.sfSeconds(C.float(amount))}
 }
@@ -33,5 +34,8 @@ func Milliseconds(amount int32) Time {
 	return Time{C.sfMilliseconds(C.sfInt32(amount))}
 }
 
-//sfTime sfTime_Zero;
+func Microseconds(amount int64) Time {
+	return Time{C.sfMicroseconds(C.sfInt64(amount))}
+}
 
+var Zero Time = Seconds(0)

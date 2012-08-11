@@ -7,8 +7,8 @@ package sfml
 //
 import "C"
 import (
-	"unsafe"
 	"fmt"
+	"unsafe"
 )
 
 // sfVideoMode defines a video mode (width, height, bpp, frequency)
@@ -17,8 +17,8 @@ type VideoMode struct {
 	Cref *C.sfVideoMode
 }
 
-func NewVideoMode(w,h,bpp uint) VideoMode {
-	v := C.sfVideoMode{C.uint(w),C.uint(h),C.uint(bpp)}
+func NewVideoMode(w, h, bpp uint) VideoMode {
+	v := C.sfVideoMode{C.uint(w), C.uint(h), C.uint(bpp)}
 	return VideoMode{&v}
 }
 
@@ -38,23 +38,22 @@ func (self VideoMode) BitsPerPixel() uint {
 	return uint(self.Cref.bitsPerPixel)
 }
 
-func (self VideoMode) Show() string {
+func (self VideoMode) String() string {
 	s := `
 VideoMode:
    Width:        %d
    Height:       %d
    BitsPerPixel: %d
-` 
+`
 	return fmt.Sprintf(s, self.Width(), self.Height(), self.BitsPerPixel())
 }
 
 // Get the current desktop video mode
 // sfVideoMode sfVideoMode_getDesktopMode(void)
-func GetDesktopMode() VideoMode { 
+func DesktopMode() VideoMode {
 	temp := C.sfVideoMode_getDesktopMode()
-    return VideoMode{&temp}
+	return VideoMode{&temp}
 }
-
 
 // Retrieve all the video modes supported in fullscreen mode
 //
@@ -66,11 +65,11 @@ func GetDesktopMode() VideoMode {
 // the first element will always give the best mode (higher
 // width, height and bits-per-pixel).
 // const sfVideoMode* sfVideoMode_getFullscreenModes(size_t* Count)
-func GetFullscreenModes() []VideoMode {
+func FullscreenModes() []VideoMode {
 	// get the size_of a sfVideoMode
 	size := unsafe.Sizeof(*VideoMode{}.Cref)
 
-	var nmodes C.size_t;
+	var nmodes C.size_t
 	cmodes := C.sfVideoMode_getFullscreenModes(&nmodes)
 
 	modes := []VideoMode{}
@@ -79,24 +78,22 @@ func GetFullscreenModes() []VideoMode {
 
 	for nmodes > 0 {
 		m := VideoMode{(*C.sfVideoMode)(p)}
-		if m.IsValid() {	
+		if m.IsValid() {
 			modes = append(modes, m)
 		}
 		ptr += size
-		p = unsafe.Pointer(ptr)		
+		p = unsafe.Pointer(ptr)
 		nmodes--
 	}
 	return modes
 }
 
-            
 // Tell whether or not a video mode is valid
 // The validity of video modes is only relevant when using
 // fullscreen windows otherwise any video mode can be used
 // with no restriction.
 // *return true if the video mode is valid for fullscreen mode
 // sfBool sfVideoMode_isValid(sfVideoMode mode)
-func (self VideoMode) IsValid() bool { 
-    return int(C.sfVideoMode_isValid(*self.Cref)) == 1
+func (self VideoMode) IsValid() bool {
+	return int(C.sfVideoMode_isValid(*self.Cref)) == 1
 }
-            

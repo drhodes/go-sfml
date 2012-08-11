@@ -1,17 +1,16 @@
 package main
 
-import (	
-	//////"sfml/gfx"
-	//"sfml/win"
+import (
+	"github.com/drhodes/go-sfml"
 	"log"
 )
 
-const WIDTH=800
-const HEIGHT=600
+const WIDTH = 800
+const HEIGHT = 600
 
 func main() {
-	vm := win.NewVideoMode(WIDTH, HEIGHT, 24)
-	w := gfx.NewRenderWindowDefault(vm, "Pong");
+	vm := sfml.NewVideoMode(WIDTH, HEIGHT, 24)
+	w := sfml.NewRenderWindowDefault(vm, "Pong")
 
 	w.SetMouseCursorVisible(false)
 
@@ -29,33 +28,30 @@ func main() {
 	if err != nil {
 		log.Fatal(E(err, `Couldn't create a paddle in main`))
 	}
-	
-	w.SetFrameRateLimit(60)
+
+	w.SetFramerateLimit(60)
 	w.SetVerticalSyncEnabled(true)
-	
-    for w.IsOpen() {
+
+	for w.IsOpen() {
 		e, _ := w.PollEvent()
 		switch e.(type) {
-		case win.KeyEvent:
-			KeyHandler(e.(win.KeyEvent))			
-		case win.MouseMoveEvent:		
-			MouseHandle(e.(win.MouseMoveEvent), paddle)
-		}		
-
-		w.Drain()
-		w.Clear(gfx.FromRGB(uint8(ball.y/7), uint8(ball.y/7), 45))
-
-		hitfloor := ball.update(paddle) 
-		if hitfloor {
-			w.Clear(gfx.FromRGB(200,200,200))
+		case sfml.KeyEvent:
+			KeyHandler(e.(sfml.KeyEvent))
+		case sfml.MouseMoveEvent:
+			MouseHandle(e.(sfml.MouseMoveEvent), paddle)
 		}
 
+		w.Drain()
+		w.Clear(sfml.FromRGB(uint8(ball.y/7), uint8(ball.y/7), 45))
+
+		hitfloor := ball.update(paddle)
+		if hitfloor {
+			w.Clear(sfml.FromRGB(200, 200, 200))
+		}
 
 		w.DrawSpriteDefault(background.sprite)
 		w.DrawSpriteDefault(paddle.sprite)
 		w.DrawSpriteDefault(ball.sprite)
-		w.Display()		
+		w.Display()
 	}
 }
-
-
