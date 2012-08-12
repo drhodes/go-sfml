@@ -1,8 +1,9 @@
-Derek A. Rhodes / physci@gmail.com
+See CONTRIB for contributers
+
 $ git clone git@github.com:drhodes/go-sfml.git
 
-BUILD CURRENTLY BROKEN, updating to SFML RC 2.0 with go1
-(relative stability, yay!)
+currently moving from: CSFML RC 2.0 -> CSFML git
+The library instructions below will be changing shortly to reflect update
 
 Go bindings for:
 Simple and Fast Multimedia Library
@@ -13,13 +14,15 @@ DEPENDENCIES:
 
 Both SFML and CSFML libraries are needed, as CSFML links to SFML.
 
-CSFML RC 2.0
-SFML RC 2.0
+CSFML RC 2.0 .. updating to git
+SFML RC 2.0 .. updating to git
 libjpeg 8
 libglew 1.7
 
 _____________________________________________________________________________
 BASIC LINUX LIBRARY CONFIGURATION
+
+ALERT, the project is currently updating to CSFML-git, RC 2.0
 
 Get the goods if you need them, here:
 
