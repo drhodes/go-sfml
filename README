@@ -90,12 +90,8 @@ Then, as I mention above
 _____________________________________________________________________________
 BASIC LINUX LIBRARY CONFIGURATION
 
-Get the goods if you need them, here:
-
-Under linux I've found that all three of the following environmental variables
-to be required.  Through the pernicious windings and labyrinths of archia
-reigns the following incantation for thy linkage to bare fruit of object files
-in the realm of bash. Beware traveller.
+for whom it applies, you might add something 
+like the following to your ~/.bashrc
 
 export C_INCLUDE_PATH=${C_INCLUDE_PATH}:/path/to/git-csfml-install/include
 export C_INCLUDE_PATH=${C_INCLUDE_PATH}:/path/to/glew-1.7.0/include
