@@ -165,7 +165,8 @@ func (self Sprite) Scale(x, y float32) {
 // \return Transform combining the position/rotation/scale/origin of the object
 // const sfTransform* sfSprite_getTransform(const sfSprite* sprite);
 func (self Sprite) Transform() Transform {
-	return Transform{C.sfSprite_getTransform(self.Cref)}
+	t := C.sfSprite_getTransform(self.Cref)
+	return Transform{&t}
 }
 
 // Get the inverse of the combined transform of a sprite
@@ -173,7 +174,8 @@ func (self Sprite) Transform() Transform {
 // \return Inverse of the combined transformations applied to the object
 // const sfTransform* sfSprite_getInverseTransform(const sfSprite* sprite);
 func (self Sprite) InverseTransform() Transform {
-	return Transform{C.sfSprite_getInverseTransform(self.Cref)}
+	t := C.sfSprite_getInverseTransform(self.Cref)
+	return Transform{&t}
 }
 
 // Change the source texture of a sprite

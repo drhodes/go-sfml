@@ -221,7 +221,7 @@ func (self Window) SetPosition(x, y int) {
 // \param window Window object
 // \return Size in pixels
 // sfVector2u sfWindow_getSize(const sfWindow* window);
-func (self Window) Size() (x, y uint) {
+func (self Window) GetSize() (x, y uint) {
 	pos := C.sfWindow_getSize(self.Cref)
 	return uint(pos.x), uint(pos.y)
 }

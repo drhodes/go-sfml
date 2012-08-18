@@ -18,9 +18,9 @@ type Transform struct {
 // This function creates an identity transform.
 // \return A new sfTransform object
 // sfTransform* sfTransform_create(void);
-func IdentityTransform() Transform {
-	return Transform{C.sfTransform_create()}
-}
+// func IdentityTransform() Transform {
+// 	return Transform{C.sfTransform_create()}
+// }
 
 // \brief Create a new transform from a matrix
 // \param a00 Element (0, 0) of the matrix
@@ -36,55 +36,51 @@ func IdentityTransform() Transform {
 // sfTransform* sfTransform_createFromMatrix(	float a00, float a01, float a02, 
 // float a10, float a11, float a12,
 // float a20, float a21, float a22);
-func NewFromMatrix(a00, a01, a02, a10, a11, a12, a20, a21, a22 float32) Transform {
-	return Transform{
-		C.sfTransform_createFromMatrix(
-			C.float(a00), C.float(a01), C.float(a02),
-			C.float(a10), C.float(a11), C.float(a12),
-			C.float(a20), C.float(a21), C.float(a22),
-		)}
-}
+// func NewFromMatrix(a00, a01, a02, a10, a11, a12, a20, a21, a22 float32) Transform {
+// 	return Transform{
+// 		C.sfTransform_createFromMatrix(
+// 			C.float(a00), C.float(a01), C.float(a02),
+// 			C.float(a10), C.float(a11), C.float(a12),
+// 			C.float(a20), C.float(a21), C.float(a22),
+// 		)}
+// }
 
 // \brief Copy an existing transform
 // \param transform Transform to copy
 // \return Copied object
 // sfTransform* sfTransform_copy(sfTransform* transform);
-func (self Transform) Copy() Transform {
-	return Transform{C.sfTransform_copy(self.Cref)}
-}
+// func (self Transform) Copy() Transform {
+// 	return Transform{C.sfTransform_copy(self.Cref)}
+// }
 
 // \brief Destroy an existing transform
 // \param transform Transform to delete
 // void sfTransform_destroy(sfTransform* transform);
-func (self Transform) Destroy() {
-	C.sfTransform_destroy(self.Cref)
-}
+// func (self Transform) Destroy() {
+// 	C.sfTransform_destroy(self.Cref)
+// }
 
-// \brief Return the 4x4 matrix of a transform
-// This function returns a pointer to an array of 16 floats
-// containing the transform elements as a 4x4 matrix, which
-// is directly compatible with OpenGL functions.
-// \code
-// sfTransform* transform = ...;
-// glLoadMatrixf(sfTransform_getMatrix(transform));
-// \endcode
-// \param transform Transform object
-// \return Pointer to a 4x4 matrix
-// const float* sfTransform_getMatrix(const sfTransform* transform);
-func (self Transform) Matrix() [16]float32 {
-	//size := 2
-	carr := C.sfTransform_getMatrix(self.Cref)
-	arr := [16]float32{}
-
-	p := unsafe.Pointer(carr)
-	ptr := uintptr(p)
-
-	for i := 0; i < 16; i++ {
-		arr[i] = float32(*(*C.float)(p))
-		ptr += 4
-		p = unsafe.Pointer(ptr)
-	}
-	return arr
+// \brief Return the 4x4 matrix of a transform                                                           
+//
+// This function fills an array of 16 floats with the transform 
+// converted as a 4x4 matrix, which is directly compatible with 
+// OpenGL functions. 
+// 
+// \code 
+// sfTransform transform = ...; 
+// float matrix[16]; 
+// sfTransform_getMatrix(&transform, matrix) 
+// glLoadMatrixf(matrix); 
+// \endcode 
+// 
+// \param transform Transform object 
+// \param matrix Pointer to the 16-element array to fill with the matrix 
+// 
+///////////////////////////////////////////////////////////                                                
+// CSFML_GRAPHICS_API void sfTransform_getMatrix(const sfTransform* transform, float* matrix);
+func (self Transform) GetMatrix(matrix [16]float32) {
+	p := unsafe.Pointer(&matrix[0])
+	C.sfTransform_getMatrix(self.Cref, (*C.float)(p))
 }
 
 // \brief Return the inverse of a transform
@@ -93,10 +89,19 @@ func (self Transform) Matrix() [16]float32 {
 // \param transform Transform object
 // \param result Returned inverse matrix
 // void sfTransform_getInverse(const sfTransform* transform, sfTransform* result);
-func (self Transform) Inverse() Transform {
-	t := Transform{}
-	C.sfTransform_getInverse(self.Cref, t.Cref)
-	return t
+
+
+// \brief Return the inverse of a transform 
+// 
+// If the inverse cannot be computed, a new identity transform 
+// is returned. 
+// 
+// \param transform Transform object 
+// \return The inverse matrix 
+// CSFML_GRAPHICS_API sfTransform sfTransform_getInverse(const sfTransform* transform);
+func (self Transform) GetInverse() Transform {
+	C.sfTransform_getInverse(self.Cref)
+	return self
 }
 
 // \brief Apply a transform to a 2D point

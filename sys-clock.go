@@ -20,7 +20,7 @@ func (self Clock) Destroy() {
 	C.sfClock_destroy(self.Cref)
 }
 
-func (self Clock) ElapsedTime() Time {
+func (self Clock) GetElapsedTime() Time {
 	return Time{C.sfClock_getElapsedTime(self.Cref)}
 }
 

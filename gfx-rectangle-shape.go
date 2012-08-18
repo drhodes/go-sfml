@@ -158,7 +158,8 @@ func (self RectangleShape) Scale(x, y float32) {
 // \return Transform combining the position/rotation/scale/origin of the object
 // const sfTransform* sfRectangleShape_getTransform(const sfRectangleShape* shape);
 func (self RectangleShape) Transform() Transform {
-	return Transform{C.sfRectangleShape_getTransform(self.Cref)}
+	t := C.sfRectangleShape_getTransform(self.Cref)
+	return Transform{&t}
 }
 
 // Get the inverse of the combined transform of a rectangle shape
@@ -166,7 +167,8 @@ func (self RectangleShape) Transform() Transform {
 // \return Inverse of the combined transformations applied to the object
 // const sfTransform* sfRectangleShape_getInverseTransform(const sfRectangleShape* shape);
 func (self RectangleShape) InverseTransform() Transform {
-	return Transform{C.sfRectangleShape_getInverseTransform(self.Cref)}
+	t := C.sfRectangleShape_getInverseTransform(self.Cref)
+	return Transform{&t}
 }
 
 // Change the source texture of a rectangle shape

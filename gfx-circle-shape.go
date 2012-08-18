@@ -158,7 +158,8 @@ func (self CircleShape) Scale(x, y float32) {
 // \return Transform combining the position/rotation/scale/origin of the object
 // const sfTransform* sfCircleShape_getTransform(const sfCircleShape* shape);
 func (self CircleShape) Transform() Transform {
-	return Transform{C.sfCircleShape_getTransform(self.Cref)}
+	t := C.sfCircleShape_getTransform(self.Cref)
+	return Transform{&t}
 }
 
 // Get the inverse of the combined transform of a circle shape
@@ -166,7 +167,8 @@ func (self CircleShape) Transform() Transform {
 // \return Inverse of the combined transformations applied to the object
 // const sfTransform* sfCircleShape_getInverseTransform(const sfCircleShape* shape);
 func (self CircleShape) InverseTransform() Transform {
-	return Transform{C.sfCircleShape_getInverseTransform(self.Cref)}
+	t := C.sfCircleShape_getInverseTransform(self.Cref)
+	return Transform{&t}
 }
 
 // Change the source texture of a circle shape

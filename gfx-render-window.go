@@ -181,7 +181,7 @@ func (self RenderWindow) SetPosition(x, y int) {
 // \param renderWindow Render window object
 // \return Size in pixels
 // sfVector2u sfRenderWindow_getSize(const sfRenderWindow* renderWindow);
-func (self RenderWindow) Size() (x, y uint) {
+func (self RenderWindow) GetSize() (x, y uint) {
 	v := C.sfRenderWindow_getSize(self.Cref)
 	return uint(v.x), uint(v.y)
 }
