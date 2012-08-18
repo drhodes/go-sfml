@@ -15,17 +15,6 @@ This is a work in progress.  The underlying bindings for audio are not
 there yet.  In short, expect things to change.  I plan to peg the bindings
 to the next stable version of CSFML when it's released.  
 
---
-finalizers shouldn't be used for cleaning up C memory. as outlined here:
-http://golang.org/pkg/runtime/#SetFinalizer
-
-> There is no guarantee that finalizers will run before a
-> program exits, so typically they are useful only for
-> releasing non-memory resources associated with an
-> object during a long-running program. 
-
-I've been using memory pools to elide this, and am glad to report that
-long running (4 hour) processes showing no memory leaks.
 
 _____________________________________________________________________________
 DEPENDENCIES:
@@ -105,6 +94,21 @@ export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/path/to/git-csfml-install/lib
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/path/to/git-sfml-install/lib
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/path/to/glew-1.7.0/lib
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/path/to/jpeg-8/build/lib
+
+
+_____________________________________________________________________________
+NOTE:
+finalizers shouldn't be used for cleaning up C memory. as outlined here:
+http://golang.org/pkg/runtime/#SetFinalizer
+
+> There is no guarantee that finalizers will run before a
+> program exits, so typically they are useful only for
+> releasing non-memory resources associated with an
+> object during a long-running program. 
+
+I've been using memory pools to elide this, and am glad to report that
+long running (4 hour) processes showing no memory leaks.
+
 
 _____________________________________________________________________________
 NAMING CONVENTION:
