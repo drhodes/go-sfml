@@ -275,9 +275,3 @@ func (self Sprite) GlobalBounds() FloatRect {
 	return FloatRect{&ref}
 }
 
-func Bool(b bool) C.sfBool {
-	if b {
-		return C.sfBool(1)
-	}
-	return C.sfBool(0)
-}
