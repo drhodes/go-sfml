@@ -11,10 +11,9 @@ $ go get github.com/drhodes/go-sfml
 _____________________________________________________________________________
 WARNING:
 
-This is a work in progress.  The underlying bindings for audio are not 
-there yet.  In short, expect things to change.  I plan to peg the bindings
-to the next stable version of CSFML when it's released.  
-
+This is a work in progress, expect things to change.  I plan to peg the bindings
+to the next stable version of CSFML when it's released.  For now users are 
+required to build SFML and CSFML from git.  
 
 _____________________________________________________________________________
 DEPENDENCIES:
