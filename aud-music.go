@@ -9,23 +9,29 @@ package sfml
 // #include <stddef.h>
 import "C"
 
+import "errors"
+
 
 type Music struct {
 	Cref *C.sfMusic
 }
 
-// \brief Create a new music and load it from a file
+// Create a new music and load it from a file
 // This function doesn't start playing the music (call
-// sfMusic_play to do so).
+// Play() to do so).
 // Here is a complete list of all the supported audio formats:
 // ogg, wav, flac, aiff, au, raw, paf, svx, nist, voc, ircam,
 // w64, mat4, mat5 pvf, htk, sds, avr, sd2, caf, wve, mpc2k, rf64.
 // \param filename Path of the music file to open
 // \return A new sfMusic object (NULL if failed)
-// sfMusic* sfMusic_createFromFile(const char* filename);
-func CreateFromFile(filename string) Music { 
+func NewMusicFromFile(filename string) (Music, error) { 
 	fn := C.CString(filename)
-    return Music{C.sfMusic_createFromFile(fn)}
+	m := Music{C.sfMusic_createFromFile(fn)}
+	if fn == nil {
+		return m, errors.New("NewMusicFromFile fails to open: " + filename)
+	}
+    return m, nil
+	// sfMusic* sfMusic_createFromFile(const char* filename);
 }
 
 

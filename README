@@ -7,13 +7,28 @@ See CONTRIB for contributers
 Get the deps, then
 $ go get github.com/drhodes/go-sfml
 
-
 _____________________________________________________________________________
 WARNING:
 
 This is a work in progress, expect things to change.  I plan to peg the bindings
 to the next stable version of CSFML when it's released.  For now users are 
 required to build SFML and CSFML from git.  
+
+module progress
+
+
+todo:
+gfx 99%
+	- Shape.h	
+	  
+aud 85%
+	-SoundRecorder.h
+	-SoundRecorderBuffer.h
+	-SoundStream.h
+
+win 
+sys
+
 
 _____________________________________________________________________________
 DEPENDENCIES:
@@ -48,6 +63,7 @@ I'm not sure on the required version of the latter libs.
 For more infomation, please checkout Laurent's very helpful sfml tutorial located at:
 http://www.sfml-dev.org/tutorials/2.0/compile-with-cmake.php
 
+
 _____________________________________________________________________________
 BUILDING SFML/CSFML
 
@@ -61,9 +77,11 @@ there should exist a file called FindSFML.cmake.
 I had to copy it to here (yours may differ).  
 /usr/share/cmake-2.8/Modules
 
-Only then was I able to build CSFML.
+To be perfectly clear, I had to get root priviledges and copy FindSFML.cmake
+into a global directory sanctioned by cmake. Odd and unexpected! If due to my
+ ignorance this is in fact not necessary, please disabuse me of the notion.
 
-But not before adding the following to line 19 of file:
+Also I had to add the following to line 19 of file:
 /my/path/to/git-csfml/cmake/Config.cmake
 
 so it looks like:
@@ -75,10 +93,11 @@ so it looks like:
 Then, as I mention above 
 /git-csfml$  cmake -i
 
+
 _____________________________________________________________________________
 BASIC LINUX LIBRARY CONFIGURATION
 
-for whom it applies, you might add something 
+For whom it applies, you might add something 
 like the following to your ~/.bashrc
 
 export C_INCLUDE_PATH=${C_INCLUDE_PATH}:/path/to/git-csfml-install/include

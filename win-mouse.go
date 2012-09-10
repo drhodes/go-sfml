@@ -8,6 +8,7 @@ import "C"
 
 type MouseButton uint
 
+// Mouse buttons
 const (
 	MouseLeft        = iota // The left mouse button
 	MouseRight              // The right mouse button
@@ -17,43 +18,44 @@ const (
 	MouseButtonCount        // Keep last -- the total number of mouse buttons
 )
 
-// Mouse buttons
 // Check if a mouse button is pressed
-// \param button Button to check
-// \return sfTrue if the button is pressed, sfFalse otherwise
-// sfBool sfMouse_isButtonPressed(sfMouseButton button);
+// Returns true if the button is pressed, false otherwise
 func (self MouseButton) IsButtonPressed() bool {
+	// sfBool sfMouse_isButtonPressed(sfMouseButton button)
 	return C.sfMouse_isButtonPressed(C.sfMouseButton(self)) == 1
 }
 
+
 // Get the current position of the mouse
 // This function returns the current position of the mouse
-// cursor relative to the given window, or desktop if NULL is passed.
-// \param relativeTo Reference window
-// \return Position of the mouse cursor, relative to the given window
-// sfVector2i sfMouse_getPosition(const sfWindow* relativeTo);
-func MousePositionAbsolute() (int, int) {
+// cursor relative to the desktop 
+func MouseGetPositionAbsolute() (int, int) {
 	v := C.sfMouse_getPosition(nil)
 	return int(v.x), int(v.y)
 }
 
-func MousePosition(win Window) (int, int) {
+// Get the current position of the mouse
+// This function returns the current position of the mouse
+// cursor relative to the given window.
+func MouseGetPosition(win Window) (int, int) {
 	v := C.sfMouse_getPosition(win.Cref)
 	return int(v.x), int(v.y)
 }
 
-// Set the current position of the mouse
+// Set the current position of the mouse.
 // This function sets the current position of the mouse
-// cursor relative to the given window, or desktop if NULL is passed.
-// \param position   New position of the mouse
-// \param relativeTo Reference window
-// void sfMouse_setPosition(sfVector2i position, const sfWindow* relativeTo);
+// cursor relative to the desktop.
 func SetMousePositionAbsolute(x, y int) {
+	// void sfMouse_setPosition(sfVector2i position, const sfWindow* relativeTo);
 	v := C.sfVector2i{C.int(x), C.int(y)}
 	C.sfMouse_setPosition(v, nil)
 }
 
+// Set the current position of the mouse
+// This function sets the current position of the mouse
+// cursor relative to the given window.
 func SetMousePosition(x, y int, win Window) {
+	// void sfMouse_setPosition(sfVector2i position, const sfWindow* relativeTo);
 	v := C.sfVector2i{C.int(x), C.int(y)}
 	C.sfMouse_setPosition(v, win.Cref)
-}
+} 
