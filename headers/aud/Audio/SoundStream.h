@@ -61,11 +61,7 @@ typedef void   (*sfSoundStreamSeekCallback)(sfTime, void*);                 ///<
 /// \return A new sfSoundStream object
 ///
 ////////////////////////////////////////////////////////////
-CSFML_AUDIO_API sfSoundStream* sfSoundStream_Create(sfSoundStreamGetDataCallback onGetData,
-                                              sfSoundStreamSeekCallback    onSeek,
-                                              unsigned int                 channelCount,
-                                              unsigned int                 sampleRate,
-                                              void*                        userData);
+CSFML_AUDIO_API sfSoundStream* sfSoundStream_Create(sfSoundStreamGetDataCallback onGetData, sfSoundStreamSeekCallback    onSeek, unsigned int channelCount, unsigned int sampleRate, void* userData);
 
 ////////////////////////////////////////////////////////////
 /// \brief Destroy a sound stream
