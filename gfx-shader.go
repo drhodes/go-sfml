@@ -1,5 +1,5 @@
-// Copyright 2012.  All rights reserved. 
-// Use of this source code is governed by a BSD-style  
+// Copyright 2012.  All rights reserved.
+// Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
 ////////////////////////////////////////////////////////////
@@ -37,7 +37,7 @@ package sfml
 import "C"
 
 type Shader struct {
-	Cref *C.sfShader 
+	Cref *C.sfShader
 }
 
 // \brief Load both the vertex and fragment shaders from files
@@ -52,13 +52,13 @@ type Shader struct {
 // \param fragmentShaderFilename Path of the fragment shader file to load, or NULL to skip this shader
 // \return A new sfShader object, or NULL if it failed
 // sfShader* sfShader_createFromFile(const char* vertexShaderFilename, const char* fragmentShaderFilename);
-func (self Shader) NewShaderFromFile(vertexShaderFilename, fragmentShaderFilename string) Shader { 
+func (self Shader) NewShaderFromFile(vertexShaderFilename, fragmentShaderFilename string) Shader {
 	vsf := C.CString(vertexShaderFilename)
 	fsf := C.CString(fragmentShaderFilename)
-    return Shader{C.sfShader_createFromFile(vsf, fsf)}
+	return Shader{C.sfShader_createFromFile(vsf, fsf)}
 }
 
-/*            
+/*
 // \brief Load both the vertex and fragment shaders from source codes in memory
 // This function can load both the vertex and the fragment
 // shaders, or only one of them: pass NULL if you don't want to load
@@ -71,9 +71,9 @@ func (self Shader) NewShaderFromFile(vertexShaderFilename, fragmentShaderFilenam
 // \param fragmentShader String containing the source code of the fragment shader, or NULL to skip this shader
 // \return A new sfShader object, or NULL if it failed
 // sfShader* sfShader_createFromMemory(const char* vertexShader, const char* fragmentShader);
-// func (self Shader) Createfrommemory(fragmentShader *char ) *Shader { 
+// func (self Shader) Createfrommemory(fragmentShader *char ) *Shader {
 //     return C.sfShader_createFromMemory(self.Cref, sf(*char));
-// }           
+// }
 // \brief Load both the vertex and fragment shaders from custom streams
 // This function can load both the vertex and the fragment
 // shaders, or only one of them: pass NULL if you don't want to load
@@ -86,7 +86,7 @@ func (self Shader) NewShaderFromFile(vertexShaderFilename, fragmentShaderFilenam
 // \param fragmentShaderStream Source stream to read the fragment shader from, or NULL to skip this shader
 // \return A new sfShader object, or NULL if it failed
 // sfShader* sfShader_createFromStream(sfInputStream* vertexShaderStream, sfInputStream* fragmentShaderStream);
-// func (self Shader) Createfromstream(fragmentShaderStream *InputStream) *Shader { 
+// func (self Shader) Createfromstream(fragmentShaderStream *InputStream) *Shader {
 //     return C.sfShader_createFromStream(self.Cref, sf*inputstream(fragmentShaderStream));
 // }
 */
@@ -94,8 +94,8 @@ func (self Shader) NewShaderFromFile(vertexShaderFilename, fragmentShaderFilenam
 // \brief Destroy an existing shader
 // \param shader Shader to delete
 // void sfShader_destroy(sfShader* shader);
-func (self Shader) Destroy() { 
-    C.sfShader_destroy(self.Cref)
+func (self Shader) Destroy() {
+	C.sfShader_destroy(self.Cref)
 }
 
 // \brief Change a float parameter of a shader
@@ -113,12 +113,12 @@ func (self Shader) Destroy() {
 // \param name   Name of the parameter in the shader
 // \param x      Value to assign
 // void sfShader_setFloatParameter(sfShader* shader, const char* name, float x);
-func (self Shader) SetFloatParameter(name string, x float32) { 
+func (self Shader) SetFloatParameter(name string, x float32) {
 	n := C.CString(name)
 	x1 := C.float(x)
-    C.sfShader_setFloatParameter(self.Cref, n, x1)
+	C.sfShader_setFloatParameter(self.Cref, n, x1)
 }
-            
+
 // \brief Change a 2-components vector parameter of a shader
 // \a name is the name of the variable to change in the shader.
 // The corresponding parameter in the shader must be a 2x1 vector
@@ -135,13 +135,13 @@ func (self Shader) SetFloatParameter(name string, x float32) {
 // \param x      First component of the value to assign
 // \param y      Second component of the value to assign
 // void sfShader_setFloat2Parameter(sfShader* shader, const char* name, float x, float y);
-func (self Shader) SetFloat2Parameter(name string, x, y float32) { 
+func (self Shader) SetFloat2Parameter(name string, x, y float32) {
 	n := C.CString(name)
 	x1 := C.float(x)
 	y1 := C.float(y)
-    C.sfShader_setFloat2Parameter(self.Cref, n, x1, y1)
+	C.sfShader_setFloat2Parameter(self.Cref, n, x1, y1)
 }
-           
+
 // \brief Change a 3-components vector parameter of a shader
 // \a name is the name of the variable to change in the shader.
 // The corresponding parameter in the shader must be a 3x1 vector
@@ -159,14 +159,14 @@ func (self Shader) SetFloat2Parameter(name string, x, y float32) {
 // \param y      Second component of the value to assign
 // \param z      Third component of the value to assign
 // void sfShader_setFloat3Parameter(sfShader* shader, const char* name, float x, float y, float z);
-func (self Shader) SetFloat3Parameter(name string, x, y, z float32) { 
+func (self Shader) SetFloat3Parameter(name string, x, y, z float32) {
 	n := C.CString(name)
 	x1 := C.float(x)
 	y1 := C.float(y)
 	z1 := C.float(z)
-    C.sfShader_setFloat3Parameter(self.Cref, n, x1, y1, z1)
+	C.sfShader_setFloat3Parameter(self.Cref, n, x1, y1, z1)
 }
-            
+
 // \brief Change a 4-components vector parameter of a shader
 // \a name is the name of the variable to change in the shader.
 // The corresponding parameter in the shader must be a 4x1 vector
@@ -185,15 +185,15 @@ func (self Shader) SetFloat3Parameter(name string, x, y, z float32) {
 // \param z      Third component of the value to assign
 // \param w      Fourth component of the value to assign
 // void sfShader_setFloat4Parameter(sfShader* shader, const char* name, float x, float y, float z, float w);
-func (self Shader) Setfloat4parameter(name string, x, y, z, w float32) { 
+func (self Shader) Setfloat4parameter(name string, x, y, z, w float32) {
 	n := C.CString(name)
 	x1 := C.float(x)
 	y1 := C.float(y)
 	z1 := C.float(z)
 	w1 := C.float(w)
-    C.sfShader_setFloat4Parameter(self.Cref, n, x1, y1, z1, w1)
+	C.sfShader_setFloat4Parameter(self.Cref, n, x1, y1, z1, w1)
 }
-            
+
 // \brief Change a 2-components vector parameter of a shader
 // \a name is the name of the variable to change in the shader.
 // The corresponding parameter in the shader must be a 2x1 vector
@@ -210,13 +210,13 @@ func (self Shader) Setfloat4parameter(name string, x, y, z, w float32) {
 // \param name   Name of the parameter in the shader
 // \param vector Vector to assign
 // void sfShader_setVector2Parameter(sfShader* shader, const char* name, sfVector2f vector);
-func (self Shader) SetVector2Parameter(name string, x, y float32) { 
+func (self Shader) SetVector2Parameter(name string, x, y float32) {
 	n := C.CString(name)
 	x1 := C.float(x)
 	y1 := C.float(y)
 	C.sfShader_setVector2Parameter(self.Cref, n, C.sfVector2f{x1, y1})
 }
-            
+
 // \brief Change a 3-components vector parameter of a shader
 // \a name is the name of the variable to change in the shader.
 // The corresponding parameter in the shader must be a 3x1 vector
@@ -233,9 +233,9 @@ func (self Shader) SetVector2Parameter(name string, x, y float32) {
 // \param name   Name of the parameter in the shader
 // \param vector Vector to assign
 // void sfShader_setVector3Parameter(sfShader* shader, const char* name, sfVector3f vector);
-func (self Shader) SetVector3parameter(name string, vector Vector3f) { 
-	n := C.CString(name)		
-    C.sfShader_setVector3Parameter(self.Cref, n, vector.Cref)
+func (self Shader) SetVector3parameter(name string, vector Vector3f) {
+	n := C.CString(name)
+	C.sfShader_setVector3Parameter(self.Cref, n, vector.Cref)
 }
 
 // \brief Change a color parameter of a shader
@@ -258,11 +258,11 @@ func (self Shader) SetVector3parameter(name string, vector Vector3f) {
 // \param name   Name of the parameter in the shader
 // \param color  Color to assign
 // void sfShader_setColorParameter(sfShader* shader, const char* name, sfColor color);
-func (self Shader) SetColorParameter(name string, color Color) { 
+func (self Shader) SetColorParameter(name string, color Color) {
 	n := C.CString(name)
-    C.sfShader_setColorParameter(self.Cref, n, color.Cref)
+	C.sfShader_setColorParameter(self.Cref, n, color.Cref)
 }
-            
+
 // \brief Change a matrix parameter of a shader
 // \a name is the name of the variable to change in the shader.
 // The corresponding parameter in the shader must be a 4x4 matrix
@@ -279,11 +279,11 @@ func (self Shader) SetColorParameter(name string, color Color) {
 // \param name      Name of the parameter in the shader
 // \param transform Transform to assign
 // void sfShader_setTransformParameter(sfShader* shader, const char* name, const sfTransform* transform);
-func (self Shader) SetTransformParameter(name string, transform Transform ) { 
+func (self Shader) SetTransformParameter(name string, transform Transform) {
 	n := C.CString(name)
-    C.sfShader_setTransformParameter(self.Cref, n, *transform.Cref)
+	C.sfShader_setTransformParameter(self.Cref, n, *transform.Cref)
 }
-            
+
 // \brief Change a texture parameter of a shader
 // \a name is the name of the variable to change in the shader.
 // The corresponding parameter in the shader must be a 2D texture
@@ -309,11 +309,11 @@ func (self Shader) SetTransformParameter(name string, transform Transform ) {
 // \param name    Name of the texture in the shader
 // \param texture Texture to assign
 // void sfShader_setTextureParameter(sfShader* shader, const char* name, const sfTexture* texture);
-func (self Shader) SetTextureParameter(name string, texture Texture ) { 
+func (self Shader) SetTextureParameter(name string, texture Texture) {
 	n := C.CString(name)
-    C.sfShader_setTextureParameter(self.Cref, n, texture.Cref);
+	C.sfShader_setTextureParameter(self.Cref, n, texture.Cref)
 }
-            
+
 // \brief Change a texture parameter of a shader
 // This function maps a shader texture variable to the
 // texture of the object being drawn, which cannot be
@@ -330,9 +330,9 @@ func (self Shader) SetTextureParameter(name string, texture Texture ) {
 // \param shader Shader object
 // \param name   Name of the texture in the shader
 // void sfShader_setCurrentTextureParameter(sfShader* shader, const char* name);
-func (self Shader) SetCurrentTextureParameter(name string) { 
+func (self Shader) SetCurrentTextureParameter(name string) {
 	n := C.CString(name)
-    C.sfShader_setCurrentTextureParameter(self.Cref, n)
+	C.sfShader_setCurrentTextureParameter(self.Cref, n)
 }
 
 // \brief Bind a shader for rendering (activate it)
@@ -347,27 +347,27 @@ func (self Shader) SetCurrentTextureParameter(name string) {
 // \endcode
 // \param shader Shader to bind
 // void sfShader_bind(const sfShader* shader);
-func (self Shader) Bind() { 
-    C.sfShader_bind(self.Cref)
+func (self Shader) Bind() {
+	C.sfShader_bind(self.Cref)
 }
-            
+
 // \brief Unbind a shader (deactivate it)
 // This function is normally for internal use only, unless
 // you want to use the shader with a custom OpenGL rendering
 // instead of a SFML drawable.
 // \param shader Shader to unbind
 // void sfShader_unbind(const sfShader* shader);
-func (self Shader) Unbind() { 
-    C.sfShader_unbind(self.Cref);
+func (self Shader) Unbind() {
+	//glCheck(glUseProgramObjectARB(0))
+	// C.sfShader_unbind(self.Cref);
 }
 
-            
 // \brief Tell whether or not the system supports shaders
 // This function should always be called before using
 // the shader features. If it returns false, then
 // any attempt to use sfShader will fail.
 // \return sfTrue if the system can use shaders, sfFalse otherwise
 // sfBool sfShader_isAvailable(void);
-func (self Shader) IsAvailable() bool { 
-    return C.sfShader_isAvailable() == 1
+func (self Shader) IsAvailable() bool {
+	return C.sfShader_isAvailable() == 1
 }
