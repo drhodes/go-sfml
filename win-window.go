@@ -27,7 +27,6 @@
 ////////////////////////////////////////////////////////////
 package sfml
 
-
 // #cgo LDFLAGS:-lcsfml-window
 // #include <SFML/Window/Export.h>
 // #include <SFML/Window/Event.h>

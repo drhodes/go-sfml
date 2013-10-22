@@ -27,7 +27,6 @@
 ////////////////////////////////////////////////////////////
 package sfml
 
-
 // #cgo LDFLAGS:-lcsfml-graphics
 // #include <SFML/Graphics/Export.h>
 // #include <SFML/Graphics/BlendMode.h>

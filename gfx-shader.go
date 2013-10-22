@@ -52,7 +52,7 @@ type Shader struct {
 // \param fragmentShaderFilename Path of the fragment shader file to load, or NULL to skip this shader
 // \return A new sfShader object, or NULL if it failed
 // sfShader* sfShader_createFromFile(const char* vertexShaderFilename, const char* fragmentShaderFilename);
-func (self Shader) NewShaderFromFile(vertexShaderFilename, fragmentShaderFilename string) Shader {
+func NewShaderFromFile(vertexShaderFilename, fragmentShaderFilename string) Shader {
 	vsf := C.CString(vertexShaderFilename)
 	fsf := C.CString(fragmentShaderFilename)
 	return Shader{C.sfShader_createFromFile(vsf, fsf)}
@@ -357,10 +357,10 @@ func (self Shader) Bind() {
 // instead of a SFML drawable.
 // \param shader Shader to unbind
 // void sfShader_unbind(const sfShader* shader);
-func (self Shader) Unbind() {
-	//glCheck(glUseProgramObjectARB(0))
-	// C.sfShader_unbind(self.Cref);
-}
+// func (self Shader) Unbind() {
+// 	glCheck(glUseProgramObjectARB(0))
+// 	C.sfShader_unbind(self.Cref);
+// }
 
 // \brief Tell whether or not the system supports shaders
 // This function should always be called before using

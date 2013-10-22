@@ -79,7 +79,7 @@ func ImageFromColor(width, height uint, color Color) Image {
 // \param pixels Array of pixels to copy to the image
 // \return A new sfImage object
 // sfImage* sfImage_createFromPixels(unsigned int width, unsigned int height, const sfUint8* pixels);
-func (self Image) ImageFromPixels(width, height uint, pixels []uint8) Image {
+func ImageFromPixels(width, height uint, pixels []uint8) Image {
 	ptr := unsafe.Pointer(&pixels[0])
 	p := (*C.sfUint8)(ptr)
 	cimg := C.sfImage_createFromPixels(C.uint(width), C.uint(height), p)
