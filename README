@@ -43,7 +43,7 @@ git checkout -b go-sfml abd842510efaa2816b2f2e7348426163c57058c5
 
 CSFML 
 --
-git clone https://github.com/LaurentGomila/CSFML.git
+git clone https://github.com/SFML/CSFML.git
 git checkout -b go-csfml d7240abb18344b773e5f457a6a45f20b16d139f9
 
 libjpeg 8   http://sourceforge.net/projects/glew/files/glew/1.7.0/glew-1.7.0.tgz/download
